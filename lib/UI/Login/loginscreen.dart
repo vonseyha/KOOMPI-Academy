@@ -13,6 +13,13 @@ class _LoginState extends State<Login> {
     String _email;
     String _password;
 
+     bool _passwordVisible = true;
+    void _toggle() {
+    setState(() {
+      _passwordVisible = !_passwordVisible;
+    });
+  }
+
   //*************** Sign Up Button************//
   Widget _buildSignupBtn() {
     return GestureDetector(
@@ -159,16 +166,48 @@ class _LoginState extends State<Login> {
     );
   }
 
-   
+  Widget _emailForm(BuildContext context){
+    return Material(
+      child: TextFormField(
+          obscureText:_passwordVisible,
+                            style: style,
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                                hintText: "Email",
+                                prefixIcon: Icon(Icons.alternate_email,color: Colors.white70),
+                                suffixIcon:
+                                    IconButton(
+                                      icon: Icon(
+                                          _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                                          semanticLabel: _passwordVisible ? 'hide password' : 'show password',
+                                      ),
+                                      onPressed: () {
+                                          setState(() {
+                                            _passwordVisible ^= true;
+                                            //print("Icon button pressed! state: $_passwordVisible"); //Confirmed that the _passwordVisible is toggled each time the button is pressed.
+                                          });
+                                      }),
+                                border:
+                                OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                )
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (val){
+                              if (val.length == 0)
+                                return "Please enter email";
+                              else if (!val.contains("@"))
+                                return "Please enter valid email";
+                              else
+                                return null;
+                            },
+                            onSaved: (val)=>_email=val,
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    bool _passwordVisible = true;
-    void _toggle() {
-    setState(() {
-      _passwordVisible = !_passwordVisible;
-    });
-  }
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -209,41 +248,7 @@ class _LoginState extends State<Login> {
                           primaryColor: Colors.white,
                           primaryColorDark: Colors.white70,
                         ),
-                          child: TextFormField(
-                            obscureText:_passwordVisible,
-                            style: style,
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                                hintText: "Email",
-                                prefixIcon: Icon(Icons.alternate_email,color: Colors.white70),
-                                suffixIcon:
-                                    IconButton(
-                                      icon: Icon(
-                                          _passwordVisible ? Icons.visibility : Icons.visibility_off,
-                                          semanticLabel: _passwordVisible ? 'hide password' : 'show password',
-                                      ),
-                                      onPressed: () {
-                                          setState(() {
-                                            _passwordVisible ^= true;
-                                            //print("Icon button pressed! state: $_passwordVisible"); //Confirmed that the _passwordVisible is toggled each time the button is pressed.
-                                          });
-                                      }),
-                                border:
-                                OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                )
-                            ),
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (val){
-                              if (val.length == 0)
-                                return "Please enter email";
-                              else if (!val.contains("@"))
-                                return "Please enter valid email";
-                              else
-                                return null;
-                            },
-                            onSaved: (val)=>_email=val,
-                          ),
+                        child: _emailForm(context),  
                       )
                     ),
 
