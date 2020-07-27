@@ -44,7 +44,7 @@ List<SliderModel> getSlides(){
   //1
   sliderModel.setDesc("To KOOMPI Academy");
   sliderModel.setTitle("Welcome");
-  sliderModel.setImagePath("images/41331389.png");
+  sliderModel.setImagePath("images/logo_koompi_black.png");
   slides.add(sliderModel);
 
   sliderModel = new SliderModel();
@@ -52,14 +52,14 @@ List<SliderModel> getSlides(){
   //2
   sliderModel.setDesc("With carefully selected materials, all curated for a convenient at-home learning, KOOMPI Academy can be accessed by everyone for free with contents created exclusively for Cambodian students. ");
   sliderModel.setTitle("ABOUT");
-  sliderModel.setImagePath("images/26067874.jpg");
+  sliderModel.setImagePath("images/splash1.jpg");
   slides.add(sliderModel);
   sliderModel = new SliderModel();
 
   //3
   sliderModel.setDesc("Producing quality tools is only one step towards KOOMPI's mission. This is why we developed KOOMPI Academy, a technology-oriented educational project that aims to provide learners with three resources: tools, courses, and mentors.");
   sliderModel.setTitle("GOAL");
-  sliderModel.setImagePath("images/25909224.jpg");
+  sliderModel.setImagePath("images/splash2.jpg");
   slides.add(sliderModel);
 
   sliderModel = new SliderModel();

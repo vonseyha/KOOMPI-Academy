@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/UI/SplashScreen/splashscreen.dart';
+import 'UI/SignUP/signupscreen.dart';
 
 void main() {
   runApp(MyApp());

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:koompi_academy_project/UI/SignUP/signupscreen.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -9,7 +10,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
     final _formKey = GlobalKey<FormState>();
     final _scaffoldKey = GlobalKey<ScaffoldState>();
-    TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0,color:Colors.white);
+    TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0,color:Colors.white );
     String _email;
     String _password;
 
@@ -24,7 +25,7 @@ class _LoginState extends State<Login> {
   Widget _buildSignupBtn() {
     return GestureDetector(
       onTap: () {
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => Signup()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Signup()));
         print('Register Button Pressed');
       },
       child: Row(
@@ -166,42 +167,59 @@ class _LoginState extends State<Login> {
     );
   }
 
+  //*************** Email Fill Form************//
   Widget _emailForm(BuildContext context){
-    return Material(
+    return Container(
+      child: TextFormField(
+          style: style,
+          decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          hintText: "Email",
+          prefixIcon: Icon(Icons.alternate_email,color: Colors.white70),
+          border:
+            OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+            )
+          ),
+          keyboardType: TextInputType.emailAddress,
+          validator: (val){
+          if (val.length == 0)
+              return "Please enter email";
+          else if (!val.contains("@"))
+              return "Please enter valid email";
+          else
+              return null;
+          },
+          onSaved: (val)=>_email=val,
+      )
+    );
+  }
+
+  //*************** Password Fill Form************//
+  Widget _passwordForm(BuildContext context){
+    return Container(
       child: TextFormField(
           obscureText:_passwordVisible,
-                            style: style,
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                                hintText: "Email",
-                                prefixIcon: Icon(Icons.alternate_email,color: Colors.white70),
-                                suffixIcon:
-                                    IconButton(
-                                      icon: Icon(
-                                          _passwordVisible ? Icons.visibility : Icons.visibility_off,
-                                          semanticLabel: _passwordVisible ? 'hide password' : 'show password',
-                                      ),
-                                      onPressed: () {
-                                          setState(() {
-                                            _passwordVisible ^= true;
-                                            //print("Icon button pressed! state: $_passwordVisible"); //Confirmed that the _passwordVisible is toggled each time the button is pressed.
-                                          });
-                                      }),
-                                border:
-                                OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                )
-                            ),
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (val){
-                              if (val.length == 0)
-                                return "Please enter email";
-                              else if (!val.contains("@"))
-                                return "Please enter valid email";
-                              else
-                                return null;
-                            },
-                            onSaved: (val)=>_email=val,
+          style: style,
+          decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          hintText: "Password",
+          prefixIcon: Icon(Icons.lock,color: Colors.white70),
+          border:
+            OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+            )
+          ),
+          keyboardType: TextInputType.emailAddress,
+          validator: (val){
+          if (val.length == 0)
+              return "Please enter email";
+          else if (!val.contains("@"))
+              return "Please enter valid email";
+          else
+              return null;
+          },
+          onSaved: (val)=>_email=val,
       )
     );
   }
@@ -248,6 +266,7 @@ class _LoginState extends State<Login> {
                           primaryColor: Colors.white,
                           primaryColorDark: Colors.white70,
                         ),
+                        //******Call Widget Email Full Form ******//
                         child: _emailForm(context),  
                       )
                     ),
@@ -259,44 +278,14 @@ class _LoginState extends State<Login> {
                             primaryColor: Colors.white,
                             primaryColorDark: Colors.white70,
                           ),
-                          child: TextFormField(
-                            style: style,
-                            obscureText:_passwordVisible,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                              hintText: "Password",
-                              fillColor: Colors.white,
-                              prefixIcon: Icon(Icons.lock_outline,color: Colors.white70),
-
-                              //Hide and Show  Password
-                                labelStyle: TextStyle(
-                                    fontFamily: 'Roboto Medium',
-                                    fontSize: 12.0,
-                                    color: Color(0x99000000),
-                                    letterSpacing: 0.4,
-                                ),
-
-                              border:
-                              OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                            keyboardType: TextInputType.visiblePassword,
-                            validator: (val){
-                              if (val.length == 0)
-                                return "Please enter password";
-                              else if (val.length <= 5)
-                                return "Your password should be more then 6 char long";
-                              else
-                                return null;
-                            },
-                            onSaved: (val)=>_password=val,
-                          ),
+                          //******Call Widget Password Full Form ******//
+                          child: _passwordForm(context),
                         )
                     ),
                     SizedBox(
                       height: 35.0,
                     ),
+                    //******Call Widget Login Button ******//
                     _loginButon(context),
                     SizedBox(
                       height: 15.0,
@@ -310,6 +299,7 @@ class _LoginState extends State<Login> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Container(
+                                  //******Call Widget Sign up  Button ******//
                                   child: _buildSignupBtn(),
                                 )
                               ],
@@ -319,6 +309,7 @@ class _LoginState extends State<Login> {
                             height: 5.0,
                           ),
                           Container(
+                            //******Call Widget Forgot Password FButton******//
                            child: _forgotPass(),
                           ),
                         ],
