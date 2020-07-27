@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/UI/SplashScreen/splashscreen.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -14,4 +15,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
