@@ -94,16 +94,15 @@ Widget _usernameForm(BuildContext context){
                 borderRadius: BorderRadius.circular(10.0),
               )
             ),
-          keyboardType: TextInputType.emailAddress,
         validator: (val){
       if (val.length == 0)
         return "Please enter fullname";
-      else if (!val.contains(" "))
+      else if (!val.contains(""))
         return "Please enter space after last name";
       else
         return null;
       },
-    onSaved: (val)=>_email=val,
+    onSaved: (val)=>_username=val,
       )
     );
   }
@@ -152,7 +151,7 @@ Widget _usernameForm(BuildContext context){
             suffixIcon: GestureDetector(
             onTap: (){
               setState(() {
-              _isHidePassword != _isHidePassword;
+              _isHidePassword ^= true;
               });
             },
             child: Icon(

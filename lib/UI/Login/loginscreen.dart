@@ -15,11 +15,6 @@ class _LoginState extends State<Login> {
     String _password;
 
      bool _passwordVisible = true;
-    void _toggle() {
-    setState(() {
-      _passwordVisible = !_passwordVisible;
-    });
-  }
 
   //*************** Sign Up Button************//
   Widget _buildSignupBtn() {
@@ -205,6 +200,17 @@ class _LoginState extends State<Login> {
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Password",
           prefixIcon: Icon(Icons.lock,color: Colors.white70),
+          suffixIcon: GestureDetector(
+            onTap: (){
+              setState(() {
+              _passwordVisible ^= true;
+              });
+            },
+            child: Icon(
+              _passwordVisible ? Icons.visibility_off : Icons.visibility,
+            ),
+          ),
+          isDense: true,
           border:
             OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
@@ -212,14 +218,14 @@ class _LoginState extends State<Login> {
           ),
           keyboardType: TextInputType.emailAddress,
           validator: (val){
-          if (val.length == 0)
-              return "Please enter email";
-          else if (!val.contains("@"))
-              return "Please enter valid email";
-          else
+            if (val.length == 0)
+              return "Please enter password";
+            else if (val.length <= 5)
+              return "Your password should be more then 6 char long";
+            else
               return null;
-          },
-          onSaved: (val)=>_email=val,
+            },
+          onSaved: (val)=>_password=val,
       )
     );
   }
