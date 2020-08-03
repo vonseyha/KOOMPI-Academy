@@ -13,36 +13,32 @@ class _FregementContentState extends State<FregementContent> {
     );
   }
 
-  Widget _buildFregementContent(BuildContext context){
+  Widget _buildFregementContent(BuildContext context) {
     return Container(
       child: Column(
-                      children: <Widget>[
-                        Container(
-                            height: 300.0,
-                            color: Colors.white,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                // color: Color(0xFFeff1f2),
-                                borderRadius: BorderRadius.circular(17),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(28.0),
-                                child: ListView.builder(
-                                  itemCount: data.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) =>
-                                          EntryItem(
-                                    data[index],
-                                  ),
-                                ),
-                              ),
-                            )
-                          ),
-                      ],
+        children: <Widget>[
+          Container(
+              height: 300.0,
+              color: Colors.white,
+              child: Container(
+                decoration: BoxDecoration(
+                  // color: Color(0xFFeff1f2),
+                  borderRadius: BorderRadius.circular(17),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(28.0),
+                  child: ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (BuildContext context, int index) => EntryItem(
+                      data[index],
                     ),
+                  ),
+                ),
+              )),
+        ],
+      ),
     );
   }
-
 }
 
 class Entry {

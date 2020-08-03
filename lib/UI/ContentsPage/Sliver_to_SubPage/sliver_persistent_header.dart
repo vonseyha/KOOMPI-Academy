@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SliverPersistentHeaderDelegateImpl extends SliverPersistentHeaderDelegate {
+class SliverPersistentHeaderDelegateImpl
+    extends SliverPersistentHeaderDelegate {
   final TabBar tabBar;
   final Color color;
 
@@ -10,7 +11,8 @@ class SliverPersistentHeaderDelegateImpl extends SliverPersistentHeaderDelegate 
   }) : this.color = color;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       color: color,
       child: tabBar,
@@ -27,5 +29,4 @@ class SliverPersistentHeaderDelegateImpl extends SliverPersistentHeaderDelegate 
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
     return false;
   }
-    
 }

@@ -11,12 +11,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _HomeState extends State<SplashScreen> {
-
   List<SliderModel> mySLides = new List<SliderModel>();
   int slideIndex = 0;
   PageController controller;
 
-  Widget _buildPageIndicator(bool isCurrentPage){
+  Widget _buildPageIndicator(bool isCurrentPage) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 2.0),
       height: isCurrentPage ? 10.0 : 6.0,
@@ -53,97 +52,98 @@ class _HomeState extends State<SplashScreen> {
                 slideIndex = index;
               });
             },
-
             children: <Widget>[
-
               SlideTitle(
                 imagePath: mySLides[0].getImagePath(),
                 title: mySLides[0].getTitle(),
                 desc: mySLides[0].getDesc(),
               ),
-
               SlideTitle(
                 imagePath: mySLides[1].getImagePath(),
                 title: mySLides[1].getTitle(),
                 desc: mySLides[1].getDesc(),
               ),
-
               SlideTitle(
                 imagePath: mySLides[2].getImagePath(),
                 title: mySLides[2].getTitle(),
                 desc: mySLides[2].getDesc(),
               )
-
             ],
           ),
         ),
-        bottomSheet: slideIndex != 2 ? Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-
-              //*************** SKIP Float Button************//
-              FlatButton(
-                onPressed: (){
-                  controller.animateToPage(2, duration: Duration(milliseconds: 400), curve: Curves.linear);
-                },
-                splashColor: Colors.blue[50],
-                child: Text(
-                  "SKIP",
-                  style: TextStyle(color: Color(0xFF0074E4), fontWeight: FontWeight.w600),
-                ),
-              ),
-
-              //*************** slide index ************//
-              Container(
+        bottomSheet: slideIndex != 2
+            ? Container(
                 child: Row(
-                  children: [
-                    for (int i = 0; i < 3 ; i++) i == slideIndex ? _buildPageIndicator(true): _buildPageIndicator(false),
-                  ],),
-              ),
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    //*************** SKIP Float Button************//
+                    FlatButton(
+                      onPressed: () {
+                        controller.animateToPage(2,
+                            duration: Duration(milliseconds: 400),
+                            curve: Curves.linear);
+                      },
+                      splashColor: Colors.blue[50],
+                      child: Text(
+                        "SKIP",
+                        style: TextStyle(
+                            color: Color(0xFF0074E4),
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
 
-              //*************** Next Float Button************//
-              FlatButton(
-                onPressed: (){
-                  print("this is slideIndex: $slideIndex");
-                  controller.animateToPage(slideIndex + 1, duration: Duration(milliseconds: 500), curve: Curves.linear);
+                    //*************** slide index ************//
+                    Container(
+                      child: Row(
+                        children: [
+                          for (int i = 0; i < 3; i++)
+                            i == slideIndex
+                                ? _buildPageIndicator(true)
+                                : _buildPageIndicator(false),
+                        ],
+                      ),
+                    ),
+
+                    //*************** Next Float Button************//
+                    FlatButton(
+                      onPressed: () {
+                        print("this is slideIndex: $slideIndex");
+                        controller.animateToPage(slideIndex + 1,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.linear);
+                      },
+                      splashColor: Colors.blue[50],
+                      child: Text(
+                        "NEXT",
+                        style: TextStyle(
+                            color: Color(0xFF0074E4),
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : InkWell(
+                onTap: () {
+                  print("Get Started Now");
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Login()),
+                  );
                 },
-
-                splashColor: Colors.blue[50],
-                child: Text(
-                  "NEXT",
-                  style: TextStyle(color: Color(0xFF0074E4), fontWeight: FontWeight.w600),
+                child: Container(
+                  height: Platform.isIOS ? 70 : 60,
+                  color: Colors.blue,
+                  alignment: Alignment.center,
+                  child: Text(
+                    "GET STARTED NOW",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w600),
+                  ),
                 ),
               ),
-
-            ],
-            
-          ),
-        ): InkWell(
-          onTap: (){
-            print("Get Started Now");
-
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Login()),
-            );
-
-          },
-          child: Container(
-            height: Platform.isIOS ? 70 : 60,
-            color: Colors.blue,
-            alignment: Alignment.center,
-            child: Text(
-              "GET STARTED NOW",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-            ),
-          ),
-
-        ),
-
-
       ),
     );
   }
 }
-

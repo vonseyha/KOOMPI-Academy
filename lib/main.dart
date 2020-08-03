@@ -1,20 +1,32 @@
 import 'package:flutter/material.dart';
 import 'UI/ContentsPage/sampleCardscreen.dart';
-import 'UI/Home/homedisplay.dart';
-import 'UI/Login/loginscreen.dart';
-import 'UI/SignUP/signupscreen.dart';
+import 'UI/Submainpage/commentScreen.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(App());
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: GridSample(),
+      home: HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Color(0xFFf7f8fc),
+        child: FregementAnswer(),
+      )
     );
   }
 }

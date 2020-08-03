@@ -40,10 +40,12 @@ class _DrawerScreenState extends State<DrawerScreen> {
                             width: 10,
                           ),
                           Text(element['title'],
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20))
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20
+                            )
+                          )
                         ],
                       ),
                     ))
