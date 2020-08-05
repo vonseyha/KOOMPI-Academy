@@ -1,8 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/UI/Submainpage/DisplayVideoScreen/displayVideoScreen.dart';
 import 'package:tuple/tuple.dart';
-import 'Sliver_to_SubPage/Herowidget.dart';
 
 class GridSample extends StatelessWidget {
   const GridSample({Key key}) : super(key: key);
