@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'UI/ContentsPage/sampleCardscreen.dart';
+import 'UI/Home/homedisplay.dart';
 import 'UI/Submainpage/commentScreen.dart';
 
 void main() => runApp(App());
@@ -23,10 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Color(0xFFf7f8fc),
-        child: FregementAnswer(),
-      )
-    );
+        body: Container(
+      color: Color(0xFFf7f8fc),
+      child: HomeDisplay(),
+    ));
   }
 }

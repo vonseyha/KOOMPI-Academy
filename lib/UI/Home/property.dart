@@ -22,7 +22,8 @@ List<Map> categories = [
 ];
 
 List<Map> drawerItems = [
-  {'icon': FontAwesomeIcons.solidClock, 'title': 'Schedule'},
+  {'icon': FontAwesomeIcons.bookOpen, 'title': 'My Courses'},
+  {'icon': Icons.date_range, 'title': 'Schedule'},
   {'icon': Icons.favorite, 'title': 'Favorites'},
   {'icon': Icons.mail, 'title': 'Messages'},
   {'icon': FontAwesomeIcons.solidUserCircle, 'title': 'Profile'},

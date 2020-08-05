@@ -28,7 +28,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
           Column(
             children: drawerItems
                 .map((element) => Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Row(
                         children: [
                           Icon(
@@ -37,15 +37,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
                             size: 20,
                           ),
                           SizedBox(
-                            width: 10,
+                            width: 15,
                           ),
                           Text(element['title'],
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20
-                            )
-                          )
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20))
                         ],
                       ),
                     ))
@@ -55,33 +53,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                  child: Row(
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.brightness_2),
-                        iconSize: 20.0,
-                        color: Colors.black,
-                      ),
-                      Text(
-                        'Dark Mode',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15.0),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  width: 2,
-                  height: 20,
-                  color: Colors.black,
-                ),
+                Icon(Icons.exit_to_app),
                 SizedBox(
                   width: 10,
                 ),

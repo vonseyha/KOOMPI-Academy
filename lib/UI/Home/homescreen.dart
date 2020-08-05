@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:koompi_academy_project/UI/Home/detailcategory.dart';
 import 'package:koompi_academy_project/UI/Home/property.dart';
-
-import 'gridviewscreen.dart';
+import 'package:koompi_academy_project/UI/Home/samplecard.dart';
+import '../ContentsPage/sampleCardscreen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
   double xOffset = 0;
   double yOffset = 0;
   double scaleFactor = 1;
-
+  String name;
   bool isDrawerOpen = false;
 
   @override
@@ -78,75 +79,87 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Container(
-              height: 60,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              margin: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              height: 50,
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              margin: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
               decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+                  color: Colors.white, borderRadius: BorderRadius.circular(15)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Icon(Icons.search),
                   Container(
-                    width: 250,
+                    width: 200,
                     child: TextField(
+                      textAlign: TextAlign.center,
                       decoration: InputDecoration(
                           border: InputBorder.none, hintText: 'Search.....'),
                     ),
                   ),
-                  Icon(Icons.settings)
+                  Icon(Icons.brightness_medium)
                 ],
               ),
             ),
+            ///////////////////////////////////
+            /////////To do task today//////////
+            ///////////////////////////////////
             Container(
-              height: 110,
+              height: 100,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: categories.length,
                 itemBuilder: (context, index) {
                   return Container(
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: shadowList,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Image.asset(
-                            categories[index]['iconPath'],
-                            height: 50,
-                            width: 100,
-                            color: Colors.grey[700],
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  DetailCard(name: categories[index]['name']),
+                            ));
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: shadowList,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Image.asset(
+                              categories[index]['iconPath'],
+                              height: 50,
+                              width: 100,
+                              color: Colors.grey[700],
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(
-                            categories[index]['name'],
-                            textAlign: TextAlign.center,
+                          SizedBox(
+                            height: 5.0,
                           ),
-                        ),
-                      ],
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              categories[index]['name'],
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
               ),
             ),
             Container(
-              height: 450,
+              height: 475,
               margin: EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 children: [
                   Expanded(
                     child: Stack(
-                      children: [
-                        HomeGridView(),
-                      ],
+                      children: [SampleGrid()],
                     ),
                   ),
                 ],
