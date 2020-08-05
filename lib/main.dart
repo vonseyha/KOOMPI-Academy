@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'UI/ContentsPage/sampleCardscreen.dart';
 import 'UI/Home/homedisplay.dart';
-import 'UI/Submainpage/commentScreen.dart';
+import 'UI/Submainpage/CommentPage/commentScreen.dart';
+import 'UI/SplashScreen/splashscreen.dart';
 
 void main() => runApp(App());
 

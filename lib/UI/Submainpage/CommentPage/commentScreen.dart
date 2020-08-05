@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:koompi_academy_project/Model/CommentModel/commentModelScreen.dart';
-import 'package:koompi_academy_project/UI/Home/property.dart';
-import 'DisplayVideoScreen/displayVideoScreen.dart';
 
 class FregementAnswer extends StatefulWidget {
   @override
@@ -25,8 +23,12 @@ class _FregementAnswerState extends State<FregementAnswer> {
 
   int _counter = 0;
   MyPupopMenu _seleteion;
+  bool test = false;
+  bool test1 = false;
+  Color _color = Colors.white;
 
   Color _iconColor = Colors.grey;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +91,9 @@ class _FregementAnswerState extends State<FregementAnswer> {
                                 Icons.send,
                                 color: Color(0xFFf9b62f),
                               ),
-                              onPressed: null),
+                              onPressed: () {
+                                print('Send Sucessfull');
+                              }),
                         )),
                   ),
                 ),
@@ -133,14 +137,15 @@ class _FregementAnswerState extends State<FregementAnswer> {
                         child: Column(
                           children: <Widget>[
                             Container(
-                                child: new Text(
-                              trip.username,
-                              style: new TextStyle(
-                                fontSize: 15.0,
-                                fontFamily: 'sans-serif',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )),
+                              child: new Text(
+                                trip.username,
+                                style: new TextStyle(
+                                  fontSize: 15.0,
+                                  fontFamily: 'sans-serif',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            ),
                             Container(
                                 padding: const EdgeInsets.only(right: 30.0),
                                 child: new Text(
@@ -175,10 +180,9 @@ class _FregementAnswerState extends State<FregementAnswer> {
                       Container(
                           padding: const EdgeInsets.only(right: 30.0),
                           child: new Text(
-                            '21 Answeer',
+                            '21 Answer',
                             style: new TextStyle(
                               fontSize: 15.0,
-                              fontWeight: FontWeight.bold,
                               fontFamily: 'sans-serif',
                             ),
                           ))
@@ -190,15 +194,15 @@ class _FregementAnswerState extends State<FregementAnswer> {
                     Container(
                       child: FlatButton.icon(
                         icon: Icon(
-                          Icons.question_answer,
+                          Icons.message,
                           color: _iconColor,
+                          size: 18,
                         ),
-                        //`Icon` to display
-                        label: Text('View'), //`Text` to display
+                        label: Text('View'),
                         onPressed: () {
-                          //Code to execute when Floating Action Button is clicked
                           setState(() {
-                            _iconColor = Colors.blueAccent;
+                            test1 = true;
+                            _color = Colors.grey;
                           });
                         },
                       ),
@@ -206,18 +210,41 @@ class _FregementAnswerState extends State<FregementAnswer> {
                     Container(
                       child: FlatButton.icon(
                         icon: Icon(
-                          Icons.chat,
+                          Icons.reply,
+                          size: 20,
                           color: Colors.grey,
-                        ), //`Icon` to display
-                        label: Text('Reply'), //`Text` to display
+                        ),
+                        label: Text('Reply'),
                         onPressed: () {
-                          //C*********************** Call  Alert dailog for write answer***************//
-                          // _displayDialogAnswer(context);
+                          setState(() {
+                            test = true;
+                          });
+                          print("Reply");
                         },
                       ),
-                    )
+                    ),
                   ],
                 ),
+                Container(
+                  child: test == true ? _fillReplyComments(context) : null,
+                ),
+                Container(
+                  child: test1 == true ? _displaySubComment(context) : null,
+                ),
+                Container(
+                    height: 20.0,
+                    child: IconButton(
+                        icon: Icon(
+                          Icons.expand_less,
+                          color: _color,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            test1 = false;
+                            test = false;
+                            _color = Colors.white;
+                          });
+                        }))
               ],
             ),
           ),
@@ -226,7 +253,145 @@ class _FregementAnswerState extends State<FregementAnswer> {
     );
   }
 
-  Widget _showPopPupMenu(BuildContext context) {
+  _displaySubComment(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 30.0),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Container(
+                height: 35.0,
+                width: 35.0,
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.white,
+                  backgroundImage: AssetImage("images/background.jpg"),
+                ),
+              ),
+              Container(
+                  margin: const EdgeInsets.only(left: 10.0),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                          child: new Text(
+                        "Tang Eamseng",
+                        style: new TextStyle(
+                          fontSize: 13.0,
+                          fontFamily: 'sans-serif',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                      Container(
+                          padding: const EdgeInsets.only(right: 30.0),
+                          child: new Text(
+                            '${DateFormat('dd/MM/yyyy').format(DateTime.now()).toString()}',
+                            style: new TextStyle(
+                              fontSize: 10.0,
+                              fontFamily: 'sans-serif',
+                            ),
+                          ))
+                    ],
+                  )),
+              Container(
+                child: _showPopPupMenu(context),
+              ),
+            ],
+          ),
+          Container(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: new Text(
+              "What are the must-have Chrome extensions",
+              style: new TextStyle(
+                fontSize: 15.0,
+                fontFamily: 'sans-serif',
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(right: 60.0),
+            child: FlatButton.icon(
+              icon: Icon(
+                Icons.reply,
+                size: 17.0,
+                color: Colors.grey,
+              ),
+              label: Text(
+                'Reply',
+                style: TextStyle(fontSize: 12.0),
+              ),
+              onPressed: () {
+                setState(() {
+                  test = true;
+                });
+                print("Reply");
+              },
+            ),
+          ),
+          Container(
+            child: test == true ? _fillReplyComments(context) : null,
+          ),
+        ],
+      ),
+    );
+  }
+
+  _fillReplyComments(BuildContext context) {
+    return Container(
+      height: 30.0,
+      width: 340.0,
+      padding: const EdgeInsets.only(bottom: 10.0),
+      child: Row(
+        children: <Widget>[
+          Container(
+            width: 270.0,
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: "Write a reply...",
+                hintStyle: TextStyle(fontSize: 13),
+              ),
+              textInputAction: TextInputAction.next,
+              onSubmitted: (_) => FocusScope.of(context).nextFocus(),
+            ),
+          ),
+          Container(
+              width: 60.0,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: IconButton(
+                        icon: Icon(
+                          Icons.close,
+                          color: Colors.blue,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            test = false;
+                          });
+                          print('Send Sucessfull');
+                        }),
+                  ),
+                  SizedBox(width: 10.0),
+                  Expanded(
+                    flex: 1,
+                    child: IconButton(
+                        icon: Icon(
+                          Icons.check,
+                          color: Colors.blue,
+                        ),
+                        onPressed: () {
+                          print('Send Sucessfull');
+                        }),
+                  ),
+                ],
+              )),
+        ],
+      ),
+    );
+  }
+
+  _showPopPupMenu(BuildContext context) {
     return Center(
       child: PopupMenuButton<MyPupopMenu>(
         onSelected: (MyPupopMenu result) {
@@ -244,6 +409,7 @@ class _FregementAnswerState extends State<FregementAnswer> {
             _asyncInputDialog(context);
           }
         },
+        icon: Icon(Icons.more_horiz, color: Colors.grey),
         itemBuilder: (BuildContext context) => <PopupMenuEntry<MyPupopMenu>>[
           PopupMenuItem<MyPupopMenu>(
             value: MyPupopMenu.delete,
@@ -356,37 +522,43 @@ class _FregementAnswerState extends State<FregementAnswer> {
           );
         });
   }
-}
 
-Future<String> _asyncInputDialog(BuildContext context) async {
-  String teamName = '';
-  return showDialog<String>(
-    context: context,
-    barrierDismissible:
-        false, // dialog is dismissible with a tap on the barrier
-    builder: (BuildContext context) {
-      return AlertDialog(
-        content: new Row(
-          children: <Widget>[
-            new Expanded(
-                child: new TextField(
-              autofocus: true,
-              decoration: new InputDecoration(labelText: 'new comment'),
-              onChanged: (value) {
-                teamName = value;
-              },
-            ))
-          ],
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Ok'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+  Future<String> _asyncInputDialog(BuildContext context) async {
+    String teamName = '';
+    return showDialog<String>(
+      context: context,
+      barrierDismissible:
+          false, // dialog is dismissible with a tap on the barrier
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: new Row(
+            children: <Widget>[
+              new Expanded(
+                  child: new TextField(
+                autofocus: true,
+                decoration: new InputDecoration(
+                  labelText: 'New comment',
+                  labelStyle: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 20.0,
+                      fontStyle: FontStyle.italic),
+                ),
+                onChanged: (value) {
+                  teamName = value;
+                },
+              ))
+            ],
           ),
-        ],
-      );
-    },
-  );
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

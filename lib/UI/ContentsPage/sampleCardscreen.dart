@@ -32,7 +32,6 @@ class GridSample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return CustomScrollView(
       slivers: <Widget>[
         _buildSliverContent(),
@@ -144,8 +143,9 @@ class GridSample extends StatelessWidget {
               ),
             ),
           );
-        });
-  }
+        }
+      );
+    }
   // _buildHeroWidget(imageUrl),
   // _buildDesc(desc),
 //   Expanded _buildDesc(String desc) {
@@ -174,12 +174,12 @@ class GridSample extends StatelessWidget {
   //   );
   // }
 
-  CachedNetworkImage _buildHeroWidgetContent(String imageUrl) {
-    return CachedNetworkImage(
-      imageUrl: imageUrl,
-      placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-    );
-  }
+  // CachedNetworkImage _buildHeroWidgetContent(String imageUrl) {
+  //   return CachedNetworkImage(
+  //     imageUrl: imageUrl,
+  //     placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+  //   );
+  // }
 
 //************************* Silver transition to other page **************************//
   Widget _buildRippleEffectNavigation(

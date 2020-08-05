@@ -1,13 +1,12 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/UI/ContentsPage/Sliver_to_SubPage/Herowidget.dart';
+import 'package:koompi_academy_project/UI/Submainpage/CommentPage/commentScreen.dart';
 import 'package:koompi_academy_project/UI/Submainpage/FregementScreen/contentFregementScreen.dart';
 import 'package:koompi_academy_project/UI/Submainpage/FregementScreen/overviewFregementScreen.dart';
 import 'package:tuple/tuple.dart';
 import 'package:video_player/video_player.dart';
 import 'package:page_transition/page_transition.dart';
-
-import '../commentScreen.dart';
 
 class PortfolioTutorialDetailPage extends StatefulWidget {
   final Object heroTag;
