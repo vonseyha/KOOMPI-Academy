@@ -22,7 +22,6 @@ class _FregementContentState extends State<FregementContent> {
               color: Colors.white,
               child: Container(
                 decoration: BoxDecoration(
-                  // color: Color(0xFFeff1f2),
                   borderRadius: BorderRadius.circular(17),
                 ),
                 child: Padding(

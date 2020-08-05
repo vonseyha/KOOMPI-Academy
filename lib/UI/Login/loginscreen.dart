@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:koompi_academy_project/UI/Home/homedisplay.dart';
 import 'package:koompi_academy_project/UI/SignUP/signupscreen.dart';
 
 class Login extends StatefulWidget {
@@ -165,7 +166,7 @@ class _LoginState extends State<Login> {
               _formKey.currentState.save();
               print("Your email: $_email and Password: $_password");
             }
-            print("Login Success!");
+            Navigator.push(context,MaterialPageRoute(builder: (context) => HomeDisplay()));
           },
           child: Text("LOGIN",
               textAlign: TextAlign.center,
