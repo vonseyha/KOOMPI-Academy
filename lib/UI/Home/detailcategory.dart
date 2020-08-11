@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/UI/Submainpage/DisplayVideoScreen/displayVideoScreen.dart';
 import 'package:tuple/tuple.dart';
 
-class DetailCard extends StatelessWidget {
+class DetailCard extends StatefulWidget {
   final String name;
   const DetailCard({Key key, this.name}) : super(key: key);
 
@@ -41,11 +41,59 @@ class DetailCard extends StatelessWidget {
   ];
 
   @override
+  _DetailCardState createState() => _DetailCardState();
+}
+
+///////////////////////////////////
+/////////To do task today//////////
+///////////////////////////////////
+class _DetailCardState extends State<DetailCard> {
+  bool _isClicked = false;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('$name'),
+        title: Text('${widget.name}'),
         centerTitle: true,
+        actions: <Widget>[
+          _isClicked == false
+              ? IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    setState(() {
+                      _isClicked = true;
+                    });
+                  })
+              : IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    setState(() {
+                      _isClicked = false;
+                    });
+                  })
+        ],
+        bottom: _isClicked == true
+            ? PreferredSize(
+                preferredSize: Size(50, 60),
+                child: Container(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                    child: Container(
+                      color: Colors.white,
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                            hintStyle: TextStyle(
+                              color: Colors.blue,
+                            ),
+                            hintText: 'Find Somethings...'),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            : null,
       ),
       body: CustomScrollView(
         slivers: <Widget>[
@@ -60,9 +108,9 @@ class DetailCard extends StatelessWidget {
       itemExtent: 305.0,
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          return _buildListItem(context, datamodel[index]);
+          return _buildListItem(context, DetailCard.datamodel[index]);
         },
-        childCount: datamodel.length,
+        childCount: DetailCard.datamodel.length,
       ),
     );
   }
@@ -79,7 +127,7 @@ class DetailCard extends StatelessWidget {
 
   Widget _buildCardView(BuildContext context, String desc, String imageUrl) {
     return ListView.builder(
-        itemCount: datamodel.length,
+        itemCount: DetailCard.datamodel.length,
         itemBuilder: (ctx, i) {
           return InkWell(
             onTap: () {},
@@ -162,7 +210,6 @@ class DetailCard extends StatelessWidget {
         });
   }
 
-//************************* Silver transition to other page **************************//
   Widget _buildRippleEffectNavigation(
       BuildContext context, String desc, String imageUrl, String videoUrl) {
     return Positioned.fill(

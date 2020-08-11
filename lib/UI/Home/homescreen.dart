@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/UI/Home/detailcategory.dart';
+import 'package:koompi_academy_project/UI/Home/profile.dart';
 import 'package:koompi_academy_project/UI/Home/property.dart';
 import 'package:koompi_academy_project/UI/Home/samplecard.dart';
 import '../ContentsPage/sampleCardscreen.dart';
@@ -71,9 +72,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  CircleAvatar(
-                    backgroundImage: AssetImage('images/koompi_icon.png'),
-                    backgroundColor: Colors.grey,
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfileScreen()));
+                    },
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage('images/koompi_icon.png'),
+                      backgroundColor: Colors.grey,
+                    ),
                   )
                 ],
               ),
@@ -93,16 +102,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: TextField(
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
-                          border: InputBorder.none, hintText: 'Search.....'),
+                        border: InputBorder.none,
+                        hintText: 'Search.....',
+                      ),
                     ),
                   ),
                   Icon(Icons.brightness_medium)
                 ],
               ),
             ),
-            ///////////////////////////////////
-            /////////To do task today//////////
-            ///////////////////////////////////
             Container(
               height: 100,
               child: ListView.builder(

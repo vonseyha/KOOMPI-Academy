@@ -26,5 +26,5 @@ List<Map> drawerItems = [
   {'icon': Icons.date_range, 'title': 'Schedule'},
   {'icon': Icons.favorite, 'title': 'Favorites'},
   {'icon': Icons.mail, 'title': 'Messages'},
-  {'icon': FontAwesomeIcons.solidUserCircle, 'title': 'Profile'},
+  {'icon': Icons.settings, 'title': 'Setting'},
 ];
