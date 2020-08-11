@@ -19,7 +19,7 @@ class _LoginState extends State<Login> {
   bool _passwordVisible = true;
 
   //*************** Sign Up Button************//
-  Widget _buildSignupBtn() {
+ _buildSignupBtn() {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -56,10 +56,10 @@ class _LoginState extends State<Login> {
   }
 
   //*************** Forgot  Password Button************//
-  Widget _forgotPass() {
+  _forgotPass() {
     return GestureDetector(
       onTap: () {
-        _displayDialog(context);
+        _displayDialog();
         print("You are forgot password");
       },
       child: Row(
@@ -81,7 +81,7 @@ class _LoginState extends State<Login> {
   }
 
   //*************** Display Dailog Forgot Password Button************//
-  _displayDialog(BuildContext context) async {
+  _displayDialog() async {
     return showDialog(
         context: context,
         builder: (context) {
@@ -153,7 +153,7 @@ class _LoginState extends State<Login> {
   }
 
   //*************** Login Button************//
-  Widget _loginButon(BuildContext context) {
+  _loginButon() {
     return GestureDetector(
       child: Material(
         elevation: 5.0,
@@ -178,7 +178,7 @@ class _LoginState extends State<Login> {
   }
 
   //*************** Email Fill Form************//
-  Widget _emailForm(BuildContext context) {
+  _emailForm() {
     return Container(
         child: TextFormField(
       style: style,
@@ -203,7 +203,7 @@ class _LoginState extends State<Login> {
   }
 
   //*************** Password Fill Form************//
-  Widget _passwordForm(BuildContext context) {
+ _passwordForm() {
     return Container(
         child: TextFormField(
       obscureText: _passwordVisible,
@@ -279,7 +279,7 @@ class _LoginState extends State<Login> {
                         primaryColorDark: Colors.white70,
                       ),
                       //******Call Widget Email Full Form ******//
-                      child: _emailForm(context),
+                      child: _emailForm(),
                     )),
 
                     SizedBox(height: 35.0),
@@ -290,13 +290,13 @@ class _LoginState extends State<Login> {
                         primaryColorDark: Colors.white70,
                       ),
                       //******Call Widget Password Full Form ******//
-                      child: _passwordForm(context),
+                      child: _passwordForm(),
                     )),
                     SizedBox(
                       height: 35.0,
                     ),
                     //******Call Widget Login Button ******//
-                    _loginButon(context),
+                    _loginButon(),
                     SizedBox(
                       height: 15.0,
                     ),

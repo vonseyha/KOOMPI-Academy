@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'UI/ContentsPage/sampleCardscreen.dart';
 import 'UI/Home/homedisplay.dart';
+import 'UI/Login/loginscreen.dart';
 import 'UI/Submainpage/CommentPage/commentScreen.dart';
 import 'UI/SplashScreen/splashscreen.dart';
 
@@ -25,9 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      color: Color(0xFFf7f8fc),
-      child: HomeDisplay(),
+      body: Container(
+        color: Color(0xFFf7f8fc),
+        child:FregementAnswer(),
     ));
   }
 }

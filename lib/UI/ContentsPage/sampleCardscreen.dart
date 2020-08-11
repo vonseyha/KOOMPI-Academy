@@ -144,41 +144,6 @@ class GridSample extends StatelessWidget {
         }
       );
     }
-  // _buildHeroWidget(imageUrl),
-  // _buildDesc(desc),
-//   Expanded _buildDesc(String desc) {
-//     return Expanded(
-//       child: Padding(
-//         padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 0),
-//         child: Text(
-//           desc,
-//           style: TextStyle(
-//             fontSize: 20,
-//             fontWeight: FontWeight.bold,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-  // HeroWidget _buildHeroWidget(String imageUrl) {
-  //   return HeroWidget(
-  //     width: 150,
-  //     heroTag: imageUrl,
-  //     builder: (BuildContext context) {
-  //       return _buildHeroWidgetContent(imageUrl);
-  //     },
-  //   );
-  // }
-
-  // CachedNetworkImage _buildHeroWidgetContent(String imageUrl) {
-  //   return CachedNetworkImage(
-  //     imageUrl: imageUrl,
-  //     placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-  //   );
-  // }
-
 //************************* Silver transition to other page **************************//
   Widget _buildRippleEffectNavigation(
       BuildContext context, String desc, String imageUrl, String videoUrl) {

@@ -115,7 +115,7 @@ class _DetailCardState extends State<DetailCard> {
     );
   }
 
-  Widget _buildListItem(BuildContext context, Tuple3 tutorial) {
+  Widget _buildListItem(BuildContext context, Tuple3 tutorial){
     return Stack(
       children: <Widget>[
         _buildCardView(context, tutorial.item2, tutorial.item1),

@@ -16,11 +16,10 @@ class _SignupState extends State<Signup> {
 
   bool _isHidePassword = true;
 
-  TextStyle style =
-      TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
+  TextStyle style =TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
 
   //*************** Login Button************//
-  Widget _buildLoginBtn() {
+  _buildLoginBtn() {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -57,7 +56,7 @@ class _SignupState extends State<Signup> {
   }
 
   //*************** Button Signup************//
-  Widget _signupButton(BuildContext context) {
+ _signupButton() {
     return GestureDetector(
       child: Material(
         elevation: 5.0,
@@ -83,7 +82,7 @@ class _SignupState extends State<Signup> {
   }
 
   //*************** Username Fill Form************//
-  Widget _usernameForm(BuildContext context) {
+  _usernameForm() {
     return Container(
         child: TextFormField(
       style: style,
@@ -107,7 +106,7 @@ class _SignupState extends State<Signup> {
   }
 
   //*************** Email Fill Form************//
-  Widget _emailForm(BuildContext context) {
+  _emailForm() {
     return Container(
         child: TextFormField(
       style: style,
@@ -132,7 +131,7 @@ class _SignupState extends State<Signup> {
   }
 
   //*************** Password Fill Form************//
-  Widget _passwordForm(BuildContext context) {
+ _passwordForm() {
     return Container(
         child: TextFormField(
       style: style,
@@ -212,7 +211,7 @@ class _SignupState extends State<Signup> {
                         primaryColorDark: Colors.white70,
                       ),
                       //******Call Widget Username Fill Form ******//
-                      child: _usernameForm(context),
+                      child: _usernameForm(),
                     )),
                     SizedBox(height: 20.0),
 
@@ -223,7 +222,7 @@ class _SignupState extends State<Signup> {
                         primaryColorDark: Colors.white70,
                       ),
                       //******Call Widget Email Fill Form ******//
-                      child: _emailForm(context),
+                      child: _emailForm(),
                     )),
 
                     SizedBox(height: 20.0),
@@ -234,13 +233,13 @@ class _SignupState extends State<Signup> {
                         primaryColorDark: Colors.white70,
                       ),
                       //******Call Widget password Fill Form ******//
-                      child: _passwordForm(context),
+                      child: _passwordForm(),
                     )),
                     SizedBox(
                       height: 20.0,
                     ),
                     //******Call Widget Sign Up button ******//
-                    _signupButton(context),
+                    _signupButton(),
                     SizedBox(
                       height: 15.0,
                     ),

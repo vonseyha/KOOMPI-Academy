@@ -26,7 +26,6 @@ class _FregementAnswerState extends State<FregementAnswer> {
   bool test = false;
   bool test1 = false;
   Color _color = Colors.white;
-
   Color _iconColor = Colors.grey;
 
   @override
@@ -104,14 +103,14 @@ class _FregementAnswerState extends State<FregementAnswer> {
             child: new ListView.builder(
                 itemCount: tripsList.length,
                 itemBuilder: (BuildContext context, int index) =>
-                    buildTripCard(context, index)),
+                    buildTripCard(index)),
           )
         ],
       ),
     );
   }
 
-  Widget buildTripCard(BuildContext context, int index) {
+  Widget buildTripCard(int index) {
     final trip = tripsList[index];
     return Padding(
       padding: const EdgeInsets.all(5.0),
@@ -159,7 +158,7 @@ class _FregementAnswerState extends State<FregementAnswer> {
                         )),
                     Container(
                       padding: const EdgeInsets.only(left: 150.0),
-                      child: _showPopPupMenu(context),
+                      child: _showPopPupMenu(),
                     ),
                   ],
                 ),
@@ -226,10 +225,10 @@ class _FregementAnswerState extends State<FregementAnswer> {
                   ],
                 ),
                 Container(
-                  child: test == true ? _fillReplyComments(context) : null,
+                  child: test == true ? _fillReplyComments() : null,
                 ),
                 Container(
-                  child: test1 == true ? _displaySubComment(context) : null,
+                  child: test1 == true ? _displaySubComment() : null,
                 ),
                 Container(
                     height: 20.0,
@@ -253,7 +252,7 @@ class _FregementAnswerState extends State<FregementAnswer> {
     );
   }
 
-  _displaySubComment(BuildContext context) {
+  _displaySubComment() {
     return Padding(
       padding: const EdgeInsets.only(left: 30.0),
       child: Column(
@@ -294,7 +293,7 @@ class _FregementAnswerState extends State<FregementAnswer> {
                     ],
                   )),
               Container(
-                child: _showPopPupMenu(context),
+                child: _showPopPupMenu(),
               ),
             ],
           ),
@@ -329,14 +328,14 @@ class _FregementAnswerState extends State<FregementAnswer> {
             ),
           ),
           Container(
-            child: test == true ? _fillReplyComments(context) : null,
+            child: test == true ? _fillReplyComments() : null,
           ),
         ],
       ),
     );
   }
 
-  _fillReplyComments(BuildContext context) {
+  _fillReplyComments() {
     return Container(
       height: 30.0,
       width: 340.0,
@@ -391,7 +390,7 @@ class _FregementAnswerState extends State<FregementAnswer> {
     );
   }
 
-  _showPopPupMenu(BuildContext context) {
+  _showPopPupMenu() {
     return Center(
       child: PopupMenuButton<MyPupopMenu>(
         onSelected: (MyPupopMenu result) {
@@ -399,14 +398,14 @@ class _FregementAnswerState extends State<FregementAnswer> {
             setState(() {
               _seleteion = result;
             });
-            _displayDialog(context);
+            _displayDialog();
             print(result);
           } else if (result == MyPupopMenu.edit) {
             setState(() {
               _seleteion = result;
             });
             print(result);
-            _asyncInputDialog(context);
+            _asyncInputDialog();
           }
         },
         icon: Icon(Icons.more_horiz, color: Colors.grey),
@@ -438,7 +437,7 @@ class _FregementAnswerState extends State<FregementAnswer> {
     );
   }
 
-  _displayDialog(BuildContext context) async {
+  _displayDialog() async {
     return showDialog(
         context: context,
         builder: (context) {
@@ -523,7 +522,7 @@ class _FregementAnswerState extends State<FregementAnswer> {
         });
   }
 
-  Future<String> _asyncInputDialog(BuildContext context) async {
+  Future<String> _asyncInputDialog() async {
     String teamName = '';
     return showDialog<String>(
       context: context,
