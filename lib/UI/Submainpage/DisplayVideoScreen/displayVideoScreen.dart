@@ -69,6 +69,7 @@ class _PortfolioTutorialDetailPageState
 
   @override
   Widget build(BuildContext context) {
+     var datawh = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -82,11 +83,15 @@ class _PortfolioTutorialDetailPageState
         ),
       ),
       body: Container(
-          child: Column(
-        children: <Widget>[
-          _buildHeroWidget(context),
-          _buildDesc(context),
-        ],
+        height: datawh.size.height ,
+        child: Column(
+          children: <Widget>[
+            _buildHeroWidget(context),
+            Container(
+              height: datawh.size.height / 1.85,
+              child: _buildDesc(context),
+            )
+          ],
       )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -127,16 +132,19 @@ class _PortfolioTutorialDetailPageState
   }
 
   Widget _buildDesc(BuildContext context) {
+    var datawh = MediaQuery.of(context);
+    print(datawh);
     return Container(
-        height: 350.0,
+         height: datawh.size.height / 2,
+         color: Colors.white,
         child: Column(children: <Widget>[
           Container(
-              child: Column(
+          child: Column(
             children: <Widget>[
               DefaultTabController(
                 length: 2, // Added
                 child: Container(
-                  height: 50.0,
+                   height: datawh.size.height / 13,
                   child: TabBar(
                     controller: _tabController,
                     tabs: [
@@ -164,31 +172,22 @@ class _PortfolioTutorialDetailPageState
                 ),
               ),
               DefaultTabController(
-                length: 2, // Added
+                length: 2, 
                 child: Container(
-                  height: 300.0,
-                  child:
-                      TabBarView(controller: _tabController, children: <Widget>[
-                    //********* Fregement1 *********//
-                    Container(
-                      padding: EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(17),
-                      ),
-                      child: ContentFregement(),
-                    ),
-                    //********* Fregement2 *********//
-                    Container(
-                      //-----------------------------
-                      child: FregementContent(),
-                    ),
+                  height: datawh.size.height / 2.17,
+                  child: TabBarView(
+                    controller: _tabController, 
+                    children: <Widget>[
+                      ContentFregement(),
+                      FregementContent(),
                   ]),
                 ),
               )
             ],
-          ))
-        ]));
+          )
+        )
+      ])
+    );
   }
 }
 

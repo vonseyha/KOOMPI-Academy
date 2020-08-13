@@ -12,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   double xOffset = 0;
   double yOffset = 0;
   double scaleFactor = 1;
@@ -77,7 +78,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProfileScreen()));
+                            builder: (context) => ProfileScreen()
+                          )
+                      );
                     },
                     child: CircleAvatar(
                       backgroundImage: AssetImage('images/koompi_icon.png'),
@@ -121,11 +124,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  DetailCard(name: categories[index]['name']),
-                            ));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                              DetailCard(name: categories[index]['name']),
+                          )
+                        );
                       },
                       child: Column(
                         children: [
@@ -162,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Container(
               height: 475,
-              margin: EdgeInsets.symmetric(horizontal: 20),
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(
                 children: [
                   Expanded(

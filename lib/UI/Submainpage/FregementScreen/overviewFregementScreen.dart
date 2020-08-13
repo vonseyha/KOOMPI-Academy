@@ -8,17 +8,17 @@ class ContentFregement extends StatefulWidget {
 class _ContentFregementState extends State<ContentFregement> {
   @override
   Widget build(BuildContext context) {
+    var datawh = MediaQuery.of(context);
     return Container(
       child: _buildFregementContent(context),
     );
   }
 
-  Widget _buildFregementContent(BuildContext context) {
+  Widget _buildFregementContent(BuildContext context){
     return Column(
       children: <Widget>[
         Container(
           child: Container(
-            width: 500.0,
             color: Colors.white,
             child: Center(
               child: new Text(

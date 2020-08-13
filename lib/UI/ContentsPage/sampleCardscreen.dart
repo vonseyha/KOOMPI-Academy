@@ -6,26 +6,28 @@ class GridSample extends StatelessWidget {
   const GridSample({Key key}) : super(key: key);
 
   static const List<Tuple3> datamodel = [
+
     const Tuple3<String, String, String>(
-      "http://i3.ytimg.com/vi/zf1kS7RvOck/hqdefault.jpg",
+      "https://learnbackend.koompi.com/uploads/nimbuscapture_colored_dark.png",
       "First App – Simple WebView",
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     ),
     const Tuple3<String, String, String>(
-      "http://i3.ytimg.com/vi/zf1kS7RvOck/hqdefault.jpg",
+      "https://learnbackend.koompi.com/uploads/nimbuscapture_colored_dark.png",
       "First App – Simple WebView",
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     ),
     const Tuple3<String, String, String>(
-      "http://i3.ytimg.com/vi/zf1kS7RvOck/hqdefault.jpg",
+      "https://learnbackend.koompi.com/uploads/nimbuscapture_colored_dark.png",
       "First App – Simple WebView",
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     ),
     const Tuple3<String, String, String>(
-      "http://i3.ytimg.com/vi/zf1kS7RvOck/hqdefault.jpg",
+      "https://learnbackend.koompi.com/uploads/nimbuscapture_colored_dark.png",
       "First App – Simple WebView",
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     ),
+    
   ];
 
   @override
@@ -39,7 +41,7 @@ class GridSample extends StatelessWidget {
 
   SliverFixedExtentList _buildSliverContent() {
     return SliverFixedExtentList(
-      itemExtent: 330.0,
+      itemExtent: 320.0,
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           return _buildListItem(context, datamodel[index]);
@@ -74,10 +76,9 @@ class GridSample extends StatelessWidget {
                       color: Colors.grey.withOpacity(0.3),
                       spreadRadius: 5,
                       blurRadius: 7,
-                      offset: Offset(0, 5),
+                      offset: Offset(0,5),
                     ),
                   ],
-                  color: Color(0xFFf7f8fc),
                 ),
                 child: Column(
                   children: <Widget>[
@@ -115,7 +116,8 @@ class GridSample extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(50),
                                 child: Image(
                                   image: NetworkImage(
-                                      "https://myphsar-ror.s3.ap-south-1.amazonaws.com/production_store/71bc0f27e89f0ff46f5e85bde940e985.png"),
+                                      "https://myphsar-ror.s3.ap-south-1.amazonaws.com/production_store/71bc0f27e89f0ff46f5e85bde940e985.png"
+                                    ),
                                 ),
                               ),
                               title: Text(
@@ -126,11 +128,13 @@ class GridSample extends StatelessWidget {
                                   fontSize: 15.0,
                                 ),
                               ),
-                              subtitle: Text('1K views | 1 month ago',
-                                  style: new TextStyle(
-                                    fontSize: 12.0,
-                                    color: Color(0xFF4d6890),
-                                  )),
+                              subtitle: Text(
+                                '1K views | 1 month ago',
+                                style: new TextStyle(
+                                  fontSize: 12.0,
+                                  color: Color(0xFF4d6890),
+                                )
+                              ),
                             ),
                           ],
                         ),

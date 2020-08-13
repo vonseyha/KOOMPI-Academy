@@ -13,11 +13,11 @@ class _FregementAnswerState extends State<FregementAnswer> {
   final List<Trip> tripsList = [
     Trip("images/background.jpg", "Tang Eamseng", DateTime.now(),
         "What are the must-have Chrome extensions for any researcher who does programming?"),
-    Trip("images/background.jpg", "Tang Eamseng", DateTime.now(),
+    Trip("images/background.jpg", "Von Seyha", DateTime.now(),
         "What are the must-have Chrome extensions for any researcher who does programming?"),
-    Trip("images/background.jpg", "Tang Eamseng", DateTime.now(),
+    Trip("images/background.jpg", "Sok Sann", DateTime.now(),
         "What are the must-have Chrome extensions for any researcher who does programming?"),
-    Trip("images/background.jpg", "Tang Eamseng", DateTime.now(),
+    Trip("images/background.jpg", "Sok Sovann", DateTime.now(),
         "What are the must-have Chrome extensions for any researcher who does programming?"),
   ];
 
@@ -25,8 +25,10 @@ class _FregementAnswerState extends State<FregementAnswer> {
   MyPupopMenu _seleteion;
   bool test = false;
   bool test1 = false;
+  bool test2=false;
   Color _color = Colors.white;
   Color _iconColor = Colors.grey;
+  String name;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +77,7 @@ class _FregementAnswerState extends State<FregementAnswer> {
                 Container(
                   height: 45.0,
                   width: 320.0,
+                  color:Colors.orangeAccent,
                   margin: const EdgeInsets.only(top: 8.0),
                   child: TextFormField(
                     decoration: InputDecoration(
@@ -111,10 +114,11 @@ class _FregementAnswerState extends State<FregementAnswer> {
   }
 
   Widget buildTripCard(int index) {
+    var width = MediaQuery.of(context);
     final trip = tripsList[index];
     return Padding(
       padding: const EdgeInsets.all(5.0),
-      child: new Container(
+      child: new Expanded(
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -132,10 +136,12 @@ class _FregementAnswerState extends State<FregementAnswer> {
                       ),
                     ),
                     Container(
+                      width: width.size.width /2,
                         margin: const EdgeInsets.only(left: 10.0),
                         child: Column(
                           children: <Widget>[
                             Container(
+                              alignment: Alignment.centerLeft,
                               child: new Text(
                                 trip.username,
                                 style: new TextStyle(
@@ -146,6 +152,7 @@ class _FregementAnswerState extends State<FregementAnswer> {
                               )
                             ),
                             Container(
+                              alignment: Alignment.centerLeft,
                                 padding: const EdgeInsets.only(right: 30.0),
                                 child: new Text(
                                   '${DateFormat('dd/MM/yyyy').format(trip.commenntDate).toString()}',
@@ -155,9 +162,9 @@ class _FregementAnswerState extends State<FregementAnswer> {
                                   ),
                                 ))
                           ],
-                        )),
-                    Container(
-                      padding: const EdgeInsets.only(left: 150.0),
+                        )
+                      ),
+                    Expanded(
                       child: _showPopPupMenu(),
                     ),
                   ],
@@ -184,7 +191,8 @@ class _FregementAnswerState extends State<FregementAnswer> {
                               fontSize: 15.0,
                               fontFamily: 'sans-serif',
                             ),
-                          ))
+                          )
+                        )
                     ],
                   ),
                 ),
@@ -201,7 +209,9 @@ class _FregementAnswerState extends State<FregementAnswer> {
                         onPressed: () {
                           setState(() {
                             test1 = true;
+                            test2 = true;
                             _color = Colors.grey;
+                            name = trip.username;
                           });
                         },
                       ),
@@ -217,6 +227,7 @@ class _FregementAnswerState extends State<FregementAnswer> {
                         onPressed: () {
                           setState(() {
                             test = true;
+                            name = trip.username;
                           });
                           print("Reply");
                         },
@@ -225,14 +236,15 @@ class _FregementAnswerState extends State<FregementAnswer> {
                   ],
                 ),
                 Container(
-                  child: test == true ? _fillReplyComments() : null,
+                  child: test == true && name == trip.username ? _fillReplyComments() : null,
                 ),
                 Container(
-                  child: test1 == true ? _displaySubComment() : null,
+                  child: test1 == true && name == trip.username ? _displaySubComment() : null,
                 ),
                 Container(
                     height: 20.0,
-                    child: IconButton(
+                    child: test2 == true && name == trip.username ?
+                    IconButton(
                         icon: Icon(
                           Icons.expand_less,
                           color: _color,
@@ -241,9 +253,12 @@ class _FregementAnswerState extends State<FregementAnswer> {
                           setState(() {
                             test1 = false;
                             test = false;
-                            _color = Colors.white;
+                            test2 =false;
                           });
-                        }))
+                        }
+                      )
+                      : null,
+                    )
               ],
             ),
           ),
@@ -298,7 +313,8 @@ class _FregementAnswerState extends State<FregementAnswer> {
             ],
           ),
           Container(
-            padding: const EdgeInsets.only(left: 20.0),
+            alignment: Alignment.centerLeft,
+            padding:const EdgeInsets.only(left: 15.0),
             child: new Text(
               "What are the must-have Chrome extensions",
               style: new TextStyle(
@@ -308,7 +324,7 @@ class _FregementAnswerState extends State<FregementAnswer> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(right: 60.0),
+            alignment: Alignment.centerLeft,
             child: FlatButton.icon(
               icon: Icon(
                 Icons.reply,
@@ -342,8 +358,8 @@ class _FregementAnswerState extends State<FregementAnswer> {
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Row(
         children: <Widget>[
-          Container(
-            width: 270.0,
+          Expanded(
+            flex: 8,
             child: TextField(
               decoration: InputDecoration(
                 hintText: "Write a reply...",
@@ -353,8 +369,8 @@ class _FregementAnswerState extends State<FregementAnswer> {
               onSubmitted: (_) => FocusScope.of(context).nextFocus(),
             ),
           ),
-          Container(
-              width: 60.0,
+          Expanded(
+            flex: 2,
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -371,7 +387,7 @@ class _FregementAnswerState extends State<FregementAnswer> {
                           print('Send Sucessfull');
                         }),
                   ),
-                  SizedBox(width: 10.0),
+                  SizedBox(width: 5.0),
                   Expanded(
                     flex: 1,
                     child: IconButton(
@@ -390,7 +406,7 @@ class _FregementAnswerState extends State<FregementAnswer> {
     );
   }
 
-  _showPopPupMenu() {
+  _showPopPupMenu(){
     return Center(
       child: PopupMenuButton<MyPupopMenu>(
         onSelected: (MyPupopMenu result) {
@@ -560,4 +576,5 @@ class _FregementAnswerState extends State<FregementAnswer> {
       },
     );
   }
+
 }
