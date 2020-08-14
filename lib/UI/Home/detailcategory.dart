@@ -56,6 +56,7 @@ class _DetailCardState extends State<DetailCard> {
       appBar: AppBar(
         title: Text('${widget.name}'),
         centerTitle: true,
+        backgroundColor: Colors.amber,
         actions: <Widget>[
           _isClicked == false
               ? IconButton(
@@ -80,12 +81,15 @@ class _DetailCardState extends State<DetailCard> {
                   child: Padding(
                     padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
                     child: Container(
-                      color: Colors.white,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                          color: Colors.white),
                       child: TextField(
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
+                            border: InputBorder.none,
                             hintStyle: TextStyle(
-                              color: Colors.blue,
+                              color: Colors.amber,
                             ),
                             hintText: 'Find Somethings...'),
                       ),
@@ -115,7 +119,7 @@ class _DetailCardState extends State<DetailCard> {
     );
   }
 
-  Widget _buildListItem(BuildContext context, Tuple3 tutorial){
+  Widget _buildListItem(BuildContext context, Tuple3 tutorial) {
     return Stack(
       children: <Widget>[
         _buildCardView(context, tutorial.item2, tutorial.item1),
@@ -197,8 +201,7 @@ class _DetailCardState extends State<DetailCard> {
                                     style: new TextStyle(
                                       fontSize: 12.0,
                                       color: Color(0xFF4d6890),
-                                    )
-                                  ),
+                                    )),
                               ),
                             ],
                           ),
