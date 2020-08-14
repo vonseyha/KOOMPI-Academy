@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/UI/Home/samplecard.dart';
 import 'UI/ContentsPage/sampleCardscreen.dart';
 import 'UI/Home/homedisplay.dart';
+import 'UI/Home/homedisplay.dart';
 import 'UI/Login/loginscreen.dart';
 import 'UI/Submainpage/CommentPage/commentScreen.dart';
 
@@ -22,9 +23,9 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>{
+class _HomeScreenState extends State<HomeScreen> {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         color: Color(0xFFf7f8fc),

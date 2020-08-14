@@ -9,32 +9,32 @@ class SampleGrid extends StatelessWidget {
   static const List<Tuple3> datamodel = [
     const Tuple3<String, String, String>(
       "https://learnbackend.koompi.com/uploads/asdasd1.png",
-      "First App – Simple WebView",
+      "Simple Name",
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     ),
     const Tuple3<String, String, String>(
       "https://learnbackend.koompi.com/uploads/nimbuscapture_colored_dark.png",
-      "First App – Simple WebView",
+      "Simple Name",
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     ),
     const Tuple3<String, String, String>(
       "https://learnbackend.koompi.com/uploads/asdasd1.png",
-      "First App – Simple WebView",
+      "Simple Name",
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     ),
     const Tuple3<String, String, String>(
       "https://learnbackend.koompi.com/uploads/nimbuscapture_colored_dark.png",
-      "First App – Simple WebView",
+      "Simple Name",
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     ),
     const Tuple3<String, String, String>(
       "https://learnbackend.koompi.com/uploads/asdasd1.png",
-      "First App – Simple WebView",
+      "Simple Name",
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     ),
     const Tuple3<String, String, String>(
       "https://learnbackend.koompi.com/uploads/nimbuscapture_colored_dark.png",
-      "First App – Simple WebView",
+      "Simple Name",
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     ),
   ];
@@ -50,7 +50,7 @@ class SampleGrid extends StatelessWidget {
 
   SliverFixedExtentList _buildSliverContent() {
     return SliverFixedExtentList(
-      itemExtent: 320.0,
+      itemExtent: 330.0,
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           SizedBox(width:10);
@@ -97,40 +97,42 @@ class SampleGrid extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           Container(
-                            margin: const EdgeInsets.only(right: 210.0),
-                            child: Expanded(
-                              child: Text(
-                                "Google Chrome",
-                                style: new TextStyle(
-                                  fontSize: 17.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF4d6890),
-                                  fontFamily: 'sans-serif',
-                                ),
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            leading: ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: Image(
-                                image: NetworkImage(
-                                    "https://myphsar-ror.s3.ap-south-1.amazonaws.com/production_store/71bc0f27e89f0ff46f5e85bde940e985.png"),
-                              ),
-                            ),
-                            title: Text(
-                              desc,
-                              style: new TextStyle(
-                                fontFamily: 'sans-serif',
-                                fontWeight: FontWeight.w600,
+                            alignment: Alignment.centerLeft,
+                            child:new Text(
+                              "Google Chrome",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
                                 fontSize: 15.0,
                               ),
+                            )
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.red,
                             ),
-                            subtitle: Text('1K views | 1 month ago',
+                            child: ListTile(
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Image(
+                                  image: NetworkImage(
+                                      "https://myphsar-ror.s3.ap-south-1.amazonaws.com/production_store/71bc0f27e89f0ff46f5e85bde940e985.png"),
+                                ),
+                              ),
+                              title: Text(
+                                desc,
                                 style: new TextStyle(
-                                  fontSize: 12.0,
-                                  color: Color(0xFF4d6890),
-                                )),
+                                  fontFamily: 'sans-serif',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                              subtitle: Text('1K views | 1 month ago',
+                                  style: new TextStyle(
+                                    fontSize: 12.0,
+                                    color: Color(0xFF4d6890),
+                                  )),
+                            ),
                           ),
                         ],
                       ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:koompi_academy_project/Model/CommentModel/commentModelScreen.dart';
@@ -451,6 +452,7 @@ class _FregementAnswerState extends State<FregementAnswer> {
   }
 
   _displayDialog() async {
+    var height = MediaQuery.of(context);
     return showDialog(
         context: context,
         builder: (context) {
@@ -459,75 +461,68 @@ class _FregementAnswerState extends State<FregementAnswer> {
               borderRadius: BorderRadius.all(Radius.circular(5.0)),
             ),
             content: Container(
-              height: 100.0,
+              height: height.size.height / 7,
+              alignment: Alignment.center,
               child: Column(
                 children: <Widget>[
                   Container(
                     child: Container(
                         alignment: Alignment.center,
                         child: new Text(
-                          "Are you sure to delete this comment?",
+                          "Are you sure?" ,
                           style: new TextStyle(
                             fontSize: 17.0,
+                            fontWeight: FontWeight.bold,
                             fontFamily: 'sans-serif',
                             color: Colors.indigo,
                           ),
                         )),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 20.0),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 35.0),
-                      child: Row(
-                        children: <Widget>[
-                          new FlatButton(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'YES',
-                                  style: TextStyle(
-                                    fontSize: 15.0,
-                                    fontFamily: 'sans-serif',
-                                    color: Colors.white,
+                 Expanded(
+                      child: Container(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            new FlatButton(
+                                color: Colors.amber[600],
+                                 child: Text(
+                                    'YES',
+                                    style: TextStyle(
+                                      fontSize: 15.0,
+                                      fontFamily: 'sans-serif',
+                                      color: Colors.white,
+                                    ),
                                   ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(3)),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+
+                                 ),
+                            SizedBox(width: 25.0),
+                            new FlatButton(
+                              color: Colors.blue,
+                              child: Text(
+                                'YES',
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontFamily: 'sans-serif',
+                                  color: Colors.white,
                                 ),
-                              ],
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(3)),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+
                             ),
-                            color: Colors.amber[600],
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(3)),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          SizedBox(width: 25.0),
-                          new FlatButton(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'NO',
-                                  style: TextStyle(
-                                    fontSize: 15.0,
-                                    fontFamily: 'sans-serif',
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            color: Colors.blueAccent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(3),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
