@@ -8,7 +8,6 @@ class ContentFregement extends StatefulWidget {
 class _ContentFregementState extends State<ContentFregement> {
   @override
   Widget build(BuildContext context) {
-    var datawh = MediaQuery.of(context);
     return Container(
       child: _buildFregementContent(context),
     );
@@ -34,11 +33,10 @@ class _ContentFregementState extends State<ContentFregement> {
           ),
         ),
         Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(10.0),
-            color: Colors.white,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20.0),
             child: new Text(
-              'កម្មវិធី Google Chrome ឬជាទូទៅគ្រាន់តែ Chrome កម្មវិធីគឺជាកម្មវិធីបណ្តាញដែលដំណើរការលើកម្មវិធីរុករកអ៊ីនធឺណិត Google Chrome ។ កម្មវិធី Chrome អាចទទួលបានពី Chrome Web Store ដែលកម្មវិធីបន្ថែមនិងធីមអាចតំឡើងឬទិញបាន។ កម្មវិធី Chrome អាចទទួលបានពី Chrome Web Store ដែលកម្មវិធីបន្ថែមនិងធីមអាចតំឡើងឬទិញបាន។',
+              'កម្មវិធី Google Chrome ឬជាទូទៅគ្រាន់តែ Chrome កម្មវិធីគឺជាកម្មវិធីបណ្តាញដែលដំណើរការលើកម្មវិធីរុករកអ៊ីនធឺណិត Google Chrome ។ កម្មវិធី Chrome អាចទទួលបានពី Chrome Web Store ដែលកម្មវិធីបន្ថែមនិងធីមអាចតំឡើងឬទិញបាន។ កម្មវិធី Chrome អាចទទួលបានពី Chrome Web Store ដែលកម្មវិធីបន្ថែមនិងធីមអាចតំឡើងឬទិញបាន។កម្មវិធី Google Chrome ឬជាទូទៅគ្រាន់តែ Chrome កម្មវិធីគឺជាកម្មវិធីបណ្តាញដែលដំណើរការលើកម្មវិធីរុករកអ៊ីនធឺណិត Google Chrome ។ កម្មវិធី Chrome អាចទទួលបានពី Chrome Web Store ដែលកម្មវិធីបន្ថែមនិងធីមអាចតំឡើងឬទិញបាន។ កម្មវិធី Chrome អាចទទួលបានពី Chrome Web Store ដែលកម្មវិធីបន្ថែមនិងធីមអាចតំឡើងឬទិញបាន។កម្មវិធី Google Chrome ឬជាទូទៅគ្រាន់តែ Chrome កម្មវិធីគឺជាកម្មវិធីបណ្តាញដែលដំណើរការលើកម្មវិធីរុករកអ៊ីនធឺណិត Google Chrome ។ កម្មវិធី Chrome អាចទទួលបានពី Chrome Web Store ដែលកម្មវិធីបន្ថែមនិងធីមអាចតំឡើងឬទិញបាន។ កម្មវិធី Chrome អាចទទួលបានពី Chrome Web Store ដែលកម្មវិធីបន្ថែមនិងធីមអាចតំឡើងឬទិញបាន។',
               style: new TextStyle(
                 fontFamily: 'Quicksand,sans-serif!important',
                 color: Colors.black38,

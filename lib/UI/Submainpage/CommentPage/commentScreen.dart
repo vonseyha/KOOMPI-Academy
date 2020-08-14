@@ -74,31 +74,28 @@ class _FregementAnswerState extends State<FregementAnswer> {
                   ),
                 ),
                 SizedBox(width: 10.0),
-                Container(
-                  height: 45.0,
-                  width: 320.0,
-                  color:Colors.orangeAccent,
-                  margin: const EdgeInsets.only(top: 8.0),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                        hintText: "write your comment here",
-                        contentPadding: EdgeInsets.all(15.0),
-                        border: InputBorder.none,
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        suffixIcon: Padding(
-                          padding: const EdgeInsetsDirectional.only(end: 12.0),
-                          child: IconButton(
-                              icon: Icon(
-                                Icons.send,
-                                color: Color(0xFFf9b62f),
-                              ),
-                              onPressed: () {
-                                print('Send Sucessfull');
-                              }),
-                        )),
+                Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          hintText: "write your comment here",
+                          hintStyle: TextStyle(color:Colors.grey),
+                          contentPadding: EdgeInsets.all(15.0),
+                          border: InputBorder.none,
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                          suffixIcon: Padding(
+                            padding: const EdgeInsetsDirectional.only(end: 12.0),
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.send,
+                                  color: Color(0xFFf9b62f),
+                                ),
+                                onPressed: () {
+                                  print('Send Sucessfull');
+                                }),
+                          )),
+                    ),
                   ),
-                ),
               ],
             ),
           ),

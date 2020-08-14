@@ -12,9 +12,7 @@ class _FregementContentState extends State<FregementContent> {
     return Container(
       child: Column(
         children: <Widget>[
-          Container(
-              height: datawh.size.height/2.18,
-              color: Colors.white,
+          Expanded(
               child: Container(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0 , vertical: 5.0),

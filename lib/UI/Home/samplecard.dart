@@ -98,13 +98,15 @@ class SampleGrid extends StatelessWidget {
                         children: <Widget>[
                           Container(
                             margin: const EdgeInsets.only(right: 210.0),
-                            child: Text(
-                              "Google Chrome",
-                              style: new TextStyle(
-                                fontSize: 17.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF4d6890),
-                                fontFamily: 'sans-serif',
+                            child: Expanded(
+                              child: Text(
+                                "Google Chrome",
+                                style: new TextStyle(
+                                  fontSize: 17.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF4d6890),
+                                  fontFamily: 'sans-serif',
+                                ),
                               ),
                             ),
                           ),
@@ -141,7 +143,6 @@ class SampleGrid extends StatelessWidget {
         });
   }
 
-//************************* Silver transition to other page **************************//
   Widget _buildRippleEffectNavigation(
       BuildContext context, String desc, String imageUrl, String videoUrl) {
     return Positioned.fill(

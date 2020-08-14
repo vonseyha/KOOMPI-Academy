@@ -87,8 +87,8 @@ class _PortfolioTutorialDetailPageState
         child: Column(
           children: <Widget>[
             _buildHeroWidget(context),
-            Container(
-              height: datawh.size.height / 1.85,
+            Expanded(
+//              height: datawh.size.height / 1.68,
               child: _buildDesc(context),
             )
           ],
@@ -172,9 +172,9 @@ class _PortfolioTutorialDetailPageState
                 ),
               ),
               DefaultTabController(
-                length: 2, 
+                length: 2,
                 child: Container(
-                  height: datawh.size.height / 2.17,
+                  height: datawh.size.height/1.95,
                   child: TabBarView(
                     controller: _tabController, 
                     children: <Widget>[
