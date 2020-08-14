@@ -124,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                     ),
-                    Icon(Icons.brightness_medium)
+                    Icon(Icons.keyboard_voice)
                   ],
                 ),
               ),
