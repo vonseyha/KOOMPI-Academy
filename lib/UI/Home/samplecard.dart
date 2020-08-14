@@ -50,7 +50,7 @@ class SampleGrid extends StatelessWidget {
 
   SliverFixedExtentList _buildSliverContent() {
     return SliverFixedExtentList(
-      itemExtent: 330.0,
+      itemExtent: 340.0,
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           SizedBox(width:10);
@@ -80,8 +80,12 @@ class SampleGrid extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Container(
-                    color: Color(0xFFc6c6c6),
+                    decoration: BoxDecoration(
+                       borderRadius: BorderRadius.circular(10),
+                       color: Color(0xFFc6c6c6),
+                    ),
                     child: ClipRRect(
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10.0)),
                       child: Image(
                         width: MediaQuery.of(context).size.width,
                         height: 200.0,
@@ -91,7 +95,12 @@ class SampleGrid extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    color: Colors.white,
+                    height: 110.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadiusDirectional.only(bottomEnd: Radius.circular(10.0) , bottomStart: Radius.circular(10.0)),
+                      color: Colors.white,
+                      // color: Colors.red,
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Column(
@@ -106,33 +115,27 @@ class SampleGrid extends StatelessWidget {
                               ),
                             )
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Colors.red,
-                            ),
-                            child: ListTile(
-                              leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: Image(
-                                  image: NetworkImage(
-                                      "https://myphsar-ror.s3.ap-south-1.amazonaws.com/production_store/71bc0f27e89f0ff46f5e85bde940e985.png"),
-                                ),
+                          ListTile(
+                            leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: Image(
+                                image: NetworkImage(
+                                    "https://myphsar-ror.s3.ap-south-1.amazonaws.com/production_store/71bc0f27e89f0ff46f5e85bde940e985.png"),
                               ),
-                              title: Text(
-                                desc,
+                            ),
+                            title: Text(
+                              desc,
+                              style: new TextStyle(
+                                fontFamily: 'sans-serif',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                            subtitle: Text('1K views | 1 month ago',
                                 style: new TextStyle(
-                                  fontFamily: 'sans-serif',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15.0,
-                                ),
-                              ),
-                              subtitle: Text('1K views | 1 month ago',
-                                  style: new TextStyle(
-                                    fontSize: 12.0,
-                                    color: Color(0xFF4d6890),
-                                  )),
-                            ),
+                                  fontSize: 12.0,
+                                  color: Color(0xFF4d6890),
+                                )),
                           ),
                         ],
                       ),
