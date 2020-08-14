@@ -109,9 +109,10 @@ class _DetailCardState extends State<DetailCard> {
 
   SliverFixedExtentList _buildSliverContent() {
     return SliverFixedExtentList(
-      itemExtent: 305.0,
+      itemExtent: 340.0,
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
+          SizedBox(width: 10);
           return _buildListItem(context, DetailCard.datamodel[index]);
         },
         childCount: DetailCard.datamodel.length,
@@ -135,80 +136,76 @@ class _DetailCardState extends State<DetailCard> {
       child: ListView.builder(
           itemCount: DetailCard.datamodel.length,
           itemBuilder: (ctx, i) {
-            return InkWell(
-              onTap: () {},
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 1.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 3,
-                        blurRadius: 7,
-                        offset: Offset(0, 5),
+            return GestureDetector(
+              child: Container(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Color(0xFFc6c6c6),
                       ),
-                    ],
-                    color: Color(0xFFf7f8fc),
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: ClipRRect(
-                          child: Image(
-                            width: MediaQuery.of(context).size.width,
-                            height: 190.0,
-                            fit: BoxFit.cover,
-                            image: NetworkImage(imageUrl),
-                          ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10.0)),
+                        child: Image(
+                          width: MediaQuery.of(context).size.width,
+                          height: 200.0,
+                          fit: BoxFit.cover,
+                          image: NetworkImage(imageUrl),
                         ),
                       ),
-                      Container(
-                        color: Color(0xffeff1f2),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                margin: const EdgeInsets.only(right: 210.0),
-                                child: Text(
+                    ),
+                    Container(
+                      height: 110.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadiusDirectional.only(
+                            bottomEnd: Radius.circular(10.0),
+                            bottomStart: Radius.circular(10.0)),
+                        color: Colors.white,
+                        // color: Colors.red,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                                alignment: Alignment.centerLeft,
+                                child: new Text(
                                   "Google Chrome",
-                                  style: new TextStyle(
-                                    fontSize: 17.0,
+                                  style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFF4d6890),
-                                    fontFamily: 'sans-serif',
-                                  ),
-                                ),
-                              ),
-                              ListTile(
-                                leading: ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Image(
-                                    image: NetworkImage(
-                                        "https://myphsar-ror.s3.ap-south-1.amazonaws.com/production_store/71bc0f27e89f0ff46f5e85bde940e985.png"),
-                                  ),
-                                ),
-                                title: Text(
-                                  desc,
-                                  style: new TextStyle(
-                                    fontFamily: 'sans-serif',
-                                    fontWeight: FontWeight.w600,
                                     fontSize: 15.0,
                                   ),
+                                )),
+                            ListTile(
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Image(
+                                  image: NetworkImage(
+                                      "https://myphsar-ror.s3.ap-south-1.amazonaws.com/production_store/71bc0f27e89f0ff46f5e85bde940e985.png"),
                                 ),
-                                subtitle: Text('1K views | 1 month ago',
-                                    style: new TextStyle(
-                                      fontSize: 12.0,
-                                      color: Color(0xFF4d6890),
-                                    )),
                               ),
-                            ],
-                          ),
+                              title: Text(
+                                desc,
+                                style: new TextStyle(
+                                  fontFamily: 'sans-serif',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                              subtitle: Text('1K views | 1 month ago',
+                                  style: new TextStyle(
+                                    fontSize: 12.0,
+                                    color: Color(0xFF4d6890),
+                                  )),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             );
