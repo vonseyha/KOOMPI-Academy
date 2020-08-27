@@ -115,22 +115,34 @@ class _HomeScreenState extends State<HomeScreen> {
                           right: 20,
                           bottom: 10,
                         ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              boxShadow: shadowList,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50)),
-                              color: Colors.white),
-                          child: TextField(
-                            textAlign: TextAlign.center,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(
-                                  color: Colors.black,
+                        child: isDrawerOpen == true
+                            ? Container(
+                                decoration: BoxDecoration(
+                                    boxShadow: shadowList,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(50)),
+                                    color: Colors.amber),
+                                child: Text(
+                                  'Find Somethings...',
+                                  style: TextStyle(color: Colors.black),
                                 ),
-                                hintText: 'Find Somethings...'),
-                          ),
-                        ),
+                              )
+                            : Container(
+                                decoration: BoxDecoration(
+                                    boxShadow: shadowList,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(50)),
+                                    color: Colors.white),
+                                child: TextField(
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintStyle: TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                      hintText: 'Find Somethings...'),
+                                ),
+                              ),
                       ),
                     ),
                   )
@@ -197,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Recent',
+                            'All Videos here',
                             style: TextStyle(color: Colors.red, fontSize: 17),
                           ),
                         ],
@@ -218,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             /////////////////////////////////////////////////////
 
                             ///here to change number of context///
-                            itemCount: 5,
+                            itemCount: 15,
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
