@@ -4,6 +4,7 @@ import 'package:koompi_academy_project/UI/SplashScreen/splashscreen.dart';
 import 'UI/ContentsPage/sampleCardscreen.dart';
 import 'UI/Home/homedisplay.dart';
 import 'UI/Home/homedisplay.dart';
+import 'UI/Home/subCategory.dart';
 import 'UI/Login/loginscreen.dart';
 import 'UI/Submainpage/CommentPage/commentScreen.dart';
 
@@ -30,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Container(
         color: Color(0xFFf7f8fc),
-        child:HomeDisplay(),
+        child:SubCagateory(),
       )
     );
   }
