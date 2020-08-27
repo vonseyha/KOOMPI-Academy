@@ -18,22 +18,22 @@ class SampleGrid extends StatelessWidget {
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     ),
     const Tuple3<String, String, String>(
-      "https://learnbackend.koompi.com/uploads/asdasd1.png",
+      "https://learnbackend.koompi.com/uploads/krita.png",
       "Simple Name",
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     ),
     const Tuple3<String, String, String>(
-      "https://learnbackend.koompi.com/uploads/nimbuscapture_colored_dark.png",
+      "https://learnbackend.koompi.com/uploads/koompi-tutorial.png",
       "Simple Name",
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     ),
     const Tuple3<String, String, String>(
-      "https://learnbackend.koompi.com/uploads/asdasd1.png",
+      "https://learnbackend.koompi.com/uploads/kdenlive-logo.png.webp",
       "Simple Name",
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     ),
     const Tuple3<String, String, String>(
-      "https://learnbackend.koompi.com/uploads/nimbuscapture_colored_dark.png",
+      "https://learnbackend.koompi.com/uploads/a.png",
       "Simple Name",
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     ),
@@ -50,7 +50,7 @@ class SampleGrid extends StatelessWidget {
 
   SliverFixedExtentList _buildSliverContent() {
     return SliverFixedExtentList(
-      itemExtent: 340.0,
+      itemExtent: 343.0,
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           SizedBox(width:10);
@@ -73,58 +73,74 @@ class SampleGrid extends StatelessWidget {
 
   Widget _buildCardView(BuildContext context, String desc, String imageUrl) {
     return ListView.builder(
-        itemCount: datamodel.length,
-        itemBuilder: (ctx, i){
-          return GestureDetector(
-            child: Container(
+        itemCount: 10,
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              color: Color(0xFFc3c4c5),
               child: Column(
-                children: <Widget>[
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Container(
-                    decoration: BoxDecoration(
-                       borderRadius: BorderRadius.circular(10),
-                       color: Color(0xFFc6c6c6),
-                    ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10.0)),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10)),
                       child: Image(
                         width: MediaQuery.of(context).size.width,
-                        height: 200.0,
+                        height: 210.0,
                         fit: BoxFit.cover,
-                        image: NetworkImage(imageUrl),
+                        image: NetworkImage(
+                            "https://learnbackend.koompi.com/uploads/a.png"
+                          ),
                       ),
                     ),
                   ),
                   Container(
-                    height: 110.0,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadiusDirectional.only(bottomEnd: Radius.circular(10.0) , bottomStart: Radius.circular(10.0)),
-                      color: Colors.white,
-                      // color: Colors.red,
+                      borderRadius: BorderRadiusDirectional.only(
+                          bottomEnd: Radius.circular(10.0),
+                          bottomStart: Radius.circular(10.0)),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: <Color>[
+                          Colors.white,
+                          Colors.white70,
+                          Color(0xFFeff1f2),
+                        ]
+                      )                     
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
                       child: Column(
                         children: <Widget>[
                           Container(
-                            alignment: Alignment.centerLeft,
-                            child:new Text(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Text(
                               "Google Chrome",
-                              style: TextStyle(
+                              style: new TextStyle(
+                                fontSize: 17.0,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 15.0,
-                              ),
-                            )
-                          ),
-                          ListTile(
-                            leading: ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: Image(
-                                image: NetworkImage(
-                                    "https://myphsar-ror.s3.ap-south-1.amazonaws.com/production_store/71bc0f27e89f0ff46f5e85bde940e985.png"),
+                                color: Colors.black,
+                                fontFamily: 'Serif',
                               ),
                             ),
+                          ),
+                          ListTile(
+                          leading:CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 30,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  backgroundImage: NetworkImage("https://avatars0.githubusercontent.com/u/41331389?s=280&v=4"),
+                                ),
+                            ),
+
                             title: Text(
-                              desc,
+                              "Tang Eamseng",
                               style: new TextStyle(
                                 fontFamily: 'sans-serif',
                                 fontWeight: FontWeight.w600,
@@ -135,17 +151,18 @@ class SampleGrid extends StatelessWidget {
                                 style: new TextStyle(
                                   fontSize: 12.0,
                                   color: Color(0xFF4d6890),
-                                )),
+                                )
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
           );
-        });
+        },
+    );
   }
 
   Widget _buildRippleEffectNavigation(

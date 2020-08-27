@@ -36,7 +36,8 @@ class _ContentFregementState extends State<ContentFregement> {
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(20.0),
             child: new Text(
-              'កម្មវិធី Google Chrome ឬជាទូទៅគ្រាន់តែ Chrome កម្មវិធីគឺជាកម្មវិធីបណ្តាញដែលដំណើរការលើកម្មវិធីរុករកអ៊ីនធឺណិត Google Chrome ។ កម្មវិធី Chrome អាចទទួលបានពី Chrome Web Store ដែលកម្មវិធីបន្ថែមនិងធីមអាចតំឡើងឬទិញបាន។ កម្មវិធី Chrome អាចទទួលបានពី Chrome Web Store ដែលកម្មវិធីបន្ថែមនិងធីមអាចតំឡើងឬទិញបាន។កម្មវិធី Google Chrome ឬជាទូទៅគ្រាន់តែ Chrome កម្មវិធីគឺជាកម្មវិធីបណ្តាញដែលដំណើរការលើកម្មវិធីរុករកអ៊ីនធឺណិត Google Chrome ។ កម្មវិធី Chrome អាចទទួលបានពី Chrome Web Store ដែលកម្មវិធីបន្ថែមនិងធីមអាចតំឡើងឬទិញបាន។ កម្មវិធី Chrome អាចទទួលបានពី Chrome Web Store ដែលកម្មវិធីបន្ថែមនិងធីមអាចតំឡើងឬទិញបាន។កម្មវិធី Google Chrome ឬជាទូទៅគ្រាន់តែ Chrome កម្មវិធីគឺជាកម្មវិធីបណ្តាញដែលដំណើរការលើកម្មវិធីរុករកអ៊ីនធឺណិត Google Chrome ។ កម្មវិធី Chrome អាចទទួលបានពី Chrome Web Store ដែលកម្មវិធីបន្ថែមនិងធីមអាចតំឡើងឬទិញបាន។ កម្មវិធី Chrome អាចទទួលបានពី Chrome Web Store ដែលកម្មវិធីបន្ថែមនិងធីមអាចតំឡើងឬទិញបាន។',
+              'កម្មវិធី Google Chrome ឬជាទូទៅគ្រាន់តែ Chrome កម្មវិធីគឺជាកម្មវិធីបណ្តាញដែលដំណើរការលើកម្មវិធីរុករកអ៊ីនធឺណិត Google Chrome ។ កម្មវិធី Google Chrome ឬជាទូទៅគ្រាន់តែ Chrome កម្មវិធីគឺជាកម្មវិធីបណ្តាញដែលដំណើរការលើកម្មវិធីរុករកអ៊ីនធឺណិត Google Chrome ។ កម្មវិធី Google Chrome ឬជាទូទៅគ្រាន់តែ Chrome កម្មវិធីគឺជាកម្មវិធីបណ្តាញដែលដំណើរការលើកម្មវិធីរុករកអ៊ីនធឺណិត',
+              textAlign: TextAlign.justify,
               style: new TextStyle(
                 fontFamily: 'Quicksand,sans-serif!important',
                 color: Colors.black38,

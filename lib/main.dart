@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/UI/Home/samplecard.dart';
+import 'package:koompi_academy_project/UI/SplashScreen/splashscreen.dart';
 import 'UI/ContentsPage/sampleCardscreen.dart';
 import 'UI/Home/homedisplay.dart';
 import 'UI/Home/homedisplay.dart';
