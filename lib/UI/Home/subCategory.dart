@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../constants.dart';
+import 'detailcategory.dart';
 import 'property.dart';
 
 class SubCagateory extends StatefulWidget {
@@ -41,7 +42,7 @@ class _SubCagateoryState extends State<SubCagateory> {
                   child: Text(
                     "SALA",
                     style: TextStyle(
-                      fontSize: 18.0,
+                      fontSize: 22.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -50,18 +51,22 @@ class _SubCagateoryState extends State<SubCagateory> {
             ),
             SizedBox(height: 10),
             Container(
+              height: MediaQuery.of(context).size.height / 4,
                  child:Row(
                    children: [
                      Expanded(
-                       child:Image.asset("images/img3.png") 
+                       child:Image.asset("images/img3.png"), 
                      ),
-                     Expanded(
-                       child: Column(
-                         crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text("Hey Alex", style: kHeadingextStyle),
-                            Text("New course for you ", style: kSubheadingextStyle),
-                          ],
+                     Padding(
+                       padding: const EdgeInsets.only(top: 20.0),
+                       child: Expanded(
+                         child: Column(
+                           crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text("Hey Alex,", style: kHeadingextStyle),
+                              Text("New course for you ", style: kSubheadingextStyle),
+                            ],
+                         ),
                        ),
                      ),
                    ],
@@ -163,6 +168,10 @@ class _SubCagateoryState extends State<SubCagateory> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: GestureDetector(
+                         onTap: () {
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (context) => DetailCard()));
+                          },
                         child: Expanded(
                           child: Column(
                             children: [

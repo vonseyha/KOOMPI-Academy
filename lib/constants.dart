@@ -8,9 +8,10 @@ const kGreenColor = Color(0xFF49CC96);
 
 // My Text Styles
 const kHeadingextStyle = TextStyle(
-  fontSize: 28,
+  fontSize: 25,
   color: kTextColor,
   fontWeight: FontWeight.bold,
+  fontFamily: 'Arial'
 );
 const kSubheadingextStyle = TextStyle(
   fontSize: 18,
@@ -27,5 +28,4 @@ const kTitleTextStyle = TextStyle(
 const kSubtitleTextSyule = TextStyle(
   fontSize: 18,
   color: kTextColor,
-  // fontWeight: FontWeight.bold,
 );
