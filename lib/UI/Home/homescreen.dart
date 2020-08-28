@@ -44,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         child: Scaffold(
           appBar: AppBar(
+            ///for expend the appbar///
             // toolbarHeight: 80,
             leading: isDrawerOpen
                 ? IconButton(
@@ -117,11 +118,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         child: isDrawerOpen == true
                             ? Container(
+                                alignment: Alignment.center,
+                                width: MediaQuery.of(context).size.width,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.06,
                                 decoration: BoxDecoration(
                                     boxShadow: shadowList,
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(50)),
-                                    color: Colors.amber),
+                                    color: Colors.white),
                                 child: Text(
                                   'Find Somethings...',
                                   style: TextStyle(color: Colors.black),
