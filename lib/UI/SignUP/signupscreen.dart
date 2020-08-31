@@ -1,12 +1,27 @@
-import 'package:flutter/material.dart';
-import 'package:koompi_academy_project/UI/Login/loginscreen.dart';
+import 'dart:convert';
 
-class Signup extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:koompi_academy_project/API%20Server/grapqlMutation/api.dart';
+import 'package:koompi_academy_project/UI/Login/loginscreen.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+class Signup extends StatelessWidget {
   @override
-  _SignupState createState() => _SignupState();
+  Widget build(BuildContext context) {
+    return GraphQLProvider(
+      child: addUser(),
+      client: client,
+    );
+  }
 }
 
-class _SignupState extends State<Signup> {
+class addUser extends StatefulWidget {
+  @override
+  _addUserState createState() => _addUserState();
+}
+
+class _addUserState extends State<addUser> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -14,9 +29,14 @@ class _SignupState extends State<Signup> {
   String _password;
   String _username;
 
+  final _usernaController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passController = TextEditingController();
+
   bool _isHidePassword = true;
 
-  TextStyle style =TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
+  TextStyle style =
+      TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
 
   //*************** Login Button************//
   _buildLoginBtn() {
@@ -36,7 +56,8 @@ class _SignupState extends State<Signup> {
                 fontFamily: 'Montserrat',
                 fontSize: 14.0,
                 color: Colors.white,
-              ),
+              ), // Navigator.pushReplacement(
+              //     context, MaterialPageRoute(builder: (context) => HomePage(
             ),
           ),
           Container(
@@ -56,7 +77,7 @@ class _SignupState extends State<Signup> {
   }
 
   //*************** Button Signup************//
- _signupButton() {
+  _signupButton() {
     return GestureDetector(
       child: Material(
         elevation: 5.0,
@@ -70,7 +91,7 @@ class _SignupState extends State<Signup> {
               print(
                   "Your name: $_username and Your email: $_email and Password: $_password");
             }
-            print("Login Success!");
+            // print("Sign Up Success!");
           },
           child: Text("SIGN UP",
               textAlign: TextAlign.center,
@@ -85,6 +106,7 @@ class _SignupState extends State<Signup> {
   _usernameForm() {
     return Container(
         child: TextFormField(
+      controller: _usernaController,
       style: style,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -108,7 +130,8 @@ class _SignupState extends State<Signup> {
   //*************** Email Fill Form************//
   _emailForm() {
     return Container(
-        child: TextFormField(
+      child: TextFormField(
+      controller: _emailController,
       style: style,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -131,13 +154,12 @@ class _SignupState extends State<Signup> {
   }
 
   //*************** Password Fill Form************//
- _passwordForm() {
+  _passwordForm() {
     return Container(
-        child: TextFormField(
+      child: TextFormField(
       style: style,
+      controller: _passController,
       keyboardType: TextInputType.text,
-      autofocus: false,
-      initialValue: '',
       decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         hintText: "Password",
@@ -171,98 +193,143 @@ class _SignupState extends State<Signup> {
     ));
   }
 
+  loginToast() {
+    return Fluttertoast.showToast(
+        msg: "Register Done!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white);
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        key: _scaffoldKey,
-        body: Container(
-          child: Container(
-            padding: EdgeInsets.only(top: 40.0),
-            constraints: BoxConstraints.expand(),
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("images/background.jpg"),
-                    fit: BoxFit.cover)),
-            child: Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: ListView(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 110.0,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 30.0),
-                        child: Image.asset(
-                          "images/koompi_logos.png",
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 35.0,
-                    ),
-                    Container(
-                        child: new Theme(
-                      data: new ThemeData(
-                        primaryColor: Colors.white,
-                        primaryColorDark: Colors.white70,
-                      ),
-                      //******Call Widget Username Fill Form ******//
-                      child: _usernameForm(),
-                    )),
-                    SizedBox(height: 20.0),
-
-                    Container(
-                        child: new Theme(
-                      data: new ThemeData(
-                        primaryColor: Colors.white,
-                        primaryColorDark: Colors.white70,
-                      ),
-                      //******Call Widget Email Fill Form ******//
-                      child: _emailForm(),
-                    )),
-
-                    SizedBox(height: 20.0),
-                    Container(
-                        child: new Theme(
-                      data: new ThemeData(
-                        primaryColor: Colors.white,
-                        primaryColorDark: Colors.white70,
-                      ),
-                      //******Call Widget password Fill Form ******//
-                      child: _passwordForm(),
-                    )),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    //******Call Widget Sign Up button ******//
-                    _signupButton(),
-                    SizedBox(
-                      height: 15.0,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 100.0,
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            //******Call Widget Login button ******//
-                            child: _buildLoginBtn(),
+    return Scaffold(
+      body: Mutation(
+          options: MutationOptions(
+            document: CREATE_USER,
+          ),
+          builder: (RunMutation runMutation, QueryResult result) {
+            return Container(
+              child: Container(
+                padding: EdgeInsets.only(top: 40.0),
+                constraints: BoxConstraints.expand(),
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("images/background.jpg"),
+                        fit: BoxFit.cover)),
+                child: Form(
+                  key: _formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: ListView(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 110.0,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 30.0),
+                            child: Image.asset(
+                              "images/koompi_logos.png",
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ],
-                      ),
-                    )
-                  ],
+                        ),
+                        SizedBox(
+                          height: 35.0,
+                        ),
+                        Container(
+                            child: new Theme(
+                          data: new ThemeData(
+                            primaryColor: Colors.white,
+                            primaryColorDark: Colors.white70,
+                          ),
+                          //******Call Widget Username Fill Form ******//
+                          child: _usernameForm(),
+                        )),
+                        SizedBox(height: 20.0),
+
+                        Container(
+                            child: new Theme(
+                          data: new ThemeData(
+                            primaryColor: Colors.white,
+                            primaryColorDark: Colors.white70,
+                          ),
+                          //******Call Widget Email Fill Form ******//
+                          child: _emailForm(),
+                        )),
+
+                        SizedBox(height: 20.0),
+                        Container(
+                            child: new Theme(
+                          data: new ThemeData(
+                            primaryColor: Colors.white,
+                            primaryColorDark: Colors.white70,
+                          ),
+                          //******Call Widget password Fill Form ******//
+                          child: _passwordForm(),
+                        )),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        //******Call Widget Sign Up button ******//
+                        GestureDetector(
+                          child: Material(
+                            elevation: 5.0,
+                            borderRadius: BorderRadius.circular(30.0),
+                            color: Colors.lightBlue,
+                            child: MaterialButton(
+                              splashColor: Colors.white,
+                              onPressed: () {
+                                if (_formKey.currentState.validate()) {
+                                  _formKey.currentState.save();
+                                  runMutation({
+                                    'fullname': _username,
+                                    'email': _email,
+                                    'password': _password,
+                                  });
+                                  // Navigator.pushReplacement(
+                                  //     context, MaterialPageRoute(builder: (context) => Login()));
+                                  loginToast();
+                                  print("Your name: $_username and Your email: $_email and Password: $_password");
+                                  _usernaController.clear();
+                                  _emailController.clear();
+                                  _passController.clear();
+                                }
+                              },
+                              child: Text("SIGN UP",
+                                  textAlign: TextAlign.center,
+                                  style: style.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ),
+                        ),
+
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 100.0,
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                //******Call Widget Login button ******//
+                                child: _buildLoginBtn(),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
-      ),
+            );
+          }),
     );
   }
 }

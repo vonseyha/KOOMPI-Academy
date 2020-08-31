@@ -6,6 +6,7 @@ import 'package:koompi_academy_project/UI/Home/detailcategory.dart';
 import 'package:koompi_academy_project/UI/Home/profile.dart';
 import 'package:koompi_academy_project/UI/Home/property.dart';
 import 'package:koompi_academy_project/UI/Home/samplecard.dart';
+import 'package:koompi_academy_project/UI/Home/subCategory.dart';
 import '../ContentsPage/sampleCardscreen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -170,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DetailCard(
+                                    builder: (context) => SubCagateory(
                                         name: categories[index]['name']),
                                   ));
                             },

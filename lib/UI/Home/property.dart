@@ -22,13 +22,13 @@ List<BoxShadow> shadowList = [
 // ];
 
 List<Map> categories = [
-  {'name': 'Sala', 'iconPath': 'images/knowledge.svg'},
-  {'name': 'Science', 'iconPath': 'images/idea.svg'},
-  {'name': 'Technology', 'iconPath': 'images/brain.svg'},
-  {'name': 'Engineering', 'iconPath': 'images/prototype.svg'},
-  {'name': 'Art', 'iconPath': 'images/art.svg'},
-  {'name': 'Mathematics', 'iconPath': 'images/formula.svg'},
-  {'name': 'Hina', 'iconPath': 'images/princess.svg'}
+  {'name': 'SALA', 'iconPath': 'images/knowledge.svg'},
+  {'name': 'SCIENCE', 'iconPath': 'images/idea.svg'},
+  {'name': 'TECHOLOGY', 'iconPath': 'images/brain.svg'},
+  {'name': 'ENGINEERING', 'iconPath': 'images/prototype.svg'},
+  {'name': 'ART', 'iconPath': 'images/art.svg'},
+  {'name': 'MATHEMATICE', 'iconPath': 'images/formula.svg'},
+  {'name': 'HINA', 'iconPath': 'images/princess.svg'}
 ];
 
 List<Map> drawerItems = [

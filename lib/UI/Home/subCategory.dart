@@ -6,6 +6,8 @@ import 'detailcategory.dart';
 import 'property.dart';
 
 class SubCagateory extends StatefulWidget {
+  final String name;
+  const SubCagateory({Key key, this.name}) : super(key: key);
   @override
   _SubCagateoryState createState() => _SubCagateoryState();
 }
@@ -33,14 +35,19 @@ class _SubCagateoryState extends State<SubCagateory> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  width: 30.0,
-                  height: 30.0,
-                  child: Image.asset("images/backone.png"),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    width: 30.0,
+                    height: 30.0,
+                    child: Image.asset("images/backone.png"),
+                  ),
                 ),
                 Container(
                   child: Text(
-                    "SALA",
+                    '${widget.name}',
                     style: TextStyle(
                       fontSize: 22.0,
                       fontWeight: FontWeight.bold,
@@ -170,7 +177,7 @@ class _SubCagateoryState extends State<SubCagateory> {
                       child: GestureDetector(
                          onTap: () {
                             Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => DetailCard()));
+                                context, MaterialPageRoute(builder: (context) => DetailCard(name:"Cambodia Club")));
                           },
                         child: Expanded(
                           child: Column(

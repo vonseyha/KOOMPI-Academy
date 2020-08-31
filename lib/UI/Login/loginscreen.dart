@@ -1,25 +1,106 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:koompi_academy_project/UI/Home/homedisplay.dart';
 import 'package:koompi_academy_project/UI/SignUP/signupscreen.dart';
+
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
 }
 
+enum LoginStatus { notSignIn, signIn }
+
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextStyle style =
-      TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
+  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
   String _email;
   String _password;
+  String _resetemail;
+  final _emailController = TextEditingController();
+  final _passController = TextEditingController();
 
   bool _passwordVisible = true;
+  //*************** Login Connect to back-end************//
+
+  String alertText;
+  String msg;
+
+  Future<String> login(String email, String password, context) async {
+    String token;
+    var response =
+        await http.post("https://learnbackend.koompi.com/login", body: {
+      'email': email,
+      'password': password,
+    });
+    print(response.statusCode);
+    print(email.toString() + password.toString());
+    if (response.statusCode == 200) {
+      SharedPreferences isToken = await SharedPreferences.getInstance();
+      var responseJson = json.decode(response.body);
+      token = responseJson['token'];
+      print(responseJson);
+      if (token != null) {
+        isToken.setString('token', token);
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
+        msg = "Login Successful";
+        loginToast(msg); 
+        _emailController.clear();
+        _passController.clear();  
+      } else {
+        try {
+          alertText = responseJson['error']['message'];
+        } catch (e) {
+          alertText = responseJson['message'];
+        }
+      }
+    } else {
+      final data = jsonDecode(response.body);
+      msg = data['message'];
+      loginToastFail(msg);
+    }
+    return alertText;
+  }
+
+  loginToastFail(String toast) {
+    return Fluttertoast.showToast(
+        msg: toast,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white);
+  }
+
+  loginToast(String toast) {
+    return Fluttertoast.showToast(
+        msg: toast,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white);
+  }
+
+  //*************** Forgot Password Connect to back-end************//
+  Future<String> forgotpassword(String email) async {
+    var response = await http
+        .post("https://learnbackend.koompi.com/forgot-password", body: {
+        'email': email,
+    });
+    print(response.statusCode);
+    print(email.toString());
+  }
 
   //*************** Sign Up Button************//
- _buildSignupBtn() {
+  Widget _buildSignupBtn() {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -54,7 +135,6 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-
   //*************** Forgot  Password Button************//
   _forgotPass() {
     return GestureDetector(
@@ -113,6 +193,16 @@ class _LoginState extends State<Login> {
                         filled: true,
                         fillColor: Colors.grey[200],
                       ),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (val) {
+                        if (val.length == 0)
+                          return "Please enter email";
+                        else if (!val.contains("@"))
+                          return "Please enter valid email";
+                        else
+                          return null;
+                      },
+                      onSaved: (val) => _resetemail = val,
                     ),
                   )
                 ],
@@ -144,6 +234,11 @@ class _LoginState extends State<Login> {
                 ),
                 color: Colors.amber,
                 onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    _formKey.currentState.save();
+                    forgotpassword(_resetemail);
+                    print(_resetemail);
+                  }
                   Navigator.of(context).pop();
                 },
               )
@@ -164,9 +259,11 @@ class _LoginState extends State<Login> {
           onPressed: () {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
-              print("Your email: $_email and Password: $_password");
+              login(_email, _password, context);
+              // print("Your email: $_email and Password: $_password");
             }
-            Navigator.push(context,MaterialPageRoute(builder: (context) => HomeDisplay()));
+            // Navigator.push(context,
+            //     MaterialPageRoute(builder: (context) => HomeDisplay()));
           },
           child: Text("LOGIN",
               textAlign: TextAlign.center,
@@ -182,6 +279,7 @@ class _LoginState extends State<Login> {
     return Container(
         child: TextFormField(
       style: style,
+      controller: _emailController,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Email",
@@ -203,10 +301,11 @@ class _LoginState extends State<Login> {
   }
 
   //*************** Password Fill Form************//
- _passwordForm() {
+  _passwordForm() {
     return Container(
-        child: TextFormField(
+      child: TextFormField(
       obscureText: _passwordVisible,
+      controller: _passController,
       style: style,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
