@@ -53,6 +53,8 @@ dependencies:
 
   graphql_flutter: ^3.1.0
 
+  fl_chart: ^0.9.3
+
 
 
   # The following adds the Cupertino Icons font to your application.

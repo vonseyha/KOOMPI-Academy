@@ -8,7 +8,6 @@ ValueNotifier<GraphQLClient> client = ValueNotifier(
   ),
 );
 
-
 String CREATE_USER = """
   mutation(\$fullname: String!, \$email: String!, \$password: String!) {
     create_user(fullname: \$fullname, email: \$email, password: \$password) {
