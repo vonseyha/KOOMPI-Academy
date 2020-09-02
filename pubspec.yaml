@@ -55,6 +55,13 @@ dependencies:
 
   fl_chart: ^0.9.3
 
+  dotted_border: ^1.0.6
+
+  number_inc_dec: ^0.6.6
+
+  image_picker: ^0.6.7+7
+
+
 
 
   # The following adds the Cupertino Icons font to your application.

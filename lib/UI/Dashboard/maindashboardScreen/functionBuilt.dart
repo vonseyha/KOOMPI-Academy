@@ -19,7 +19,8 @@ Widget TopBarDesign() {
                 Color(0xFF36aff8),
               ]),
           image: DecorationImage(
-              image: AssetImage("images/backg.png"), fit: BoxFit.cover)),
+              image: AssetImage("images/backg.png"), fit: BoxFit.cover)
+      ),
       child: Padding(
         padding: const EdgeInsets.only(top: 40, left: 30),
         child: Row(

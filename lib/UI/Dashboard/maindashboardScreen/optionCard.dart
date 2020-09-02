@@ -1,19 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:koompi_academy_project/UI/Dashboard/createCourseScreen/CreateCourse.dart';
+import 'package:koompi_academy_project/UI/Home/homedisplay.dart';
 
 class OptionCard extends StatelessWidget {
-  final String SvgSrc;
+  final String image;
   final String title;
   final int color;
   const OptionCard({
-    Key key, this.SvgSrc, this.title,this.color
+    Key key, this.image, this.title,this.color
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        print("Hello");
+        switch(title){
+          case "View Courses":
+              Navigator.push(context, MaterialPageRoute(
+              builder: (_)=>HomePage()));
+              print("ViewCoursePage");
+              break;
+          case "My Courses":
+              Navigator.push(context, MaterialPageRoute(
+              builder: (_)=>null));
+              print("My Courses");
+              break;
+          case "Create Course":
+              Navigator.push(context, MaterialPageRoute(
+              builder: (_)=>CreateCourse()));
+              print("Create Course"); 
+              break;
+        }
       },
       child: Container(
         height: 140.0,
@@ -41,9 +59,9 @@ class OptionCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Container(
-                height: 60.0,
-                width: 60.0,
-                child:SvgPicture.asset(SvgSrc,color: Color(color)),
+                height: 55.0,
+                width: 55.0,
+                child:Image.asset(image,color: Color(color)),
               ),
             ),
             Text(
@@ -53,7 +71,7 @@ class OptionCard extends StatelessWidget {
                 .body2
                 .copyWith(
                   color: Color(0xFF3f597f),
-                  fontSize: 16.0
+                  fontSize: 16.0,
                 ),
             ),
           ],

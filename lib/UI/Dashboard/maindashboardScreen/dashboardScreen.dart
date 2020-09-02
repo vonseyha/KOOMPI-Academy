@@ -14,6 +14,7 @@ class _MainDashboardState extends State<MainDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       body: Column(
         children: [
           TopBarDesign(),
@@ -93,17 +94,17 @@ class _MainDashboardState extends State<MainDashboard> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 OptionCard(
-                  SvgSrc: "images/brain.svg",
+                  image: "images/viewcourse.png",
                   title: "View Courses",
                   color: 0xFF2db697,
                 ),
                 OptionCard(
-                  SvgSrc: "images/brain.svg",
+                  image: "images/mycourse.png",
                   title: "My Courses",
                   color: 0xFFf3a11f,
                 ),
                 OptionCard(
-                  SvgSrc: "images/brain.svg",
+                  image: "images/createcourse.png",
                   title: "Create Course",
                   color: 0xFF9e68d6,
                 ),
