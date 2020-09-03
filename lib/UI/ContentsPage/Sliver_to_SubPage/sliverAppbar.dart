@@ -33,20 +33,10 @@ class PortfolioSliverAppBar extends StatelessWidget {
                     child: Image.asset("images/coursenotfound.gif"),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(top: 25.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            // Navigator.pop(context);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(5),
-                            child: Icon(Icons.arrow_back_ios,
-                                color: Colors.black54, size: 17),
-                          ),
-                        ),
                         GestureDetector(
                           onTap: () {
                             // Navigator.push(context, MaterialPageRoute(
@@ -55,7 +45,7 @@ class PortfolioSliverAppBar extends StatelessWidget {
                           },
                           child: Container(
                             padding: const EdgeInsets.all(15),
-                            child: Icon(Icons.menu, color: Colors.black54),
+                            child: Icon(Icons.menu, color: Colors.black),
                           ),
                         )
                       ],

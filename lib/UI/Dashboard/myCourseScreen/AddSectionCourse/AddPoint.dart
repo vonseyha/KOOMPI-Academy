@@ -140,6 +140,7 @@ class _AddPointState extends State<AddPoint> {
                       height: 40.0,
                       child: new RaisedButton(
                         color: Color(0xFF5dabff),
+                        // color: Colors.black,
                         onPressed: () => print("Button Pressed"),
                         child: new Text(
                           "Add Section",

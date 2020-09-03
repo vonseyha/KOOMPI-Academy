@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/UI/Dashboard/createCourseScreen/CreateCourse.dart';
 
-class showPupPopMenu extends StatefulWidget {
+class ShowPupPopMenu extends StatefulWidget {
   @override
-  _showPupPopMenuState createState() => _showPupPopMenuState();
+  _ShowPupPopMenuState createState() => _ShowPupPopMenuState();
 }
 
 enum MyPupopMenu { delete, edit }
 
-class _showPupPopMenuState extends State<showPupPopMenu> {
+class _ShowPupPopMenuState extends State<ShowPupPopMenu> {
   MyPupopMenu _seleteion;
   //***************Alert Option Delete **************/
   _displayDialog() async {
