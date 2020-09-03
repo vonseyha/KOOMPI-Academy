@@ -5,7 +5,7 @@ class FregementContent extends StatefulWidget {
   _FregementContentState createState() => _FregementContentState();
 }
 
-class _FregementContentState extends State<FregementContent> {
+class _FregementContentState extends State<FregementContent>{
   @override
   Widget build(BuildContext context){
     var datawh = MediaQuery.of(context);
@@ -35,7 +35,7 @@ class Entry {
   final String title;
   final List<Entry>
       children; 
-  Entry(this.title, [this.children = const <Entry>[]]);
+      Entry(this.title, [this.children = const <Entry>[]]);
 }
 
 final List<Entry> data = <Entry>[
@@ -56,12 +56,12 @@ final List<Entry> data = <Entry>[
   ),
 ];
 
-class EntryItem extends StatelessWidget {
+class EntryItem extends StatelessWidget{
   const EntryItem(this.entry);
   final Entry entry;
 
   Widget _buildTiles(Entry root) {
-    if (root.children.isEmpty) {
+    if (root.children.isEmpty){
       return ListTile(
         title: Text(root.title),
       );

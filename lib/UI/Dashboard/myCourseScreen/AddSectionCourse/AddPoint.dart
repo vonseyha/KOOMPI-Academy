@@ -6,7 +6,6 @@ class AddPoint extends StatefulWidget {
 }
 
 class _AddPointState extends State<AddPoint> {
-
   var _currencies = [
     "Google Chrome Part1",
     "Google Chrome Part2",
@@ -20,8 +19,8 @@ class _AddPointState extends State<AddPoint> {
 
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
-      backgroundColor: Colors.white,
+    return Scaffold(
+      // backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -76,7 +75,7 @@ class _AddPointState extends State<AddPoint> {
                         child: new TextFormField(
                           // controller: _productName,
                           decoration: new InputDecoration(
-                            labelText: "Point NO",
+                            labelText: "Point No",
                             fillColor: Colors.white,
                             border: new OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(5.0),
@@ -112,25 +111,25 @@ class _AddPointState extends State<AddPoint> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                          width: MediaQuery.of(context).size.width / 1,
-                          child: new TextFormField(
-                            // controller: _productName,
-                            maxLength: 150,
-                            maxLines: 2,
-                            decoration: new InputDecoration(
-                              labelText: "Video Link",
-                              
-                              fillColor: Colors.white,
-                              border: new OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(5.0),
-                                borderSide: new BorderSide(),
-                              ),
-                              //fillColor: Colors.green
-                            ),
-                          ),
-                        ),
+                  width: MediaQuery.of(context).size.width / 1,
+                  child: new TextFormField(
+                    // controller: _productName,
+                    maxLength: 150,
+                    maxLines: 2,
+                    decoration: new InputDecoration(
+                      labelText: "Video Link",
+
+                      fillColor: Colors.white,
+                      border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(5.0),
+                        borderSide: new BorderSide(),
+                      ),
+                      //fillColor: Colors.green
+                    ),
+                  ),
+                ),
               ),
-              SizedBox(height: 20),
+              // SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(

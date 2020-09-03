@@ -14,7 +14,7 @@ class _AddSectionState extends State<AddSection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -69,7 +69,7 @@ class _AddSectionState extends State<AddSection> {
                         child: new TextFormField(
                           // controller: _productName,
                           decoration: new InputDecoration(
-                            labelText: "Section NO",
+                            labelText: "Section No",
                             fillColor: Colors.white,
                             border: new OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(5.0),
@@ -102,7 +102,7 @@ class _AddSectionState extends State<AddSection> {
                   ],
                 ),
               ),
-              SizedBox(height: 20),
+              // SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
