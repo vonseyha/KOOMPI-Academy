@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:koompi_academy_project/UI/Dashboard/createCourseScreen/CreateCourse.dart';
+import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/MainMyCourseScreen/myCourse.dart';
 import 'package:koompi_academy_project/UI/Home/homedisplay.dart';
 
 class OptionCard extends StatelessWidget {
@@ -23,7 +23,7 @@ class OptionCard extends StatelessWidget {
               break;
           case "My Courses":
               Navigator.push(context, MaterialPageRoute(
-              builder: (_)=>null));
+              builder: (_)=>MyCourse()));
               print("My Courses");
               break;
           case "Create Course":

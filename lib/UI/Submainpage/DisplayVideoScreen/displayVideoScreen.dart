@@ -28,6 +28,7 @@ class PortfolioTutorialDetailPage extends StatefulWidget {
 class _PortfolioTutorialDetailPageState
     extends State<PortfolioTutorialDetailPage>
     with SingleTickerProviderStateMixin {
+
   ChewieController _chewieController;
   Future<void> _initializeVideoPlayerFuture;
 

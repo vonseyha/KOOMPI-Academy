@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'FormFieldFunction.dart';
 
 class CreateCourse extends StatefulWidget {
@@ -11,8 +8,7 @@ class CreateCourse extends StatefulWidget {
 }
 
 class _CreateCourseState extends State<CreateCourse> {
-
-    var _currencies = [
+  var _currencies = [
     "science",
     "engineering",
     "technology",
@@ -35,6 +31,7 @@ class _CreateCourseState extends State<CreateCourse> {
   Widget sizeHight() {
     return SizedBox(height: 8.0);
   }
+
   Widget selectStatusCategory() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -117,21 +114,21 @@ class _CreateCourseState extends State<CreateCourse> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 15,top: 30),
+            padding: const EdgeInsets.only(left: 15, top: 30),
             child: GestureDetector(
-              onTap: (){
+              onTap: () {
                 Navigator.pop(context);
               },
               child: Row(
                 children: [
                   Container(
                     alignment: Alignment.centerLeft,
-                      child: Container(
-                        width: 20.0,
-                        height: 20.0,
-                        child: Image.asset("images/backone.png"),
-                      ),
+                    child: Container(
+                      width: 20.0,
+                      height: 20.0,
+                      child: Image.asset("images/backone.png"),
                     ),
+                  ),
                   Container(
                     child: Text("Back"),
                   )
