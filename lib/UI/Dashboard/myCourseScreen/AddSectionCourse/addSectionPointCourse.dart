@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:koompi_academy_project/UI/Submainpage/FregementScreen/contentFregementScreen.dart';
-import 'package:koompi_academy_project/UI/Submainpage/FregementScreen/overviewFregementScreen.dart';
-import 'package:tuple/tuple.dart';
-
 import 'AddPoint.dart';
 import 'AddSection.dart';
 
@@ -11,8 +7,8 @@ class AddSectionPointCourse extends StatefulWidget {
   _AddSectionPointCourseState createState() => _AddSectionPointCourseState();
 }
 
-class _AddSectionPointCourseState extends State<AddSectionPointCourse> with SingleTickerProviderStateMixin{
-
+class _AddSectionPointCourseState extends State<AddSectionPointCourse>
+    with SingleTickerProviderStateMixin {
   TabController _tabController;
   @override
   void initState() {
@@ -20,28 +16,28 @@ class _AddSectionPointCourseState extends State<AddSectionPointCourse> with Sing
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() => setState(() {}));
   }
-    @override
+
+  @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
   }
-  
 
   Widget _buildDesc() {
     var datawh = MediaQuery.of(context);
     print(datawh);
     return Container(
         height: datawh.size.height,
-         color: Colors.white,
+        color: Colors.white,
         child: Column(children: <Widget>[
           Container(
-          child: Column(
+              child: Column(
             children: <Widget>[
               DefaultTabController(
                 length: 2, // Added
                 child: Container(
-                   color: Color(0xFFf7f8fc),
-                   height: datawh.size.height / 13,
+                  color: Color(0xFFf7f8fc),
+                  height: datawh.size.height / 13,
                   child: TabBar(
                     controller: _tabController,
                     tabs: [
@@ -67,71 +63,74 @@ class _AddSectionPointCourseState extends State<AddSectionPointCourse> with Sing
                     isScrollable: false,
                   ),
                 ),
-              ), Container(
-                    color:Colors.white,
-                    height: MediaQuery.of(context).size.height / 2,
-                    child: TabBarView(
-                      controller: _tabController, 
-                      children: <Widget>[
-                        AddSection(),
-                        AddPoint(),
-                    ]),
-                  ),
+              ),
+              Container(
+                color: Colors.white,
+                height: MediaQuery.of(context).size.height / 2,
+                child:
+                    TabBarView(controller: _tabController, children: <Widget>[
+                  AddSection(),
+                  AddPoint(),
+                ]),
+              ),
             ],
-          )
-        )
-      ])
-    );
+          ))
+        ]));
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          // Container(
-          //   alignment: Alignment.centerLeft,
-          //   child:Icon(Icons.menu),
-          // ),
           Expanded(
             flex: 1,
-            child:Container(
+            child: Container(
               color: Colors.white,
               child: Stack(
                 children: [
                   Container(
                     alignment: Alignment.center,
-                    child:Image.asset("images/coursenotfound.gif"),
+                    child: Image.asset("images/coursenotfound.gif"),
                   ),
-                  GestureDetector(
-                    onTap: (){
-                      // Navigator.push(context, MaterialPageRoute(
-                      // builder: (_)=>CreateCourse()));
-                      print("SHow Menu Add Section");
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(15),
-                      child: Icon(Icons.menu),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(5),
+                            child: Icon(Icons.arrow_back_ios,color: Colors.black54,size: 17),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            // Navigator.push(context, MaterialPageRoute(
+                            // builder: (_)=>CreateCourse()));
+                            print("SHow Menu Add Section");
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(15),
+                            child: Icon(Icons.menu,color: Colors.black54),
+                          ),
+                        )
+                      ],
                     ),
-                  )
+                  ),
                 ],
               ),
-              // decoration: BoxDecoration(
-              //   // image: DecorationImage(
-              //   //   image: AssetImage("images/coursenotfound.gif"
-              //   //   )
-              //   // ),
-              //   color: Colors.white,
-              // ),
             ),
           ),
           Expanded(
             flex: 2,
-              child: _buildDesc(),
-            ),
+            child: _buildDesc(),
+          ),
         ],
       ),
     );
-    
   }
 }
