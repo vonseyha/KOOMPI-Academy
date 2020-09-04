@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:koompi_academy_project/UI/Home/homedisplay.dart';
 import 'package:koompi_academy_project/UI/SignUP/signupscreen.dart';
-
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,7 +24,6 @@ class _LoginState extends State<Login> {
   String _resetemail;
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
-
   bool _passwordVisible = true;
   //*************** Login Connect to back-end************//
 
@@ -34,6 +32,7 @@ class _LoginState extends State<Login> {
 
   Future<String> login(String email, String password, context) async {
     String token;
+    String role;
     var response =
         await http.post("https://learnbackend.koompi.com/login", body: {
       'email': email,
@@ -380,7 +379,6 @@ class _LoginState extends State<Login> {
                       //******Call Widget Email Full Form ******//
                       child: _emailForm(),
                     )),
-
                     SizedBox(height: 35.0),
                     Container(
                         child: new Theme(

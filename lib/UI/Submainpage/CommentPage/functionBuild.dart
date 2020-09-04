@@ -5,7 +5,7 @@ class FuntionBuild extends StatefulWidget {
   _FuntionBuildState createState() => _FuntionBuildState();
 }
 
-class _FuntionBuildState extends State<FuntionBuild> {
+class _FuntionBuildState extends State<FuntionBuild>{
   @override
   Widget build(BuildContext context){
     return Container(

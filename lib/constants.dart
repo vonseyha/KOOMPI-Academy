@@ -6,6 +6,12 @@ const kBlueColor = Color(0xFF6E8AFA);
 const kBestSellerColor = Color(0xFFFFD073);
 const kGreenColor = Color(0xFF49CC96);
 
+//************* Use in Dashboard Section *********/
+const kPrimaryColorActive = Color(0xFF2fb6f8);
+const kPrimaryColorIdle = Color(0xFF2db697);
+const kPrimaryColorFeedback = Color(0xFFf3a11f);
+const kPrimaryColorUnmerged = Color(0xFF9e68d6);
+
 // My Text Styles
 const kHeadingextStyle = TextStyle(
   fontSize: 25,

@@ -10,6 +10,7 @@ class FregementAnswer extends StatefulWidget {
 
 enum MyPupopMenu { delete, edit }
 
+
 class _FregementAnswerState extends State<FregementAnswer> {
   final List<Trip> tripsList = [
     Trip("images/background.jpg", "Tang Eamseng", DateTime.now(),
