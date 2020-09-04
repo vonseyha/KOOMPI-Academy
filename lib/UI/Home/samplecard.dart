@@ -50,7 +50,7 @@ class SampleGrid extends StatelessWidget {
 
   SliverFixedExtentList _buildSliverContent() {
     return SliverFixedExtentList(
-      itemExtent: 343.0,
+      itemExtent: 324.0,
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           SizedBox(width: 10);
@@ -180,7 +180,7 @@ class SampleGrid extends StatelessWidget {
 
   PageRoute<Object> _createTutorialDetailRoute(desc, imageUrl, videoUrl) {
     return PageRouteBuilder(
-      transitionDuration: Duration(seconds: 1),
+      transitionDuration: Duration(milliseconds: 100),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SlideTransition(
           position: Tween(begin: Offset(1.0, 0.0), end: Offset.zero)
