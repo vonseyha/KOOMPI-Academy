@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/drawer_layout.dart';
 
 class PortfolioSliverAppBar extends StatelessWidget {
   final String _title;
@@ -39,8 +40,8 @@ class PortfolioSliverAppBar extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            // Navigator.push(context, MaterialPageRoute(
-                            // builder: (_)=>CreateCourse()));
+                            Navigator.push(context, MaterialPageRoute(
+                            builder: (_)=>DrawerLayout()));
                             print("SHow Menu Add Section");
                           },
                           child: Container(
