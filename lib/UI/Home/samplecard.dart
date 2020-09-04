@@ -50,7 +50,7 @@ class SampleGrid extends StatelessWidget {
 
   SliverFixedExtentList _buildSliverContent() {
     return SliverFixedExtentList(
-      itemExtent: 343.0,
+      itemExtent: 324.0,
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           SizedBox(width: 10);
