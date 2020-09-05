@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:koompi_academy_project/UI/Dashboard/maindashboardScreen/dashboardScreen.dart';
 import 'package:koompi_academy_project/UI/Home/homedisplay.dart';
 import 'package:koompi_academy_project/UI/SignUP/signupscreen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -48,7 +49,7 @@ class _LoginState extends State<Login> {
       if (token != null) {
         isToken.setString('token', token);
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+            context, MaterialPageRoute(builder: (context) => MainDashboard()));
         msg = "Login Successful";
         loginToast(msg); 
         _emailController.clear();

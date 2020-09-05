@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:koompi_academy_project/UI/Home/profile.dart';
 import '../../../constants.dart';
 import 'StatisticDashboard.dart';
 import 'functionBuilt.dart';
@@ -29,7 +30,7 @@ class _MainDashboardState extends State<MainDashboard> {
                     fontSize: 20.0,
                     fontFamily: "Sans-serif",
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF4c5881),
+                    // color: Color(0xFF4c5881),
                   ),
                 )
               ),
@@ -39,7 +40,17 @@ class _MainDashboardState extends State<MainDashboard> {
                 },
                   child: Container(
                   padding: const EdgeInsets.only(right: 12.0),
-                    child: IconButton(icon: Icon(Icons.menu)
+                    child: IconButton(
+                      onPressed: (){
+                        Navigator.push(context, 
+                        MaterialPageRoute(
+                            builder: (context) 
+                            =>
+                            ProfileScreen(),
+                          )
+                        );
+                      },
+                      icon: Icon(Icons.person_outline)
                   ),
                 ),
               ),
@@ -80,7 +91,7 @@ class _MainDashboardState extends State<MainDashboard> {
                 fontSize: 25.0,
                 fontFamily: "Sans-serif",
                 fontWeight: FontWeight.w600,
-                color: Color(0xFF4c5881),
+                // color: Color(0xFF4c5881),
               ),
             )
           ),

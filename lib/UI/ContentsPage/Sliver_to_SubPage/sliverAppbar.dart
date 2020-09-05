@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/drawer_layout.dart';
 
 class PortfolioSliverAppBar extends StatelessWidget {
   final String _title;
@@ -12,7 +11,9 @@ class PortfolioSliverAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return SliverAppBar(
+      key: _scaffoldKey,
       iconTheme: IconThemeData(
         color: Colors.black,
       ),
@@ -40,8 +41,9 @@ class PortfolioSliverAppBar extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(
-                            builder: (_)=>DrawerLayout()));
+                            // Navigator.push(context, MaterialPageRoute(
+                            // builder: (_)=>DrawerLayout()));
+                            _scaffoldKey.currentState.openEndDrawer();
                             print("SHow Menu Add Section");
                           },
                           child: Container(

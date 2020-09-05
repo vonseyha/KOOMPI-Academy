@@ -11,12 +11,6 @@ class MyCourse extends StatefulWidget {
   _MyCourseState createState() => _MyCourseState();
 }
 class _MyCourseState extends State<MyCourse> {
-
-  //***************Card View Course***************/
-//  Widget _buildCardView() {
-    
-//   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,10 +72,6 @@ class _MyCourseState extends State<MyCourse> {
           SizedBox(height: 15.0),
           Expanded(
             child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(50)),
-              ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CardViewMyCourse(),

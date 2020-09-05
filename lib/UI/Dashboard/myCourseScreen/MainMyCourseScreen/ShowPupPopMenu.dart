@@ -85,16 +85,8 @@ class _ShowPupPopMenuState extends State<ShowPupPopMenu> {
               ),
             ),
           );
-        });
-  }
-
-  callCreateCourse() async{
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context, MaterialPageRoute(builder: (context) => CreateCourse()));
-      },
-    );
+        }
+      );
   }
 
   @override
