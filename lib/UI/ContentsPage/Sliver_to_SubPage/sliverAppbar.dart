@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class PortfolioSliverAppBar extends StatelessWidget {
@@ -22,42 +21,40 @@ class PortfolioSliverAppBar extends StatelessWidget {
       pinned: true,
       floating: true,
       flexibleSpace: FlexibleSpaceBar(
-        title: Text(
-          _title,
-          style: TextStyle(color: Colors.black,fontSize: 15),
-        ),
-        background: Container(
-              color: Colors.white,
-              child: Stack(
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    child: Image.asset("images/coursenotfound.gif"),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 25.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            // Navigator.push(context, MaterialPageRoute(
-                            // builder: (_)=>DrawerLayout()));
-                            _scaffoldKey.currentState.openEndDrawer();
-                            print("SHow Menu Add Section");
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(15),
-                            child: Icon(Icons.menu, color: Colors.black),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ]  
+          title: Text(
+            _title,
+            style: TextStyle(color: Colors.black, fontSize: 15),
+          ),
+          background: Container(
+            color: Colors.white,
+            child: Stack(children: [
+              Container(
+                alignment: Alignment.center,
+                child: Image.asset("images/coursenotfound.gif"),
               ),
-          )
-        ),    
+              Padding(
+                padding: const EdgeInsets.only(top: 25.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        // Navigator.push(context, MaterialPageRoute(
+                        // builder: (_)=>DrawerLayout()));
+                        _scaffoldKey.currentState.openEndDrawer();
+                        print("SHow Menu Add Section");
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(15),
+                        //   child:
+                        //       Icon(Icons.format_align_right, color: Colors.black),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ]),
+          )),
     );
   }
 }

@@ -167,6 +167,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.8"
+  flutter_settings:
+    dependency: "direct main"
+    description:
+      name: flutter_settings
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   flutter_staggered_grid_view:
     dependency: "direct main"
     description:
@@ -518,6 +525,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.17"
+  toast:
+    dependency: transitive
+    description:
+      name: toast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.5"
   tuple:
     dependency: "direct main"
     description:

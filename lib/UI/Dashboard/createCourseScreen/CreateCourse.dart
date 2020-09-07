@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'FormFieldFunction.dart';
@@ -105,6 +107,40 @@ class _CreateCourseState extends State<CreateCourse> {
             )),
       ],
     );
+  }
+
+  //***************Select Image From Gellery Fuction**************/
+  Future<File> imageFile;
+  pickImageFromGallery(ImageSource source) async {
+    imageFile = ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      imageFile = imageFile;
+    });
+  }
+
+  //****************Show ImageFuntion*************** */
+  Widget ShowImage() {
+    return FutureBuilder(
+        future: imageFile,
+        builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.data != null) {
+            print(snapshot.data.toString());
+            return Image.file(
+              snapshot.data,
+              width: 120,
+              height: 120,
+            );
+          } else if (snapshot.error != null) {
+            return const Text(
+              'Error Picking Image',
+              textAlign: TextAlign.center,
+            );
+          } else {
+            print("empty");
+            return (ImageEmpty());
+          }
+        });
   }
 
   @override

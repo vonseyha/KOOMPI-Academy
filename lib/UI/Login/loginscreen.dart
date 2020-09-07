@@ -19,7 +19,8 @@ enum LoginStatus { notSignIn, signIn }
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
+  TextStyle style =
+      TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
   String _email;
   String _password;
   String _resetemail;
@@ -45,15 +46,17 @@ class _LoginState extends State<Login> {
       SharedPreferences isToken = await SharedPreferences.getInstance();
       var responseJson = json.decode(response.body);
       token = responseJson['token'];
+      role = responseJson['role'];
+      print(role.toString());
       print(responseJson);
       if (token != null) {
         isToken.setString('token', token);
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => MainDashboard()));
         msg = "Login Successful";
-        loginToast(msg); 
+        loginToast(msg);
         _emailController.clear();
-        _passController.clear();  
+        _passController.clear();
       } else {
         try {
           alertText = responseJson['error']['message'];
@@ -93,7 +96,7 @@ class _LoginState extends State<Login> {
   Future<String> forgotpassword(String email) async {
     var response = await http
         .post("https://learnbackend.koompi.com/forgot-password", body: {
-        'email': email,
+      'email': email,
     });
     print(response.statusCode);
     print(email.toString());
@@ -135,6 +138,7 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
   //*************** Forgot  Password Button************//
   _forgotPass() {
     return GestureDetector(
@@ -255,7 +259,7 @@ class _LoginState extends State<Login> {
         borderRadius: BorderRadius.circular(30.0),
         color: Colors.lightBlue,
         child: MaterialButton(
-          splashColor: Colors.white,
+          splashColor: Colors.lightBlue,
           onPressed: () {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
@@ -303,7 +307,7 @@ class _LoginState extends State<Login> {
   //*************** Password Fill Form************//
   _passwordForm() {
     return Container(
-      child: TextFormField(
+        child: TextFormField(
       obscureText: _passwordVisible,
       controller: _passController,
       style: style,

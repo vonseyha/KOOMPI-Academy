@@ -62,6 +62,7 @@ dependencies:
   image_picker: ^0.6.7+7
 
   multilevel_drawer: ^1.0.3
+  flutter_settings: ^1.0.2
 
 
 

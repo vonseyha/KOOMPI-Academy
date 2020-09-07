@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:koompi_academy_project/UI/Dashboard/createCourseScreen/CreateCourse.dart';
 import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';
 import 'package:koompi_academy_project/UI/Home/property.dart';
 import 'package:koompi_academy_project/UI/Submainpage/CommentPage/commentScreen.dart';
@@ -10,6 +11,7 @@ class MyCourse extends StatefulWidget {
   @override
   _MyCourseState createState() => _MyCourseState();
 }
+
 class _MyCourseState extends State<MyCourse> {
   @override
   Widget build(BuildContext context) {
@@ -77,7 +79,7 @@ class _MyCourseState extends State<MyCourse> {
                 child: CardViewMyCourse(),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
