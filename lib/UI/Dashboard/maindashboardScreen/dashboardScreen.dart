@@ -27,31 +27,27 @@ class _MainDashboardState extends State<MainDashboard> {
                   child: new Text(
                     "Statistic",
                     style: new TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: "Sans-serif",
-                    fontWeight: FontWeight.w600,
-                    // color: Color(0xFF4c5881),
-                  ),
-                )
-              ),
+                      fontSize: 20.0,
+                      fontFamily: "Sans-serif",
+                      fontWeight: FontWeight.w600,
+                      // color: Color(0xFF4c5881),
+                    ),
+                  )),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   print("Button menu click");
                 },
-                  child: Container(
+                child: Container(
                   padding: const EdgeInsets.only(right: 12.0),
-                    child: IconButton(
-                      onPressed: (){
-                        Navigator.push(context, 
-                        MaterialPageRoute(
-                            builder: (context) 
-                            =>
-                            ProfileScreen(),
-                          )
-                        );
+                  child: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfileScreen(),
+                            ));
                       },
-                      icon: Icon(Icons.person_outline)
-                  ),
+                      icon: Icon(Icons.person_outline)),
                 ),
               ),
             ],
@@ -88,13 +84,12 @@ class _MainDashboardState extends State<MainDashboard> {
               child: new Text(
                 "OPTION",
                 style: new TextStyle(
-                fontSize: 25.0,
-                fontFamily: "Sans-serif",
-                fontWeight: FontWeight.w600,
-                // color: Color(0xFF4c5881),
-              ),
-            )
-          ),
+                  fontSize: 25.0,
+                  fontFamily: "Sans-serif",
+                  fontWeight: FontWeight.w600,
+                  // color: Color(0xFF4c5881),
+                ),
+              )),
           SizedBox(
             height: 20.0,
           ),

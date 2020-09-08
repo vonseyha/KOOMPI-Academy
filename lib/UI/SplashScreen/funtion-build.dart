@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class SlideTitle extends StatelessWidget {
   String imagePath, title, desc;
-
   SlideTitle({this.imagePath, this.title, this.desc});
 
   @override
@@ -33,13 +32,12 @@ class SlideTitle extends StatelessWidget {
             height: 20,
           ),
           Text(desc,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 12,
-              fontFamily: 'ans-serif',
-            )
-          )
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 12,
+                fontFamily: 'ans-serif',
+              ))
         ],
       ),
     );

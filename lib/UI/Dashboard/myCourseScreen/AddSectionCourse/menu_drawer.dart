@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/MainMyCourseScreen/ShowPupPopMenu.dart';
+
+import 'functionbuild.dart';
 
 class EndDrawer extends StatelessWidget {
   const EndDrawer({
@@ -14,186 +15,7 @@ class EndDrawer extends StatelessWidget {
     ];
     String _categoryName;
 
-    displayDeleteCourse(BuildContext context) async {
-      var H = MediaQuery.of(context).size.height;
-      var W = MediaQuery.of(context).size.width;
-      return showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              content: Container(
-                height: 200,
-                child: Column(
-                  children: [
-                    Container(
-                        width: 70,
-                        height: 70,
-                        child: Image.asset("images/preview.png")),
-                    SizedBox(height: 10.0),
-                    Container(
-                      child: Text("Are you sure?",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 20.0, fontWeight: FontWeight.bold)),
-                    ),
-                    Container(
-                      child: Text(
-                        "Do you really want to delete this item ?\nThis process cannot undone.",
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    SizedBox(height: 10.0),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        new FlatButton(
-                          color: Colors.grey,
-                          child: Text(
-                            'Concel',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              fontFamily: 'sans-serif',
-                              color: Colors.white,
-                            ),
-                          ),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(3)),
-                          onPressed: () {
-                            Navigator.pop(context);
-                            // Navigator.pushReplacement(
-                            //     context,
-                            // MaterialPageRoute(
-                            //     builder: (context) => CreateCourse()));
-                            // Navigator.pushReplacement(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => MyCourse()));
-                          },
-                        ),
-                        SizedBox(width: 25.0),
-                        new FlatButton(
-                          color: Colors.blue,
-                          child: Text(
-                            'Delete',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              fontFamily: 'sans-serif',
-                              color: Colors.white,
-                            ),
-                          ),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(3)),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            // displayUpdateCourse(context);
-                            // Navigator.pushReplacement(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => MyCourse()));
-                            return Fluttertoast.showToast(
-                                msg: "Delete Sucessfully!",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIos: 1,
-                                backgroundColor: Colors.blue,
-                                textColor: Colors.white);
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            );
-          });
-    }
-
-    displayAddSection(BuildContext context) async {
-      var H = MediaQuery.of(context).size.height;
-      var W = MediaQuery.of(context).size.width;
-      String Default = "Edit";
-      return showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              content: Container(
-                height: H / 3,
-                width: W,
-                child: Column(
-                  children: [
-                    // Row(
-                    //   children: [
-                    //     // Container-------
-                    //   ],
-                    // ),
-                    // SizedBox(height: 15.0),
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        child: Column(
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width / 1.5,
-                              child: new TextFormField(
-                                // controller: _productName,
-                                decoration: new InputDecoration(
-                                  labelText: "Section No",
-                                  fillColor: Colors.white,
-                                  border: new OutlineInputBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(5.0),
-                                    borderSide: new BorderSide(),
-                                  ),
-                                  //fillColor: Colors.green
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10.0),
-                            Container(
-                              width: MediaQuery.of(context).size.width / 1.5,
-                              child: new TextFormField(
-                                // controller: _productName,
-                                decoration: new InputDecoration(
-                                  labelText: "Section Title",
-                                  fillColor: Colors.white,
-                                  border: new OutlineInputBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(5.0),
-                                    borderSide: new BorderSide(),
-                                  ),
-                                  //fillColor: Colors.green
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 30.0,
-                      child: Container(
-                        child: new RaisedButton(
-                          color: Color(0xFF5dabff),
-                          onPressed: () {
-                            print("Button Pressed");
-                            Navigator.pop(context);
-                          },
-                          child: new Text(
-                            "Update",
-                            style:
-                                TextStyle(fontSize: 15.0, color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          });
-    }
-
+    //----------------------- Show item select option-----------------------//
     Widget _simplePopup() => PopupMenuButton<int>(
           icon: Icon(Icons.more_horiz, color: Colors.grey, size: 20),
           itemBuilder: (context) => [
@@ -252,6 +74,7 @@ class EndDrawer extends StatelessWidget {
                                   width: 30,
                                   child: IconButton(
                                     onPressed: () {
+                                      displayAddPoint(context);
                                       print('edit');
                                     },
                                     icon: Icon(Icons.edit,

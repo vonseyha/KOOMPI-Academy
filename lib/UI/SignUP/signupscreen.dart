@@ -130,7 +130,7 @@ class _addUserState extends State<addUser> {
   //*************** Email Fill Form************//
   _emailForm() {
     return Container(
-      child: TextFormField(
+        child: TextFormField(
       controller: _emailController,
       style: style,
       decoration: InputDecoration(
@@ -156,7 +156,7 @@ class _addUserState extends State<addUser> {
   //*************** Password Fill Form************//
   _passwordForm() {
     return Container(
-      child: TextFormField(
+        child: TextFormField(
       style: style,
       controller: _passController,
       keyboardType: TextInputType.text,
@@ -202,7 +202,6 @@ class _addUserState extends State<addUser> {
         backgroundColor: Colors.green,
         textColor: Colors.white);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -292,7 +291,8 @@ class _addUserState extends State<addUser> {
                                   // Navigator.pushReplacement(
                                   //     context, MaterialPageRoute(builder: (context) => Login()));
                                   loginToast();
-                                  print("Your name: $_username and Your email: $_email and Password: $_password");
+                                  print(
+                                      "Your name: $_username and Your email: $_email and Password: $_password");
                                   _usernaController.clear();
                                   _emailController.clear();
                                   _passController.clear();

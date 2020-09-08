@@ -36,10 +36,11 @@ class _CreateCourseState extends State<CreateCourse> {
 
   Widget selectStatusCategory() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-            width: MediaQuery.of(context).size.width / 4,
+        Expanded(
+            flex: 2,
+            // width: MediaQuery.of(context).size.width / 3.5,
             child: FormField<String>(
               builder: (FormFieldState<String> state) {
                 return InputDecorator(
@@ -70,8 +71,10 @@ class _CreateCourseState extends State<CreateCourse> {
                 );
               },
             )),
-        Container(
-            width: MediaQuery.of(context).size.width / 1.7,
+        SizedBox(width: 5),
+        Expanded(
+            flex: 4,
+            // width: MediaQuery.of(context).size.width / 1.6,
             child: FormField<String>(
               builder: (FormFieldState<String> state) {
                 return InputDecorator(
@@ -105,6 +108,7 @@ class _CreateCourseState extends State<CreateCourse> {
                 );
               },
             )),
+        // ),
       ],
     );
   }
@@ -128,8 +132,8 @@ class _CreateCourseState extends State<CreateCourse> {
             print(snapshot.data.toString());
             return Image.file(
               snapshot.data,
-              width: 120,
-              height: 120,
+              height: 150.0,
+              width: 150.0,
             );
           } else if (snapshot.error != null) {
             return const Text(
@@ -172,7 +176,7 @@ class _CreateCourseState extends State<CreateCourse> {
               ),
             ),
           ),
-          SizedBox(height: 20.0),
+          SizedBox(height: 5.0),
           // ImageEmpty(),
           ShowImage(),
           RaisedButton(
@@ -194,6 +198,7 @@ class _CreateCourseState extends State<CreateCourse> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     courseTitleField(context),
                     sizeHight(),
@@ -204,7 +209,17 @@ class _CreateCourseState extends State<CreateCourse> {
                     sizeHight(),
                     courseDescription(context),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Text(
+                        "Course Price(\$)",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [

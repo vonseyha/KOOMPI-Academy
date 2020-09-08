@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 
 //*****************Course Title Field Form*****************/
 Widget courseTitleField(BuildContext context) {
   return Container(
-    width: MediaQuery.of(context).size.width / 1.115,
+    width: MediaQuery.of(context).size.width / 1.05,
     child: new TextFormField(
       // controller: _productName,
       decoration: new InputDecoration(
@@ -26,7 +27,7 @@ Widget courseTitleField(BuildContext context) {
 //*****************Tage Mode Field Form****************/
 Widget tageModeField(BuildContext context) {
   return Container(
-    width: MediaQuery.of(context).size.width / 1.115,
+    width: MediaQuery.of(context).size.width / 1.05,
     child: new TextFormField(
       // controller: _productName,
       decoration: new InputDecoration(
@@ -45,7 +46,7 @@ Widget tageModeField(BuildContext context) {
 //**************Course Description Field Form*************/
 Widget courseDescription(BuildContext context) {
   return Container(
-    width: MediaQuery.of(context).size.width / 1.115,
+    width: MediaQuery.of(context).size.width / 1.05,
     child: new TextFormField(
       // controller: _productName,
       decoration: new InputDecoration(
@@ -70,11 +71,10 @@ Widget coursePrice(BuildContext context) {
       child: NumberInputWithIncrementDecrement(
         controller: TextEditingController(),
         widgetContainerDecoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.white,
-          ),
+          border: null,
         ),
         onIncrement: (num newlyIncrementedValue) {
+          loginToastFail("Course price");
           print('Newly incremented value is $newlyIncrementedValue');
         },
         onDecrement: (num newlyDecrementedValue) {
@@ -83,14 +83,24 @@ Widget coursePrice(BuildContext context) {
       ));
 }
 
+loginToastFail(String toast) {
+  return Fluttertoast.showToast(
+      msg: toast,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.blueAccent,
+      textColor: Colors.white);
+}
+
 //********Display Image Static and from Gellery************/
 Widget ImageEmpty() {
   return Container(
-    height: 120.0,
-    width: 190.0,
+    height: 150.0,
+    width: 150.0,
     decoration: BoxDecoration(
         image: DecorationImage(
-      image: AssetImage("images/coursenotfound.gif"),
+      image: AssetImage("images/empty.png"),
     )),
   );
 }

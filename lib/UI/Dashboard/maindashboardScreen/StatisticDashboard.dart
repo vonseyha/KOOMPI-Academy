@@ -19,7 +19,7 @@ class InfoCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: 170.0,
+        width: MediaQuery.of(context).size.width / 2.5,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
@@ -70,11 +70,11 @@ class InfoCard extends StatelessWidget {
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6
-                                  .copyWith(fontWeight: FontWeight.bold,color: Color(0xFF3f597f),
-                              )
-                          ),
-                        ]
-                      ),
+                                  .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF3f597f),
+                                  )),
+                        ]),
                   ),
                 ),
                 Expanded(
@@ -82,7 +82,6 @@ class InfoCard extends StatelessWidget {
                     iconcolor: iconColor,
                   ),
                 ),
-                
               ],
             ),
           ],
