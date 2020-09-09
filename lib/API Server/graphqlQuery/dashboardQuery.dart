@@ -8,7 +8,6 @@ ValueNotifier<GraphQLClient> clientdashboard = ValueNotifier(
     link: HttpLink(uri: 'https://academybackend.koompi.com/private/api'),
   ),
 );
-
 //----------------------------- Part Dashboard Mutation-----------------------//
 
 String GET_USER = """
@@ -86,7 +85,7 @@ String GET_SECTION_BY_ID = """
   query(\$id: ID!) {
     section_by_id(id: \$id) {
       title
-      no
+      nos
       id
     }
   }

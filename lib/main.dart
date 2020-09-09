@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/UI/Home/detailcategory.dart';
 import 'package:koompi_academy_project/UI/Home/samplecard.dart';
+import 'package:koompi_academy_project/UI/SignUP/signupscreen.dart';
 import 'package:koompi_academy_project/UI/SplashScreen/splashscreen.dart';
 import 'UI/ContentsPage/sampleCardscreen.dart';
 import 'UI/Dashboard/createCourseScreen/CreateCourse.dart';
 import 'UI/Dashboard/maindashboardScreen/dashboardScreen.dart';
 import 'UI/Login/loginscreen.dart';
+import 'UI/Login/test.dart';
 import 'UI/SplashScreen/splashscreen.dart';
 import 'UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';
 import 'UI/Dashboard/myCourseScreen/MainMyCourseScreen/myCourse.dart';
@@ -22,6 +24,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(primaryColor: Colors.blue),
       home: HomeScreen(),
     );
   }
@@ -38,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         body: Container(
       color: Color(0xFFf7f8fc),
-      child: MainDashboard(),
+      child: CreateCourse(),
     ));
   }
 }

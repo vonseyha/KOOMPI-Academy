@@ -71,7 +71,6 @@ class _MyCourseState extends State<MyCourse> {
               ),
             ),
           ),
-          SizedBox(height: 15.0),
           Expanded(
             child: Container(
               child: Padding(

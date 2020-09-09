@@ -5,75 +5,80 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 ValueNotifier<GraphQLClient> clientdashboard = ValueNotifier(
   GraphQLClient(
     cache: InMemoryCache(),
-    link: HttpLink(uri: 'https://academybackend.koompi.com/private/api'),
+    link: HttpLink(uri: 'http://localhost:6001/private/api'),
   ),
 );
 
 //----------------------------- Part Dashboard Mutation-----------------------//
-String CREATE_COURSE = """
-  mutation(
-    \$title: String!
-    \$owner_id: ID!
-    \$category_name: String!
-    \$status: String!
-    \$tags: [String]
-    \$price: Float!
-    \$description: String!
-    \$feature_image: String!
+
+// mutation{
+//   create_course(
+//     org_id:"5f432977da0863337654d38c"
+//     title:"flutter Course"
+//     price:30
+//     privacy:"Public"
+//     categories:"កាលវិភាគ"
+//     thumbnail:"public/upload/123.jpg"
+//     description:"flutter is good for build application"
+//     owner_id:"5d5238fdb478d918d8b8af18"
+//   ){
+//     message
+//     status
+//   }
+// }
+
+String createCourse = r"""
+  mutation (
+    $org_id1: String!,
+    $title1: String!,
+    $price1: Int!,
+    $privacy1: String!,
+    $categories1: [String!]!,
+    $thumbnail1: String!,
+    $description1: String!,
+    $owner_id1: String!
   ) {
     create_course(
-      title: \$title
-      feature_image: \$feature_image
-      owner_id: \$owner_id
-      category_name: \$category_name
-      status: \$status
-      tags: \$tags
-      price: \$price
-      description: \$description
+      org_id: $org_id1,
+      title: $title1,
+      price: $price1,
+      privacy: $privacy1,
+      categories: $categories1,
+      thumbnail: $thumbnail1,
+      description: $description1,
+      owner_id: $owner_id1
     ) {
-      title
-      feature_image
-      owner_id
-      category_name
+      message
       status
-      tags
-      price
-      description
-      user {
-        fullname
-      }
-      category {
-        title
-      }
     }
   }
 """;
 
-String UPDATE_COURSE = """
-  mutation(
-    \$id: ID!
-    \$title: String!
-    \$category_name: String!
-    \$status: String!
-    \$tags: [String]
-    \$price: Float!
-    \$description: String!
-    \$feature_image: String!
-  ) {
-    update_course(
-      id: \$id
-      title: \$title
-      category_name: \$category_name
-      status: \$status
-      tags: \$tags
-      price: \$price
-      description: \$description
-      feature_image: \$feature_image
-    ) {
-      message
-    }
-  }
-""";
+// String UPDATE_COURSE = """
+//   mutation(
+//     \$id: ID!
+//     \$title: String!
+//     \$category_name: String!
+//     \$status: String!
+//     \$tags: [String]
+//     \$price: Float!
+//     \$description: String!
+//     \$feature_image: String!
+//   ) {
+//     update_course(
+//       id: \$id
+//       title: \$title
+//       category_name: \$category_name
+//       status: \$status
+//       tags: \$tags
+//       price: \$price
+//       description: \$description
+//       feature_image: \$feature_image
+//     ) {
+//       message
+//     }
+//   }
+// """;
 
 String DELETE_COURSE = """
   mutation(\$course_id: ID!) {

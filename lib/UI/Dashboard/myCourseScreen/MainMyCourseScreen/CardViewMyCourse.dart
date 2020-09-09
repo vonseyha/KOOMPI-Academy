@@ -46,28 +46,22 @@ class CardViewMyCourse extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadiusDirectional.only(
-                              bottomEnd: Radius.circular(10.0),
-                              bottomStart: Radius.circular(10.0)),
-                          gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: <Color>[
-                                Colors.white,
-                                Colors.white54,
-                                Color(0xFFeff1f2),
-                              ])),
+                        borderRadius: BorderRadiusDirectional.only(
+                            bottomEnd: Radius.circular(10.0),
+                            bottomStart: Radius.circular(10.0)),
+                        color: Color(0xFFeff1f2),
+                      ),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            padding: const EdgeInsets.only(top: 10.0),
+                            padding: const EdgeInsets.only(top: 10.0, left: 20),
                             child: Text(
                               "Google Chrome",
                               style: new TextStyle(
                                 fontSize: 17.0,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
-                                fontFamily: 'Serif',
                               ),
                             ),
                           ),

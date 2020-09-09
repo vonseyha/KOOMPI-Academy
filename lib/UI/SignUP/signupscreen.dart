@@ -205,6 +205,7 @@ class _addUserState extends State<addUser> {
 
   @override
   Widget build(BuildContext context) {
+    print(client);
     return Scaffold(
       body: Mutation(
           options: MutationOptions(
