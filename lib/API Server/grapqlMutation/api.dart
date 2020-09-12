@@ -11,8 +11,16 @@ ValueNotifier<GraphQLClient> client = ValueNotifier(
 
 //----------------------------- Register -----------------------//
 String CREATE_USER = """
-  mutation(\$fullname: String!, \$email: String!, \$password: String!) {
-    create_user(fullname: \$fullname, email: \$email, password: \$password) {
+  mutation(
+    \$fullname: String!, 
+    \$email: String!,
+    \$password: String!
+    ) {
+    create_user(
+      fullname: \$fullname, 
+      email: \$email, 
+      password: \$password
+      ) {
       fullname
       email
       role {
@@ -21,3 +29,18 @@ String CREATE_USER = """
     }
   }
 """;
+
+String fetchCourse = """ 
+{
+  courses{
+    title
+    feature_image
+    price
+    description
+    category_name
+    user{
+      fullname
+    }
+  }
+} 
+ """;

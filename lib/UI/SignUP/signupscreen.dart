@@ -210,6 +210,14 @@ class _addUserState extends State<addUser> {
       body: Mutation(
           options: MutationOptions(
             document: CREATE_USER,
+            update: (Cache cache, QueryResult result) {
+              print(result.data['create_user']['message']);
+              if (result.data['create_user']['message'] != null) {
+                print(result.data['create_user']['message']);
+                print("You have successfully add document!");
+              }
+              return result;
+            },
           ),
           builder: (RunMutation runMutation, QueryResult result) {
             return Container(

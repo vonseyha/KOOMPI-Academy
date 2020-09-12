@@ -1,11 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:koompi_academy_project/UI/Dashboard/createCourseScreen/CreateCourse.dart';
 
 import 'CardViewMyCourse.dart';
 import 'functionbuild.dart';
 
 class ShowPupPopMenu extends StatefulWidget {
+  final String id;
+  final String org_id;
+  final String title;
+  final int price;
+  final String pravcy;
+  final String category;
+  final String thumbnail;
+  final String description;
+  final String course_id;
+
+  const ShowPupPopMenu({
+    Key key,
+     this.id,
+     this.org_id,
+     this.title,
+     this.price,
+     this.pravcy,
+     this.category,
+     this.thumbnail,
+     this.description,
+     this.course_id,
+  }) : super(key: key);
+
   @override
   _ShowPupPopMenuState createState() => _ShowPupPopMenuState();
 }

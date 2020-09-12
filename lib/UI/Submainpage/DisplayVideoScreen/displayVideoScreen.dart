@@ -28,7 +28,6 @@ class PortfolioTutorialDetailPage extends StatefulWidget {
 class _PortfolioTutorialDetailPageState
     extends State<PortfolioTutorialDetailPage>
     with SingleTickerProviderStateMixin {
-
   ChewieController _chewieController;
   Future<void> _initializeVideoPlayerFuture;
 
@@ -70,7 +69,7 @@ class _PortfolioTutorialDetailPageState
 
   @override
   Widget build(BuildContext context) {
-     var datawh = MediaQuery.of(context);
+    var datawh = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -84,16 +83,16 @@ class _PortfolioTutorialDetailPageState
         ),
       ),
       body: Container(
-        height: datawh.size.height ,
-        child: Column(
-          children: <Widget>[
-            _buildHeroWidget(context),
-            Expanded(
+          height: datawh.size.height,
+          child: Column(
+            children: <Widget>[
+              _buildHeroWidget(context),
+              Expanded(
 //              height: datawh.size.height / 1.68,
-              child: _buildDesc(context),
-            )
-          ],
-      )),
+                child: _buildDesc(context),
+              )
+            ],
+          )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -136,16 +135,16 @@ class _PortfolioTutorialDetailPageState
     var datawh = MediaQuery.of(context);
     print(datawh);
     return Container(
-         height: datawh.size.height / 2,
-         color: Colors.white,
+        height: datawh.size.height / 2,
+        color: Colors.white,
         child: Column(children: <Widget>[
           Container(
-          child: Column(
+              child: Column(
             children: <Widget>[
               DefaultTabController(
                 length: 2, // Added
                 child: Container(
-                   height: datawh.size.height / 13,
+                  height: datawh.size.height / 13,
                   child: TabBar(
                     controller: _tabController,
                     tabs: [
@@ -175,20 +174,17 @@ class _PortfolioTutorialDetailPageState
               DefaultTabController(
                 length: 2,
                 child: Container(
-                  height: datawh.size.height/1.95,
-                  child: TabBarView(
-                    controller: _tabController, 
-                    children: <Widget>[
-                      ContentFregement(),
-                      FregementContent(),
+                  height: datawh.size.height / 1.95,
+                  child:
+                      TabBarView(controller: _tabController, children: <Widget>[
+                    ContentFregement(),
+                    FregementContent(),
                   ]),
                 ),
               )
             ],
-          )
-        )
-      ])
-    );
+          ))
+        ]));
   }
 }
 

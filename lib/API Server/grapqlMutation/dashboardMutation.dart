@@ -2,15 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 //----------------------------- Client Section Display HomePage -----------------------//
-ValueNotifier<GraphQLClient> clientdashboard = ValueNotifier(
+ValueNotifier<GraphQLClient> dashboardC = ValueNotifier(
   GraphQLClient(
     cache: InMemoryCache(),
-    link: HttpLink(uri: 'http://localhost:6001/private/api'),
+    link: HttpLink(uri: 'https://academybackend.koompi.com/private/api'),
   ),
 );
-
 //----------------------------- Part Dashboard Mutation-----------------------//
-
 // mutation{
 //   create_course(
 //     org_id:"5f432977da0863337654d38c"
@@ -27,26 +25,26 @@ ValueNotifier<GraphQLClient> clientdashboard = ValueNotifier(
 //   }
 // }
 
-String createCourse = r"""
+String createCourse = """
   mutation (
-    $org_id1: String!,
-    $title1: String!,
-    $price1: Int!,
-    $privacy1: String!,
-    $categories1: [String!]!,
-    $thumbnail1: String!,
-    $description1: String!,
-    $owner_id1: String!
+    \$org_id: String!,
+    \$title: String!,
+    \$price: Float!,
+    \$privacy: String!,
+    \$categories: [String!],
+    \$thumbnail: String!,
+    \$description: String!,
+    \$owner_id: String!
   ) {
     create_course(
-      org_id: $org_id1,
-      title: $title1,
-      price: $price1,
-      privacy: $privacy1,
-      categories: $categories1,
-      thumbnail: $thumbnail1,
-      description: $description1,
-      owner_id: $owner_id1
+      org_id: \$org_id,
+      title: \$title,
+      price: \$price,
+      privacy: \$privacy,
+      categories: \$categories,
+      thumbnail: \$thumbnail,
+      description: \$description,
+      owner_id: \$owner_id,
     ) {
       message
       status
@@ -54,107 +52,53 @@ String createCourse = r"""
   }
 """;
 
-// String UPDATE_COURSE = """
-//   mutation(
-//     \$id: ID!
-//     \$title: String!
-//     \$category_name: String!
-//     \$status: String!
-//     \$tags: [String]
-//     \$price: Float!
-//     \$description: String!
-//     \$feature_image: String!
-//   ) {
-//     update_course(
-//       id: \$id
-//       title: \$title
-//       category_name: \$category_name
-//       status: \$status
-//       tags: \$tags
-//       price: \$price
-//       description: \$description
-//       feature_image: \$feature_image
-//     ) {
-//       message
-//     }
+// mutation{
+//   delete_course(course_id:""){
+//     message
 //   }
-// """;
+// }
 
-String DELETE_COURSE = """
-  mutation(\$course_id: ID!) {
-    delete_course(course_id: \$course_id) {
-      title
-    }
-  }
-""";
+// mutation{
+//   create_section(
+//     course_id:"",no:"",title:"")
+//   {
+//     message
+//   }
+// }
 
-String CREATE_SECTION = """
-  mutation(\$no: String!, \$title: String!, \$course_id: ID!) {
-    create_section(no: \$no, title: \$title, course_id: \$course_id) {
-      no
-      title
-      course {
-        title
-      }
-    }
-  }
-""";
+// mutation{
+//   update_section(id:"",no:"",title:""){
+//     message
+//   }
+// }
 
-String UPDATE_SECTION = """
-  mutation(\$no: String!, \$title: String!, \$id: ID!) {
-    update_section(no: \$no, title: \$title, id: \$id) {
-      message
-    }
-  }
-""";
+// mutation{
+//   delete_section(id:""){
+//     message
+//   }
+// }
 
-String DELETE_SECTION = """
-  mutation(\$id: ID!) {
-    delete_section(id: \$id) {
-      message
-    }
-  }
-""";
+// mutation{
+//   create_point(section_id:"",no:"",title:"",video_link:"",preview:false){
+//     message
+//   }
+// }
 
-String CREATE_POINT = """
-  mutation(
-    \$no: String!
-    \$title: String!
-    \$section_id: ID!
-    \$video_link: String!
-    \$preview: Boolean
-  ) {
-    create_point(
-      no: \$no
-      title: \$title
-      section_id: \$section_id
-      video_link: \$video_link
-      preview: \$preview
-    ) {
-      no
-      title
-      video_link
-      preview
-      section {
-        id
-        title
-      }
-    }
-  }
-""";
+// mutation {
+//   update_point(id:"",no:"",title:"",video_link:""){
+//     message
+//   }
+// }
 
-String UPDATE_POINT = """
-  mutation(\$no: String!, \$title: String!, \$id: ID!, \$video_link: String!) {
-    update_point(no: \$no, title: \$title, id: \$id, video_link: \$video_link) {
-      message
-    }
-  }
-""";
+// mutation{
+//   delete_point(id:""){
+//     message
+//   }
+// }
 
-String DELETE_POINT = """
-  mutation(\$id: ID!) {
-    delete_point(id: \$id) {
-      message
-    }
-  }
-""";
+// mutation{
+// 	update_course(id:"",title:"",feature_image:"",category_name:"",status:"",tags:"",price:23,description:"",message){
+//     message
+//     status
+//   }
+// }

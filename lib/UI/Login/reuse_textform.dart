@@ -6,7 +6,6 @@ class ReuseFormFill extends StatelessWidget {
   final FormFieldSetter<String> onsaved;
   final FormFieldValidator<String> validator;
   ReuseFormFill({this.hintText, this.prefixIcon, this.onsaved, this.validator});
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(

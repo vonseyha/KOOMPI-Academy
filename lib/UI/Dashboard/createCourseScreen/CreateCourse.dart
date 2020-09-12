@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:koompi_academy_project/API%20Server/grapqlMutation/api.dart';
-import 'package:koompi_academy_project/API%20Server/grapqlMutation/dashboardMutation.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
-import 'FormFieldFunction.dart';
 
 class CreateCourse extends StatefulWidget {
   @override
@@ -54,6 +51,16 @@ class _CreateCourseState extends State<CreateCourse> {
   String category;
   String status;
   String description;
+  
+  String typenameDataIdFromObject(Object object) {
+    if (object is Map<String, Object> &&
+        object.containsKey('__typename') &&
+        object.containsKey('id')) {
+      return "${object['__typename']}/${object['id']}";
+    }
+    return null;
+  }
+
 
   //*****************Course Title Field Form*****************/
   courseTitleField(BuildContext context) {
@@ -278,148 +285,191 @@ class _CreateCourseState extends State<CreateCourse> {
 
   @override
   Widget build(BuildContext context) {
-    return GraphQLProvider(
-      client: clientdashboard,
-      child: Scaffold(
-        key: _formKey,
-        body: Mutation(
-            options: MutationOptions(
-              documentNode: gql(createCourse),
-              update: (Cache cache, QueryResult result) {
-                print("Query result 1${result.data}");
-                return cache;
-              },
-              onCompleted: (dynamic resultData) {
-                print("Query result 2$resultData");
-                return Cache;
-              },
-            ),
-            builder: (RunMutation runMutation, QueryResult result) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15, top: 30),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Row(
-                        children: [
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              width: 20.0,
-                              height: 20.0,
-                              child: Image.asset("images/backone.png"),
-                            ),
-                          ),
-                          Container(
-                            child: Text("Back"),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5.0),
-                  ShowImage(),
-                  RaisedButton(
-                    onPressed: () {
-                      pickImageFromGallery(ImageSource.gallery);
-                    },
-                    textColor: Colors.white,
-                    padding: const EdgeInsets.all(0.0),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF5dabff),
-                      ),
-                      padding: const EdgeInsets.all(10.0),
-                      child: const Text('Select Image'),
-                    ),
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            courseTitleField(context),
-                            sizeHight(),
-                            tageModeField(context),
-                            sizeHight(),
-                            SizedBox(height: 8.0),
-                            selectStatusCategory(),
-                            sizeHight(),
-                            courseDescription(context),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: Text(
-                                "Course Price(\$)",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  coursePrice(context),
-                                  Container(
-                                    width: 170.0,
-                                    height: 50.0,
-                                    child: new RaisedButton(
-                                      color: Color(0xFF5dabff),
-                                      onPressed: () {
-                                        runMutation({
-                                          'org_id': "5f432977da0863337654d38c",
-                                          'title':
-                                              "_courseTitleController.text",
-                                          'price': 20,
-                                          'privacy': "_statusName",
-                                          'categories': ["_categoryName"],
-                                          'thumbnail': "/public/uploas/123.jpg",
-                                          'description':
-                                              "_descriptionController.text",
-                                          'owner_id':
-                                              "5d5238fdb478d918d8b8af18",
-                                        });
-                                        print(
-                                            "Course Title = ${_courseTitleController.text}");
-                                        print("Course Price = $price");
-                                        print(
-                                            "Privacy = ${_tageModeController.text}");
-                                        print("Course Status = ${_statusName}");
-                                        print(
-                                            "Category Course = ${_categoryName}");
-                                        print("ImageFile = $imagefile");
-                                        print(
-                                            "Course Description = ${_descriptionController.text}");
-                                      },
-                                      child: new Text(
-                                        "Create Course",
-                                        style: TextStyle(
-                                            fontSize: 15.0,
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            }),
+
+    final HttpLink httpLink = HttpLink(uri:"https://academybackend.koompi.com/private/api");
+
+    final ValueNotifier<GraphQLClient> linkclients =
+        ValueNotifier<GraphQLClient>(
+      GraphQLClient(
+        link: httpLink,
+        cache: OptimisticCache(
+          dataIdFromObject: typenameDataIdFromObject,
+        ),
       ),
     );
+
+    String create_Course = """
+      mutation (
+        \$org_id: String!,
+        \$title: String!,
+        \$price: Float!,
+        \$privacy: String!,
+        \$categories: [String!],
+        \$thumbnail: String!,
+        \$description: String!,
+        \$owner_id: String!
+      ){
+        create_course(
+          org_id: \$org_id,
+          title: \$title,
+          price: \$price,
+          privacy: \$privacy,
+          categories: \$categories,
+          thumbnail: \$thumbnail,
+          description: \$description,
+          owner_id: \$owner_id,
+        ){
+          message
+          status
+        }
+      }
+    """;
+    return GraphQLProvider(
+        client: linkclients,
+        child: Scaffold(
+            key: _formKey,
+            body: Mutation(
+                options: MutationOptions(
+                  documentNode: gql(create_Course),
+                  update: (Cache cache, QueryResult result){
+                    print("Query result 1${result.data['create_course']['status']}");
+                    if (result.data['create_course']['status'] == 200) {
+                      print(result.data['create_course']['message']);
+                      // print("You have successfully add document !");
+                    }
+                    return result;
+                  },
+                  onCompleted: (dynamic resultData) {
+                    return resultData;
+                  },
+                ),
+                builder: (RunMutation runMutation, QueryResult result){
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15, top: 30),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  width: 20.0,
+                                  height: 20.0,
+                                  child: Image.asset("images/backone.png"),
+                                ),
+                              ),
+                              Container(
+                                child: Text("Back"),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 5.0),
+                      ShowImage(),
+                      RaisedButton(
+                        onPressed: () {
+                          pickImageFromGallery(ImageSource.gallery);
+                        },
+                        textColor: Colors.white,
+                        padding: const EdgeInsets.all(0.0),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF5dabff),
+                          ),
+                          padding: const EdgeInsets.all(10.0),
+                          child: const Text('Select Image'),
+                        ),
+                      ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                courseTitleField(context),
+                                sizeHight(),
+                                tageModeField(context),
+                                sizeHight(),
+                                SizedBox(height: 8.0),
+                                selectStatusCategory(),
+                                sizeHight(),
+                                courseDescription(context),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: Text(
+                                    "Course Price(\$)",
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      coursePrice(context),
+                                      Container(
+                                        width: 170.0,
+                                        height: 50.0,
+                                        child: new RaisedButton(
+                                          color: Color(0xFF5dabff),
+                                          onPressed: () {
+                                            runMutation({
+                                              "org_id" :"5f432977da0863337654d38c",
+                                              "title" :  _courseTitleController.text,
+                                              "price" : price,
+                                              "privacy" : _statusName,
+                                              "categories" : [_categoryName],
+                                              "thumbnail" : imagefile,
+                                              "description" : _descriptionController.text,
+                                              "owner_id" : "5d5238fdb478d918d8b8af18",
+                                            });
+                                            
+                                            print(Object);
+                                            print("GraphQL Mutation");
+                                            print(
+                                                "Course Title = ${_courseTitleController.text}");
+                                            print("Course Price = $price");
+                                            print(
+                                                "Privacy = ${_tageModeController.text}");
+                                            print(
+                                                "Course Status = ${_statusName}");
+                                            print(
+                                                "Category Course = ${_categoryName}");
+                                            print("ImageFile = $imagefile");
+                                            print(
+                                                "Course Description = ${_descriptionController.text}");
+                                          },
+                                          child: new Text(
+                                            "Create Course",
+                                            style: TextStyle(
+                                                fontSize: 15.0,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+          ),
+        );
   }
 }

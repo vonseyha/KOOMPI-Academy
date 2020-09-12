@@ -344,93 +344,90 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        key: _scaffoldKey,
-        body: Container(
-          child: Container(
-            padding: EdgeInsets.only(top: 40.0),
-            constraints: BoxConstraints.expand(),
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("images/background.jpg"),
-                    fit: BoxFit.cover)),
-            child: Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: ListView(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 110.0,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 30.0),
-                        child: Image.asset(
-                          "images/koompi_logos.png",
-                          fit: BoxFit.contain,
+    return Scaffold(
+      key: _scaffoldKey,
+      body: Container(
+        child: Container(
+          padding: EdgeInsets.only(top: 40.0),
+          constraints: BoxConstraints.expand(),
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("images/background.jpg"),
+                  fit: BoxFit.cover)),
+          child: Form(
+            key: _formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: ListView(
+                children: <Widget>[
+                  SizedBox(
+                    height: 110.0,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 30.0),
+                      child: Image.asset(
+                        "images/koompi_logos.png",
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 35.0,
+                  ),
+                  Container(
+                      child: new Theme(
+                    data: new ThemeData(
+                      primaryColor: Colors.white,
+                      primaryColorDark: Colors.white70,
+                    ),
+                    //******Call Widget Email Full Form ******//
+                    child: _emailForm(),
+                  )),
+                  SizedBox(height: 35.0),
+                  Container(
+                      child: new Theme(
+                    data: new ThemeData(
+                      primaryColor: Colors.white,
+                      primaryColorDark: Colors.white70,
+                    ),
+                    //******Call Widget Password Full Form ******//
+                    child: _passwordForm(),
+                  )),
+                  SizedBox(
+                    height: 35.0,
+                  ),
+                  //******Call Widget Login Button ******//
+                  _loginButon(),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 130.0,
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                //******Call Widget Sign up  Button ******//
+                                child: _buildSignupBtn(),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Container(
+                          //******Call Widget Forgot Password FButton******//
+                          child: _forgotPass(),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 35.0,
-                    ),
-                    Container(
-                        child: new Theme(
-                      data: new ThemeData(
-                        primaryColor: Colors.white,
-                        primaryColorDark: Colors.white70,
-                      ),
-                      //******Call Widget Email Full Form ******//
-                      child: _emailForm(),
-                    )),
-                    SizedBox(height: 35.0),
-                    Container(
-                        child: new Theme(
-                      data: new ThemeData(
-                        primaryColor: Colors.white,
-                        primaryColorDark: Colors.white70,
-                      ),
-                      //******Call Widget Password Full Form ******//
-                      child: _passwordForm(),
-                    )),
-                    SizedBox(
-                      height: 35.0,
-                    ),
-                    //******Call Widget Login Button ******//
-                    _loginButon(),
-                    SizedBox(
-                      height: 15.0,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 130.0,
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  //******Call Widget Sign up  Button ******//
-                                  child: _buildSignupBtn(),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5.0,
-                          ),
-                          Container(
-                            //******Call Widget Forgot Password FButton******//
-                            child: _forgotPass(),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
           ),

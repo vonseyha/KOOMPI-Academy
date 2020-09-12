@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         body: Container(
       color: Color(0xFFf7f8fc),
-      child: CreateCourse(),
+      child: MyCourse(),
     ));
   }
 }
