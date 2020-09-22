@@ -286,7 +286,7 @@ class _CreateCourseState extends State<CreateCourse> {
   @override
   Widget build(BuildContext context) {
 
-    final HttpLink httpLink = HttpLink(uri:"https://academybackend.koompi.com/private/api");
+    final HttpLink httpLink = HttpLink(uri:"http://192.168.1.144:6001/private/api");
 
     final ValueNotifier<GraphQLClient> linkclients =
         ValueNotifier<GraphQLClient>(
@@ -332,11 +332,11 @@ class _CreateCourseState extends State<CreateCourse> {
                 options: MutationOptions(
                   documentNode: gql(create_Course),
                   update: (Cache cache, QueryResult result){
-                    print("Query result 1${result.data['create_course']['status']}");
-                    if (result.data['create_course']['status'] == 200) {
-                      print(result.data['create_course']['message']);
-                      // print("You have successfully add document !");
-                    }
+                    // print("Query result 1${result.data['create_course']['status']}");
+                    
+                    //   print(result.data['create_course']['message']);
+                    //   // print("You have successfully add document !");
+                    // }
                     return result;
                   },
                   onCompleted: (dynamic resultData) {

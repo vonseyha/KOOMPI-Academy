@@ -1,8 +1,10 @@
 {
-               "editor.fontSize": 20,
+               "editor.fontSize": 15,
                "editor.suggestFontSize": 16,
                "screencastMode.fontSize": 60,
                "debug.console.fontSize": 16,
                "markdown.preview.fontSize": 18,
-               "terminal.integrated.fontSize": 18
+            "terminal.integrated.fontSize": 18,
+            "editor.cursorBlinking": "smooth",
+            "editor.fontFamily": "'Droid Sans Mono', monospace, 'Droid Sans Fallback'"
 }

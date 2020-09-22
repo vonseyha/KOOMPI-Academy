@@ -31,7 +31,7 @@ String createCourse = """
     \$title: String!,
     \$price: Float!,
     \$privacy: String!,
-    \$categories: [String!],
+    \$categories: [String!]!,
     \$thumbnail: String!,
     \$description: String!,
     \$owner_id: String!
