@@ -4,14 +4,13 @@ import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/api.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/dashboardMutation.dart';
 import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';
-
 import 'ShowPupPopMenu.dart';
 
 class CardViewMyCourse extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HttpLink httpLink =
-        HttpLink(uri: 'https://academybackend.koompi.com/private/api');
+        HttpLink(uri: 'http://192.168.1.144:6001/private/api');
 
     final ValueNotifier<GraphQLClient> linkclient =
         ValueNotifier<GraphQLClient>(
@@ -22,7 +21,6 @@ class CardViewMyCourse extends StatelessWidget {
         ),
       ),
     );
-
     return GraphQLProvider(
         client: linkclient,
         child: Query(
