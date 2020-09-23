@@ -7,7 +7,6 @@ class Test extends StatelessWidget {
   String _email;
   String _pass;
   final _formKey = GlobalKey<FormFieldState>();
-
   void validate() {
     _formKey.currentState.save();
     print(_email);

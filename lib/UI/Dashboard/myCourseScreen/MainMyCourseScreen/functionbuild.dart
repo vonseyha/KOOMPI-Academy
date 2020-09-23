@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
+import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
+import 'package:koompi_academy_project/Model/CourseModel.dart';
 
+GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+QueryMutation addMutation = QueryMutation();
+List<Course> listPerson = List<Course>();
 //***************Alert Option Delete **************/
 
-displayDeleteCourse(BuildContext context) async {
+displayDeleteCourse(BuildContext context, String id) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
+  print(id);
   return showDialog(
       context: context,
       builder: (context) {
@@ -67,9 +75,21 @@ displayDeleteCourse(BuildContext context) async {
                       ),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(3)),
-                      onPressed: () {
-                        loginToast("Delete Sucessfuly!");
-                        Navigator.of(context).pop();
+                      onPressed: () async {
+                        GraphQLClient _client =
+                            graphQLConfiguration.clientToQuery();
+                        QueryResult result = await _client.mutate(
+                          MutationOptions(
+                            documentNode: gql(addMutation.deleteCourse(id)),
+                          ),
+                        );
+                        if (!result.hasException) {
+                          Navigator.of(context).pop();
+                          loginToast("Delete Sucessfuly!");
+                          listPerson.clear();
+                        } else {
+                          loginToast("Delete Course Not Found!");
+                        }
                       },
                     ),
                   ],

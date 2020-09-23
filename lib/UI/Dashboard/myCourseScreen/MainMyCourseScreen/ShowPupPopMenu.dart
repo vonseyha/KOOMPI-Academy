@@ -17,15 +17,15 @@ class ShowPupPopMenu extends StatefulWidget {
 
   const ShowPupPopMenu({
     Key key,
-     this.id,
-     this.org_id,
-     this.title,
-     this.price,
-     this.pravcy,
-     this.category,
-     this.thumbnail,
-     this.description,
-     this.course_id,
+    this.id,
+    this.org_id,
+    this.title,
+    this.price,
+    this.pravcy,
+    this.category,
+    this.thumbnail,
+    this.description,
+    this.course_id,
   }) : super(key: key);
 
   @override
@@ -39,6 +39,7 @@ class _ShowPupPopMenuState extends State<ShowPupPopMenu> {
 
   @override
   Widget build(BuildContext context) {
+    print("++++++++++++++++++++"+widget.id);
     return Center(
       child: GestureDetector(
         child: Padding(
@@ -49,13 +50,13 @@ class _ShowPupPopMenuState extends State<ShowPupPopMenu> {
                 setState(() {
                   _seleteion = result;
                 });
-                displayDeleteCourse(context);
+                // displayDeleteCourse(context,);
                 print(result);
               } else if (result == MyPupopMenu.edit) {
                 setState(() {
                   _seleteion = result;
                 });
-                CardViewMyCourse();
+                // CardViewMyCourse();
                 print(result);
                 //*************** Call function edit course *************//
               }
@@ -66,13 +67,13 @@ class _ShowPupPopMenuState extends State<ShowPupPopMenu> {
               PopupMenuItem<MyPupopMenu>(
                 value: MyPupopMenu.delete,
                 child: GestureDetector(
-                  onTap: () => displayDeleteCourse(context),
+                  onTap: () => displayDeleteCourse(context,widget.id),
                   child: Padding(
                       padding: const EdgeInsets.only(left: 25.0),
                       child: Row(
                         children: [
                           Icon(Icons.delete, size: 25, color: Colors.grey),
-                          Text("Delete")
+                          Text("Delete"),
                         ],
                       )),
                 ),
