@@ -1,21 +1,16 @@
 class QueryMutation {
-  String addPerson(
-    String id, 
-    String name, 
-    String lastName, 
-    
-    int age) {
+  String addCourse(String org_id, String title, String privacy,int price, String categories, String thumbnail, String description, String owner_id) {
     return """
       mutation{
           create_course(
-            org_id: "$id", 
-            title: "$name", 
-            price: $age,
-            privacy: "$lastName", 
-            categories:
-            thumbnail:"image_picker4912822872123654048.jpg"
-            description:"flutter is good for build application"
-            owner_id:"5d5238fdb478d918d8b8af18"
+            org_id: "$org_id", 
+            title: "$title", 
+            privacy: "$privacy", 
+            price: $price,
+            categories:"$categories",
+            thumbnail:"$thumbnail",
+            description:"$description",
+            owner_id:"$owner_id",
             ){
             message
             status

@@ -16,6 +16,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
   
   List<Course> listPerson = List<Course>();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+  
   void fillList() async {
     QueryMutation queryMutation = QueryMutation();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
