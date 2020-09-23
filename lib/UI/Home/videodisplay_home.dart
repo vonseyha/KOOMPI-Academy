@@ -7,7 +7,7 @@ class VideoDisplay extends StatelessWidget {
       itemCount: 20,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () => print('do it tmr'),
+          onTap: () => print('do it today'),
           child: Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

@@ -115,7 +115,8 @@ class SampleGrid extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       Container(
-                        padding: const EdgeInsets.only(top: 10.0),
+                        alignment: Alignment.topLeft,
+                        padding: const EdgeInsets.only(top: 10.0, left: 20),
                         child: Text(
                           "Google Chrome",
                           style: new TextStyle(
