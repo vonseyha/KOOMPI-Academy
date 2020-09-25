@@ -21,9 +21,10 @@ class AddSectionPointCourse extends StatefulWidget {
 class _AddSectionPointCourseState extends State<AddSectionPointCourse>
     with SingleTickerProviderStateMixin {
 
+String sectionid;
   final List<Tuple3> _pages = [
-    Tuple3('Add Section', AddSection(), Icon(Icons.video_library)),
-    Tuple3('Add Point', AddPoint(), Icon(Icons.image)),
+    Tuple3('Add Section', AddSection(courseId: "5f6af5f12365e91c74c940b4"), Icon(Icons.video_library)),
+    Tuple3('Add Point', AddPoint(sectionId: "5f6d778006241c070ac767d2"), Icon(Icons.image)),
   ];
 
   TabController _tabController;
@@ -33,6 +34,9 @@ class _AddSectionPointCourseState extends State<AddSectionPointCourse>
     super.initState();
     _tabController = TabController(length: _pages.length, vsync: this);
     _tabController.addListener(() => setState(() {}));
+    setState(() {
+      sectionid = widget.course_id;
+    });
   }
 
   @override

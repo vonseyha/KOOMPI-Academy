@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
+import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
 class AddSection extends StatefulWidget {
-
   final String courseId;
-
   const AddSection({
     Key key,
     this.courseId
@@ -17,6 +19,11 @@ class _AddSectionState extends State<AddSection> {
     "Google Chrome",
   ];
   String _categoryName;
+  final _sectionTitleController = TextEditingController();
+  final _sectionNoController = TextEditingController();
+
+  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+  QueryMutation addMutation = QueryMutation();
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +81,7 @@ class _AddSectionState extends State<AddSection> {
                       child: Container(
                         width: MediaQuery.of(context).size.width / 1,
                         child: new TextFormField(
-                          // controller: _productName,
+                          controller: _sectionNoController,
                           decoration: new InputDecoration(
                             labelText: "Section No",
                             fillColor: Colors.white,
@@ -93,7 +100,7 @@ class _AddSectionState extends State<AddSection> {
                       child: Container(
                         width: MediaQuery.of(context).size.width / 1,
                         child: new TextFormField(
-                          // controller: _productName,
+                          controller: _sectionTitleController,
                           decoration: new InputDecoration(
                             labelText: "Section Title",
                             fillColor: Colors.white,
@@ -120,7 +127,40 @@ class _AddSectionState extends State<AddSection> {
                       height: 40.0,
                       child: new RaisedButton(
                         color: Color(0xFF5dabff),
-                        onPressed: () => print("Button Pressed"),
+                        onPressed: () async {
+                            if(_categoryName.isNotEmpty && _sectionNoController.text.isNotEmpty&&_sectionTitleController.text.isNotEmpty){
+                              GraphQLClient _client = graphQLConfiguration.clientToQuery();
+                              QueryResult result = await _client.mutate(
+                                  MutationOptions(
+                                    documentNode: gql(addMutation.createSection(
+                                        widget.courseId,
+                                        int.parse(_sectionNoController.text),
+                                        _sectionTitleController.text,
+                                    )),
+                                  )
+                              );
+                               if (!result.hasException) {
+                                       _sectionNoController.clear();
+                                        _sectionTitleController.clear();
+                                      Navigator.of(context).pop();
+                                      return Fluttertoast.showToast(
+                                          msg: "Add Section  Sucessfuly!",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIos: 1,
+                                          backgroundColor: Colors.blue,
+                                          textColor: Colors.white);
+                                    } 
+                            }else {
+                                   return Fluttertoast.showToast(
+                                          msg: "Please fill form!",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIos: 1,
+                                          backgroundColor: Colors.blue,
+                                          textColor: Colors.white);
+                                }
+                        },
                         child: new Text(
                           "Add Section",
                           style: TextStyle(fontSize: 15.0, color: Colors.white),

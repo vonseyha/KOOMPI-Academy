@@ -1,2 +1,5 @@
-
-
+class Query{
+    String getSections(){
+      
+    } 
+}

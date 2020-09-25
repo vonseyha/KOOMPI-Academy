@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
+import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
 
 class AddPoint extends StatefulWidget {
+
+  final String sectionId;
+
+  const AddPoint({
+    Key key,
+    this.sectionId
+  }):super(key:key);
+
   @override
   _AddPointState createState() => _AddPointState();
 }
@@ -16,6 +28,13 @@ class _AddPointState extends State<AddPoint> {
     "Google Chrome Part7",
   ];
   String _categoryName;
+  final _pointNoController = TextEditingController();
+  final _pointTitleController = TextEditingController();
+  final _pointVideoLinkController = TextEditingController();
+
+  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+  QueryMutation addMutation = QueryMutation();
+
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +92,7 @@ class _AddPointState extends State<AddPoint> {
                       child: Container(
                         width: MediaQuery.of(context).size.width / 1,
                         child: new TextFormField(
-                          // controller: _productName,
+                          controller: _pointNoController,
                           decoration: new InputDecoration(
                             labelText: "Point No",
                             fillColor: Colors.white,
@@ -92,7 +111,7 @@ class _AddPointState extends State<AddPoint> {
                       child: Container(
                         width: MediaQuery.of(context).size.width / 1,
                         child: new TextFormField(
-                          // controller: _productName,
+                          controller: _pointTitleController,
                           decoration: new InputDecoration(
                             labelText: "Point Title",
                             fillColor: Colors.white,
@@ -113,12 +132,11 @@ class _AddPointState extends State<AddPoint> {
                 child: Container(
                   width: MediaQuery.of(context).size.width / 1,
                   child: new TextFormField(
-                    // controller: _productName,
+                    controller: _pointVideoLinkController,
                     maxLength: 150,
                     maxLines: 2,
                     decoration: new InputDecoration(
                       labelText: "Video Link",
-
                       fillColor: Colors.white,
                       border: new OutlineInputBorder(
                         borderRadius: new BorderRadius.circular(5.0),
@@ -141,7 +159,44 @@ class _AddPointState extends State<AddPoint> {
                       child: new RaisedButton(
                         color: Color(0xFF5dabff),
                         // color: Colors.black,
-                        onPressed: () => print("Button Pressed"),
+                        onPressed: () async{
+                          if(_categoryName.isNotEmpty && _pointNoController.text.isNotEmpty&&_pointTitleController.text.isNotEmpty && _pointVideoLinkController.text.isNotEmpty){
+                              GraphQLClient _client = graphQLConfiguration.clientToQuery();
+                              QueryResult result = await _client.mutate(
+                                  MutationOptions(
+                                    documentNode: gql(addMutation.createPoint(
+                                        widget.sectionId,
+                                        int.parse(_pointNoController.text),
+                                        _pointTitleController.text,
+                                        _pointVideoLinkController.text
+                                    )),
+                                  )
+                              );
+                               if (!result.hasException) {
+                                      _pointNoController.clear();
+                                      _pointTitleController.clear();
+                                      _pointVideoLinkController.clear();
+                                      Navigator.of(context).pop();
+                                      return Fluttertoast.showToast(
+                                          msg: "Add Point  Sucessfuly!",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIos: 1,
+                                          backgroundColor: Colors.blue,
+                                          textColor: Colors.white);
+                              }else {
+                                print("Add Failed");
+                              } 
+                            }else {
+                                   return Fluttertoast.showToast(
+                                          msg: "Please fill form!",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIos: 1,
+                                          backgroundColor: Colors.blue,
+                                          textColor: Colors.white);
+                                }
+                        },
                         child: new Text(
                           "Add Section",
                           style: TextStyle(fontSize: 15.0, color: Colors.white),
