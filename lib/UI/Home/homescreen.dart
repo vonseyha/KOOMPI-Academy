@@ -49,12 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ///for expend the appbar///
             // toolbarHeight: 80,
             leading: isDrawerOpen
-                ? IconButton(
-                    icon: Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
+                ? GestureDetector(
+                    onTap: () {
                       setState(() {
                         xOffset = 0;
                         yOffset = 0;
@@ -62,17 +58,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         isDrawerOpen = false;
                       });
                     },
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.black,
+                    ),
                   )
-                : IconButton(
-                    icon: Icon(Icons.menu, color: Colors.black),
-                    onPressed: () {
+                : GestureDetector(
+                    onTap: () {
                       setState(() {
                         xOffset = 250;
                         yOffset = 170;
                         scaleFactor = 0.6;
                         isDrawerOpen = true;
                       });
-                    }),
+                    },
+                    child: Icon(Icons.menu, color: Colors.black)),
             title: Image(
               image: AssetImage('images/koompi_academy_black.png'),
               width: 170,
@@ -83,25 +83,25 @@ class _HomeScreenState extends State<HomeScreen> {
             elevation: 1,
             actions: [
               Padding(
-                  padding: const EdgeInsets.only(right: 5),
+                  padding: const EdgeInsets.only(right: 10),
                   child: isSearchClick == false
-                      ? IconButton(
-                          icon: Icon(
+                      ? GestureDetector(
+                          child: Icon(
                             Icons.search,
+                            color: Colors.black,
                           ),
-                          color: Colors.black,
-                          onPressed: () {
+                          onTap: () {
                             setState(() {
                               isSearchClick = true;
                             });
                           },
                         )
-                      : IconButton(
-                          icon: Icon(
+                      : GestureDetector(
+                          child: Icon(
                             Icons.close,
+                            color: Colors.black,
                           ),
-                          color: Colors.black,
-                          onPressed: () {
+                          onTap: () {
                             setState(() {
                               isSearchClick = false;
                             });
@@ -199,7 +199,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Text(
                                     categories[index]['name'],
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 11),
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -216,8 +218,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'All Videos here',
-                            style: TextStyle(color: Colors.red, fontSize: 17),
+                            'ALL VIDEOS HERE  ',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -236,8 +241,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ///all video here///
                           ///
 
-                          // child: SampleGrid(),
-                          child: VideoDisplay(),
+                          child: SampleGrid(),
+                          // child: VideoDisplay(),
                         ),
                       ),
                     ),
