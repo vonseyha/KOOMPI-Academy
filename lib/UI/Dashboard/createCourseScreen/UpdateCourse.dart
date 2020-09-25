@@ -7,13 +7,35 @@ import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 
-class CreateCourse extends StatefulWidget {
- 
+class UpdateCourse extends StatefulWidget {
+  final String id;
+  final String org_id;
+  final String title;
+  final int price;
+  final String pravcy;
+  final List category;
+  final Future<File> thumbnail;
+  final String description;
+  final String course_id;
+
+  const UpdateCourse({
+    Key key,
+    this.id,
+    this.org_id,
+    this.title,
+    this.price,
+    this.pravcy,
+    this.category,
+    this.thumbnail,
+    this.description,
+    this.course_id,
+  }) : super(key: key);
+
   @override
-  _CreateCourseState createState() => _CreateCourseState();
+  _UpdateCourseState createState() => _UpdateCourseState();
 }
 
-class _CreateCourseState extends State<CreateCourse> {
+class _UpdateCourseState extends State<UpdateCourse> {
   var _currencies = [
     "science",
     "engineering",
@@ -109,6 +131,7 @@ class _CreateCourseState extends State<CreateCourse> {
       width: MediaQuery.of(context).size.width / 1.05,
       child: new TextFormField(
         controller: _descriptionController,
+        keyboardType: TextInputType.number,
         decoration: new InputDecoration(
           labelText: "Course Description",
           fillColor: Colors.white,
@@ -376,53 +399,55 @@ class _CreateCourseState extends State<CreateCourse> {
                                     _categoryName.isNotEmpty &&
                                     imagefile.isNotEmpty &&
                                     _descriptionController.text.isNotEmpty) {
-                                    GraphQLClient _client = graphQLConfiguration.clientToQuery();
-                                    QueryResult result = await _client.mutate(
-                                      MutationOptions(
-                                        documentNode: gql(addMutation.addCourse(
-                                          "5f432977da0863337654d38c",
-                                          _courseTitleController.text,
-                                          _statusName,
-                                          price,
-                                          _categoryName,
-                                          imagefile,
-                                          _descriptionController.text,
-                                          "5d5238fdb478d918d8b8af18",
-                                        )),
-                                      ),
-                                    );
-                                    if (!result.hasException) {
-                                        _courseTitleController.clear();
-                                        _tageModeController.clear();
-                                        price = 0;
-                                        _statusName = null;
-                                        _categoryName = null;
-                                        imagefile = null;
-                                        _descriptionController.clear();
-                                      Navigator.of(context).pop();
-                                      return Fluttertoast.showToast(
-                                          msg: "Uploade Course  Sucessfuly!",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIos: 1,
-                                          backgroundColor: Colors.blue,
-                                          textColor: Colors.white);
-                                    } else if (result.hasException) {
-                                      print( "============$result.data['create_course']['message']");
-                                      print("============$result.data['create_course']['status']");
-                                    }
-                                }else {
-                                   return Fluttertoast.showToast(
-                                          msg: "Please fill form!",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIos: 1,
-                                          backgroundColor: Colors.blue,
-                                          textColor: Colors.white);
+                                  GraphQLClient _client =
+                                      graphQLConfiguration.clientToQuery();
+                                  QueryResult result = await _client.mutate(
+                                    MutationOptions(
+                                      documentNode:
+                                          gql(addMutation.updateCourse(
+                                        widget.id,
+                                        _courseTitleController.text,
+                                        _statusName,
+                                        price,
+                                        _categoryName,
+                                        imagefile,
+                                        _descriptionController.text,
+                                        widget.org_id,
+                                      )),
+                                    ),
+                                  );
+                                  if (!result.hasException) {
+                                    _courseTitleController.clear();
+                                    _tageModeController.clear();
+                                      price = 0;
+                                    _statusName = null;
+                                    _categoryName = null;
+                                    imagefile = null;
+                                    _descriptionController.clear();
+                                    Navigator.of(context).pop();
+                                    return Fluttertoast.showToast(
+                                        msg: "Update Course  Sucessfuly!",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIos: 1,
+                                        backgroundColor: Colors.blue,
+                                        textColor: Colors.white);
+                                  } else if (result.hasException) {
+                                    print( "============$result.data['create_course']['message']");
+                                    print("============$result.data['create_course']['status']");
+                                  }
+                                } else {
+                                  return Fluttertoast.showToast(
+                                      msg: "Please fill form!",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIos: 1,
+                                      backgroundColor: Colors.blue,
+                                      textColor: Colors.white);
                                 }
                               },
                               child: new Text(
-                                "Create Course",
+                                "Update Course",
                                 style: TextStyle(
                                     fontSize: 15.0, color: Colors.white),
                               ),

@@ -7,12 +7,20 @@ import 'AddSection.dart';
 import 'menu_drawer.dart';
 
 class AddSectionPointCourse extends StatefulWidget {
+  final String course_id;
+
+  const AddSectionPointCourse({
+    Key key,
+    this.course_id
+  }):super(key:key);
+
   @override
   _AddSectionPointCourseState createState() => _AddSectionPointCourseState();
 }
 
 class _AddSectionPointCourseState extends State<AddSectionPointCourse>
     with SingleTickerProviderStateMixin {
+
   final List<Tuple3> _pages = [
     Tuple3('Add Section', AddSection(), Icon(Icons.video_library)),
     Tuple3('Add Point', AddPoint(), Icon(Icons.image)),
@@ -58,11 +66,14 @@ class _AddSectionPointCourseState extends State<AddSectionPointCourse>
         body: TabBarView(
           controller: _tabController,
           children: _pages.map<Widget>((Tuple3 page) => page.item2).toList(),
+          
         ),
       ),
       endDrawer: ClipPath(
           // clipper: _DrawerClipper(),
-          child: EndDrawer()),
+          child: EndDrawer(),
+        
+          ),
     );
   }
 }

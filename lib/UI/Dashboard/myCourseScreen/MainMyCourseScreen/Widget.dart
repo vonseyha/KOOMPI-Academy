@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ReuseButton {
+class WidgetResuse {
   static item(String text, Function onPressed, Color color) {
     return RaisedButton(
       onPressed: onPressed,
@@ -9,6 +9,6 @@ class ReuseButton {
     );
   }
   static item1(){
-    return Text("data");
+    return Text("Hello World");
   }
 }

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/UI/Submainpage/DisplayVideoScreen/displayVideoScreen.dart';
 import 'package:tuple/tuple.dart';
@@ -10,7 +9,7 @@ class DetailCard extends StatefulWidget {
   static const List<Tuple3> datamodel = [
     const Tuple3<String, String, String>(
       "https://learnbackend.koompi.com/uploads/asdasd1.png",
-      "First App – Simple WebView",
+      "First App – Simple WebVievideoUrlw",
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     ),
     const Tuple3<String, String, String>(

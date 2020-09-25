@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:koompi_academy_project/UI/Dashboard/createCourseScreen/CreateCourse.dart';
+import 'dart:io';
 
-import 'CardViewMyCourse.dart';
+import 'package:flutter/material.dart';
+import 'package:koompi_academy_project/UI/Dashboard/createCourseScreen/UpdateCourse.dart';
+import 'package:koompi_academy_project/UI/Home/property.dart';
 import 'functionbuild.dart';
 
 class ShowPupPopMenu extends StatefulWidget {
@@ -9,11 +10,10 @@ class ShowPupPopMenu extends StatefulWidget {
   final String org_id;
   final String title;
   final int price;
-  final String pravcy;
-  final String category;
-  final String thumbnail;
+  final String privacy;
+  final List category;
+  final Future<File> thumbnail;
   final String description;
-  final String course_id;
 
   const ShowPupPopMenu({
     Key key,
@@ -21,11 +21,10 @@ class ShowPupPopMenu extends StatefulWidget {
     this.org_id,
     this.title,
     this.price,
-    this.pravcy,
+    this.privacy,
     this.category,
     this.thumbnail,
     this.description,
-    this.course_id,
   }) : super(key: key);
 
   @override
@@ -39,7 +38,6 @@ class _ShowPupPopMenuState extends State<ShowPupPopMenu> {
 
   @override
   Widget build(BuildContext context) {
-    print("++++++++++++++++++++"+widget.id);
     return Center(
       child: GestureDetector(
         child: Padding(
@@ -85,14 +83,23 @@ class _ShowPupPopMenuState extends State<ShowPupPopMenu> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CreateCourse()));
+                            builder: (context) => UpdateCourse(
+                               id: widget.id,
+                               org_id: widget.org_id,
+                               title: widget.title,
+                               price: widget.price,
+                               pravcy: widget.privacy,
+                               category: widget.category,
+                               thumbnail: widget.thumbnail,
+                               description: widget.description,
+                            )));
                   },
                   child: Padding(
                       padding: const EdgeInsets.only(left: 25.0),
                       child: Row(
                         children: [
                           Icon(Icons.edit, size: 25, color: Colors.grey),
-                          Text("Edit")
+                          Text("Edit"),
                         ],
                       )),
                 ),

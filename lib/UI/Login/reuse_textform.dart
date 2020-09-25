@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ReuseFormFill extends StatelessWidget {
+  
   final String hintText;
   final Widget prefixIcon;
   final FormFieldSetter<String> onsaved;
   final FormFieldValidator<String> validator;
+
   ReuseFormFill({this.hintText, this.prefixIcon, this.onsaved, this.validator});
   @override
   Widget build(BuildContext context) {

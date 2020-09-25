@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
-
 class AddSection extends StatefulWidget {
+
+  final String courseId;
+
+  const AddSection({
+    Key key,
+    this.courseId
+  }):super(key:key);
+
   @override
   _AddSectionState createState() => _AddSectionState();
 }

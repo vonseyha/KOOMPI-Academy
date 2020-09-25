@@ -19,8 +19,7 @@ enum LoginStatus { notSignIn, signIn }
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextStyle style =
-      TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
+  TextStyle style =   TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
   String _email;
   String _password;
   String _resetemail;
