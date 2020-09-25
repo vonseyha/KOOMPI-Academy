@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'UI/Dashboard/maindashboardScreen/dashboardScreen.dart';
+import 'UI/Home/homedisplay.dart';
 
 void main() => runApp(App());
 
@@ -24,8 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-          color: Color(0xFFf7f8fc),
-          child: MainDashboard(),
+      color: Color(0xFFf7f8fc),
+      child: HomeDisplay(),
     ));
   }
 }

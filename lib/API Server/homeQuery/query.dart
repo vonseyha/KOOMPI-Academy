@@ -11,4 +11,17 @@ class QueryData {
     }
     """;
   }
+
+  String getVideoSection() {
+    return """
+    {
+      courses{
+        id
+        title
+        feature_image
+        views
+      }
+    }
+    """;
+  }
 }

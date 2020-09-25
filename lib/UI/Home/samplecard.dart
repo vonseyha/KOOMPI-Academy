@@ -1,9 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:koompi_academy_project/API%20Server/homeQuery/datas.dart';
+import 'package:koompi_academy_project/API%20Server/homeQuery/graphQLVideoConf.dart';
+import 'package:koompi_academy_project/API%20Server/homeQuery/query.dart';
 import 'package:koompi_academy_project/UI/Submainpage/DisplayVideoScreen/displayVideoScreen.dart';
 import 'package:tuple/tuple.dart';
 
-class SampleGrid extends StatelessWidget {
+class SampleGrid extends StatefulWidget {
   const SampleGrid({Key key}) : super(key: key);
 
   static const List<Tuple3> datamodel = [
@@ -40,6 +44,39 @@ class SampleGrid extends StatelessWidget {
   ];
 
   @override
+  _SampleGridState createState() => _SampleGridState();
+}
+
+class _SampleGridState extends State<SampleGrid> {
+  List<VideoDatas> list = List<VideoDatas>();
+  GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
+
+  void fillList() async {
+    QueryData queryData = QueryData();
+    GraphQLClient client = graphqlVideoConf.clientToQuery();
+    QueryResult result = await client
+        .query(QueryOptions(documentNode: gql(queryData.getVideoSection())));
+    if (!result.hasException) {
+      for (var i = 0; i < result.data["courses"].length; i++) {
+        setState(() {
+          list.add(VideoDatas(
+            result.data["courses"][i]["id"],
+            result.data["courses"][i]["title"],
+            result.data["courses"][i]["feature_image"],
+            result.data["courses"][i]["views"],
+          ));
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fillList();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: <Widget>[
@@ -54,9 +91,9 @@ class SampleGrid extends StatelessWidget {
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           SizedBox(width: 10);
-          return _buildListItem(context, datamodel[index]);
+          return _buildListItem(context, SampleGrid.datamodel[index]);
         },
-        childCount: datamodel.length,
+        childCount: SampleGrid.datamodel.length,
       ),
     );
   }
@@ -73,7 +110,7 @@ class SampleGrid extends StatelessWidget {
 
   Widget _buildCardView(BuildContext context, String desc, String imageUrl) {
     return ListView.builder(
-      itemCount: 10,
+      itemCount: list.length,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -118,7 +155,7 @@ class SampleGrid extends StatelessWidget {
                         alignment: Alignment.topLeft,
                         padding: const EdgeInsets.only(top: 10.0, left: 20),
                         child: Text(
-                          "Google Chrome",
+                          "${list[index].getTitle()}",
                           style: new TextStyle(
                             fontSize: 17.0,
                             fontWeight: FontWeight.bold,
@@ -145,11 +182,12 @@ class SampleGrid extends StatelessWidget {
                             fontSize: 15.0,
                           ),
                         ),
-                        subtitle: Text('1K views | 1 month ago',
-                            style: new TextStyle(
-                              fontSize: 12.0,
-                              color: Color(0xFF4d6890),
-                            )),
+                        subtitle:
+                            Text('${list[index].getView()} views | 1 month ago',
+                                style: new TextStyle(
+                                  fontSize: 12.0,
+                                  color: Color(0xFF4d6890),
+                                )),
                       ),
                     ],
                   ),
