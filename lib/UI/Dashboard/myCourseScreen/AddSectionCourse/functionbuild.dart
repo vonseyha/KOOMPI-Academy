@@ -5,17 +5,17 @@ import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
 
+//----------------------- Declare Graphql -----------------------//
  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
  QueryMutation addMutation = QueryMutation(); 
+ //----------------------- Form Section -----------------------//
 final _sectionNoController = TextEditingController();
 final _sectionTitleController = TextEditingController();
-
+//----------------------- Form Point  -----------------------//
 final _pointNoController = TextEditingController();
 final _pointTitleController = TextEditingController();
 final _videoLinkController = TextEditingController();
-
 //----------------------- Alert Option deleteSection  -----------------------//
-
 displayDeleteSection(BuildContext context , String section_id) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
@@ -347,7 +347,6 @@ displayAddSection(BuildContext context , String section_id) async {
         );
       });
 }
-
 //----------------------- Alert Option Add Point -----------------------//
 displayAddPoint(BuildContext context, String point_id) async {
   var H = MediaQuery.of(context).size.height;

@@ -19,7 +19,8 @@ enum LoginStatus { notSignIn, signIn }
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextStyle style =   TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
+  TextStyle style =
+      TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
   String _email;
   String _password;
   String _resetemail;
@@ -46,11 +47,33 @@ class _LoginState extends State<Login> {
       token = responseJson['token'];
       role = responseJson['role'];
       print(role.toString());
-      print(responseJson);
+      print(response.body);
+      // tryParseJwt(response.body);
       if (token != null) {
         isToken.setString('token', token);
-        Navigator.pushReplacement(
+        if (token == null) return null;
+        final parts = token.split('.');
+        if (parts.length != 3) {
+          return null;
+        }
+        final payload = parts[1];
+        var normalized = base64Url.normalize(payload);
+        var resp = utf8.decode(base64Url.decode(normalized));
+        final payloadMap = json.decode(resp);
+        String test = payloadMap['role'];
+        print(test);
+        if (payloadMap is! Map<String, dynamic>) {
+          return null;
+        }
+        print(payloadMap);
+        // return payloadMap;
+        if(payloadMap['role'] == 'teacher'){
+          Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => MainDashboard()));
+        }else if(payloadMap['role'] == 'student'){
+            Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
+        }
         msg = "Login Successful";
         loginToast(msg);
         _emailController.clear();
@@ -69,6 +92,26 @@ class _LoginState extends State<Login> {
     }
     return alertText;
   }
+
+  // Decode data by using jwt//
+  // static Map<String, dynamic> tryParseJwt(String token) {
+  //   if (token == null) return null;
+  //   final parts = token.split('.');
+  //   if (parts.length != 3) {
+  //     return null;
+  //   }
+  //   final payload = parts[1];
+  //   var normalized = base64Url.normalize(payload);
+  //   var resp = utf8.decode(base64Url.decode(normalized));
+  //   final payloadMap = json.decode(resp);
+  //   String test = payloadMap['role'];
+  //   print(test);
+  //   if (payloadMap is! Map<String, dynamic>) {
+  //     return null;
+  //   }
+  //   print(payloadMap);
+  //   return payloadMap;
+  // }
 
   loginToastFail(String toast) {
     return Fluttertoast.showToast(
