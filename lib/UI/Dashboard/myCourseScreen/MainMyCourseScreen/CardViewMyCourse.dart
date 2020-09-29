@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
-import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
+import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:koompi_academy_project/Model/CourseModel.dart';
 import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';
-
 import 'ShowPupPopMenu.dart';
-import 'Widget.dart';
 class CardViewMyCourse extends StatefulWidget {
   @override
   _CardViewMyCourseState createState() => _CardViewMyCourseState();
@@ -18,11 +16,11 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   
   void fillList() async {
-    QueryMutation queryMutation = QueryMutation();
+    QueryGraphQL queryGraphQL = QueryGraphQL();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
     QueryResult result = await _client.query(
       QueryOptions(
-        documentNode: gql(queryMutation.getAll()),
+        documentNode: gql(queryGraphQL.getAll()),
       ),
     );
     if (!result.hasException) {
@@ -40,6 +38,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
               result.data["courses"][i]["description"],
               result.data["courses"][i]["owner_id"],
               result.data["courses"][i]["user"]["fullname"],
+              result.data["courses"][i]["views"],
             ),
           );
         });
@@ -161,7 +160,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                                       fontSize: 15.0,
                                     ),
                                   ),
-                                  subtitle: Text('1K views | 1 month ago',
+                                  subtitle: Text('${listPerson[index].getView()} views | 1 month ago',
                                       style: new TextStyle(
                                         fontSize: 12.0,
                                         color: Color(0xFF4d6890),
@@ -192,7 +191,6 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
             ),
           );
         },
-      
     );
   }
 }

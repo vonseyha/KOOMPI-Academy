@@ -3,7 +3,6 @@ import 'UI/Dashboard/maindashboardScreen/dashboardScreen.dart';
 import 'UI/Home/homedisplay.dart';
 
 void main() => runApp(App());
-
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

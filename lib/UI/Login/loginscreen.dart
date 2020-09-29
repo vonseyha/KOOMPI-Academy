@@ -27,7 +27,6 @@ class _LoginState extends State<Login> {
   final _passController = TextEditingController();
   bool _passwordVisible = true;
   //*************** Login Connect to back-end************//
-
   String alertText;
   String msg;
 

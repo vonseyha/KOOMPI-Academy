@@ -10,6 +10,7 @@ class Course {
       this.description,
       this.owner_id,
       this.fullname,
+      this.views,
       );
 
   final String id;
@@ -22,6 +23,7 @@ class Course {
   final String description;
   final String owner_id;
   final String fullname;
+  final int views;
 
   getId() => this.id;
   getOrg_id() => this.org_id;
@@ -33,4 +35,5 @@ class Course {
   getDescription() => this.description;
   getOwner_id() => this.owner_id;
   getFullname() => this.fullname;
+  getView() => this.views;
 }
