@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'UI/Dashboard/maindashboardScreen/dashboardScreen.dart';
 import 'UI/Home/homedisplay.dart';
+import 'UI/Home/samplecard.dart';
 
 void main() => runApp(App());
 

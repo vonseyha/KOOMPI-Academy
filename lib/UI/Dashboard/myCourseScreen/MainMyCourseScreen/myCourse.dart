@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:koompi_academy_project/UI/Dashboard/createCourseScreen/CreateCourse.dart';
-import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';
 import 'package:koompi_academy_project/UI/Home/property.dart';
-import 'package:koompi_academy_project/UI/Submainpage/CommentPage/commentScreen.dart';
-
 import 'CardViewMyCourse.dart';
-import 'ShowPupPopMenu.dart';
 
 class MyCourse extends StatefulWidget {
   @override
@@ -13,6 +8,9 @@ class MyCourse extends StatefulWidget {
 }
 
 class _MyCourseState extends State<MyCourse> {
+
+  TextEditingController editingSearchController = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,6 +57,7 @@ class _MyCourseState extends State<MyCourse> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: TextField(
+                  controller: editingSearchController,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
                     border: InputBorder.none,

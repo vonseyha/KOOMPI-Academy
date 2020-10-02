@@ -24,7 +24,7 @@ class _AddSectionPointCourseState extends State<AddSectionPointCourse>
 String sectionid;
   final List<Tuple3> _pages = [
     Tuple3('Add Section', AddSection(courseId: "5f6af5f12365e91c74c940b4"), Icon(Icons.video_library)),
-    Tuple3('Add Point', AddPoint(sectionId: "5f6d778006241c070ac767d2"), Icon(Icons.image)),
+    Tuple3('Add Point', AddPoint(sectionId: "5f72fc2140199a7acf5da62a"), Icon(Icons.image)),
   ];
 
   TabController _tabController;
@@ -70,13 +70,12 @@ String sectionid;
         body: TabBarView(
           controller: _tabController,
           children: _pages.map<Widget>((Tuple3 page) => page.item2).toList(),
-          
         ),
       ),
       endDrawer: ClipPath(
-          // clipper: _DrawerClipper(),
-          child: EndDrawer(),
-        
+          child: EndDrawer(
+            courseId: widget.course_id,
+          ),
           ),
     );
   }

@@ -15,9 +15,11 @@ class AddSection extends StatefulWidget {
 }
 
 class _AddSectionState extends State<AddSection> {
+
   var _currencies = [
     "Google Chrome",
   ];
+
   String _categoryName;
   final _sectionTitleController = TextEditingController();
   final _sectionNoController = TextEditingController();
@@ -28,7 +30,6 @@ class _AddSectionState extends State<AddSection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10.0),

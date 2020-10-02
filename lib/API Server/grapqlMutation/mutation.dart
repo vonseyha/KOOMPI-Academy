@@ -26,29 +26,6 @@ class QueryMutation {
       }
     """;
   }
-
-  String getAll() {
-    return """ 
-    query {
-      courses{
-       		id
-          org_id
-          title
-          price
-          privacy
-          categories
-          thumbnail
-          description
-          owner_id
-            user{
-              fullname
-              avatar
-            }
-      }
-  }
-    """;
-  }
-
   String deleteCourse(String id) {
     return """
       mutation{
@@ -101,17 +78,17 @@ class QueryMutation {
     """;
   }
 
-  String updateSection(String id ,int no,String title) {
+  String updateSection(String course_id , int no, String title) {
     return """
       mutation{
-      update_section(
-        id:"$id",
-        no:$no,
-        title:"$title",
-      ){
-        message
+        update_section(
+          id:"$course_id",
+          no:"$no",
+          title:"$title",
+        ){
+          message
+        }
       }
-    }
     """;
   }
 
@@ -169,6 +146,4 @@ class QueryMutation {
       }
     """;
   }
-
-
 }
