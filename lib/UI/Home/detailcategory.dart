@@ -262,8 +262,7 @@ class _DetailCardState extends State<DetailCard> {
       },
       pageBuilder: (context, animation, secondaryAnimation) =>
           PortfolioTutorialDetailPage(
-        heroTag: imageUrl,
-        desc: desc,
+        // heroTag: videoUrl,
         videoUrl: videoUrl,
       ),
     );

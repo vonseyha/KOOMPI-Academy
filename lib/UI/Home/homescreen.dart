@@ -7,7 +7,6 @@ import 'package:koompi_academy_project/UI/Home/profile.dart';
 import 'package:koompi_academy_project/UI/Home/property.dart';
 import 'package:koompi_academy_project/UI/Home/samplecard.dart';
 import 'package:koompi_academy_project/UI/Home/subCategory.dart';
-import 'package:koompi_academy_project/UI/Home/videodisplay_home.dart';
 import '../ContentsPage/sampleCardscreen.dart';
 
 class HomeScreen extends StatefulWidget {

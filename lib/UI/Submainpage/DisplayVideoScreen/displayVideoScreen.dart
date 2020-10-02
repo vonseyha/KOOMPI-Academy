@@ -9,14 +9,14 @@ import 'package:video_player/video_player.dart';
 import 'package:page_transition/page_transition.dart';
 
 class PortfolioTutorialDetailPage extends StatefulWidget {
-  final Object heroTag;
-  final String desc;
+  // final Object heroTag;
+  // final String desc;
   final String videoUrl;
 
   const PortfolioTutorialDetailPage({
     Key key,
-    @required this.heroTag,
-    @required this.desc,
+    // @required this.heroTag,
+    // @required this.desc,
     @required this.videoUrl,
   }) : super(key: key);
 
@@ -47,7 +47,7 @@ class _PortfolioTutorialDetailPageState
   void initState() {
     super.initState();
     _chewieController = ChewieController(
-        videoPlayerController: VideoPlayerController.network(widget.videoUrl),
+        videoPlayerController: VideoPlayerController.network("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"),
         aspectRatio: 16 / 9,
         autoInitialize: true,
         autoPlay: true,
@@ -69,6 +69,7 @@ class _PortfolioTutorialDetailPageState
 
   @override
   Widget build(BuildContext context) {
+    print("++++++++${widget.videoUrl}");
     var datawh = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
@@ -111,7 +112,7 @@ class _PortfolioTutorialDetailPageState
 
   HeroWidget _buildHeroWidget(BuildContext context) {
     return HeroWidget(
-      heroTag: widget.heroTag,
+      heroTag: widget.videoUrl,
       width: MediaQuery.of(context).size.width,
       builder: (BuildContext context) {
         return _buildHeroWidgetContent();
@@ -188,20 +189,20 @@ class _PortfolioTutorialDetailPageState
   }
 }
 
-Route _createRoute() {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => FregementAnswer(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      var begin = Offset(0.0, 1.0);
-      var end = Offset.zero;
-      var curve = Curves.ease;
+// Route _createRoute() {
+//   return PageRouteBuilder(
+//     pageBuilder: (context, animation, secondaryAnimation) => FregementAnswer(),
+//     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+//       var begin = Offset(0.0, 1.0);
+//       var end = Offset.zero;
+//       var curve = Curves.ease;
 
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+//       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
-  );
-}
+//       return SlideTransition(
+//         position: animation.drive(tween),
+//         child: child,
+//       );
+//     },
+//   );
+// }

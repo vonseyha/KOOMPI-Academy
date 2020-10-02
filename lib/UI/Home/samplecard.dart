@@ -1,12 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/datas.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/graphQLVideoConf.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/query.dart';
 import 'package:koompi_academy_project/UI/Submainpage/DisplayVideoScreen/displayVideoScreen.dart';
-import 'package:tuple/tuple.dart';
-
 class SampleGrid extends StatefulWidget {
   const SampleGrid({Key key}) : super(key: key);
 
@@ -52,10 +50,11 @@ class _SampleGridState extends State<SampleGrid> {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () {
-                //   Navigator.of(context).push(MaterialPageRoute(
-                //     builder: (context) => AddSectionPointCourse(course_id: listPerson[index].getId()),
-                //   )
-                // );
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => PortfolioTutorialDetailPage(videoUrl: list[index].getId())
+                  )
+                );
+                // _buildRippleEffectNavigation(context,list[index].getId());
                 print("Click To Viceo Play");
                 },
               child: Padding(
@@ -148,5 +147,46 @@ class _SampleGridState extends State<SampleGrid> {
   }
 
 
+    Widget _buildRippleEffectNavigation(
+      BuildContext context, String videoUrl) {
+    return Positioned.fill(
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          splashColor: Colors.blue.withOpacity(0.5),
+          onTap: () {
+            Navigator.of(context).push(
+              _createTutorialDetailRoute(videoUrl),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+
+
+  PageRoute<Object> _createTutorialDetailRoute(videoUrl) {
+    return PageRouteBuilder(
+      transitionDuration: Duration(milliseconds: 200),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return SlideTransition(
+          position: Tween(begin: Offset(1.0, 0.0), end: Offset.zero)
+              .chain(CurveTween(curve: Curves.ease))
+              .animate(animation),
+          child: FadeTransition(
+            opacity: Tween(begin: 0.0, end: 1.0)
+                .chain(CurveTween(curve: Curves.ease))
+                .animate(animation),
+            child: child,
+          ),
+        );
+      },
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          PortfolioTutorialDetailPage(
+        videoUrl: videoUrl,
+      ),
+    );
+  }
 
 }
