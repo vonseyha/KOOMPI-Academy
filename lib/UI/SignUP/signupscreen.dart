@@ -24,7 +24,7 @@ class addUser extends StatefulWidget {
 class _addUserState extends State<addUser> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  
   String _email;
   String _password;
   String _username;
@@ -35,8 +35,7 @@ class _addUserState extends State<addUser> {
 
   bool _isHidePassword = true;
 
-  TextStyle style =
-      TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
+  TextStyle style =  TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
 
   //*************** Login Button************//
   _buildLoginBtn() {

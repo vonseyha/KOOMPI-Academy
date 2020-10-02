@@ -14,19 +14,19 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-enum LoginStatus { notSignIn, signIn }
-
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextStyle style =
-      TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
+  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
+
   String _email;
   String _password;
   String _resetemail;
+
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
   bool _passwordVisible = true;
+
   //*************** Login Connect to back-end************//
   String alertText;
   String msg;

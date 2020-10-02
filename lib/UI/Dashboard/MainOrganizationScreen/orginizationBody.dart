@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Orgenization extends StatefulWidget {
   @override
@@ -80,16 +81,6 @@ class _OrgenizationState extends State<Orgenization> {
               ),
             ],
           ),
-          Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  child: IconButton(icon: Icon(Icons.settings,size: 25,) , onPressed: null),
-                ),
-                Container(
-                  child: IconButton(icon: Icon(Icons.add_circle_outline,size: 25,) , onPressed: null),
-                ),
-              ],)
         ],
       )
     );

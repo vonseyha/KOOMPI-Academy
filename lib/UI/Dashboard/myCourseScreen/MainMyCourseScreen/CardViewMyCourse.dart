@@ -14,6 +14,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
   
   List<Course> listPerson = List<Course>();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+  var items = List<String>();
   
   void fillList() async {
     QueryGraphQL queryGraphQL = QueryGraphQL();
@@ -48,8 +49,8 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
 
   @override
   void initState() {
-    super.initState();
     fillList();
+    super.initState();
   }
 
   // void _addPerson(context) {
@@ -113,7 +114,8 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                           width: MediaQuery.of(context).size.width,
                           height: 170.0,
                           fit: BoxFit.cover,
-                          image:  NetworkImage("${listPerson[index].getThumbnail()}"),
+                           image:  NetworkImage("https://learnbackend.koompi.com/uploads/240_f_77895837_ku3q9pvs1dpxr2ma0myvsa2ylqtgtqut.jpg"),
+                          // image:  NetworkImage("${listPerson[index].getThumbnail()}"),
                         ),
                       ),
                     ),

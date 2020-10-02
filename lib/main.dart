@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'UI/Dashboard/MainOrganizationScreen/orginizationBody.dart';
-import 'UI/Dashboard/maindashboardScreen/dashboardScreen.dart';
 import 'UI/Home/homedisplay.dart';
-import 'UI/Login/loginscreen.dart';
+import 'UI/Home/samplecard.dart';
 
 void main() => runApp(App());
 class App extends StatelessWidget {
@@ -27,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Container(
       color: Color(0xFFf7f8fc),
-      child: Login(),
-    ));
+      child: SampleGrid()),
+    );
   }
 }

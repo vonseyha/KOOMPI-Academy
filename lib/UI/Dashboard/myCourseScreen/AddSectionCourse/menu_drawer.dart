@@ -57,31 +57,81 @@ class _EndDrawerState extends State<EndDrawer> {
         documentNode: gql(queryGraphQL.getSections(widget.courseId) ),
       ),
     );
+    
      if(!result.hasException){
-        for(var i = 0 ; i < result.data["sections"].length; i++){
-          int a = 0;
-            setState(() {
+        String section_id; 
+        String course_id;
+        String section_no;
+        String section_title;
+        String section_message;
+        
+        String points_id;
+        String points_no;
+        String points_title;
+        String videoLink;
+        bool    preview;
+        String sections_id;
+        String message;
+
+        for( int i = 0 ; i <   (result.data['sections']).length ; i++){
+           print( "Title    ${result.data['sections'][i]['title']}");
+          section_id             = result.data["sections"][i]["id"];
+          course_id             = result.data["sections"][i]["course_id"];
+          section_no             = result.data["sections"][i]["no"];
+          section_title           = result.data["sections"][i]["title"];
+          section_message   = result.data["sections"][i]["message"];
+          if( result.data['sections'][i].containsKey("points")){
+            for(var a = 0 ; a < result.data['sections'][i]["points"].length ; a++){
+                   print("Subtitle   ${result.data['sections'][i]["points"][a]["title"]}");
+                  points_id           =  result.data["sections"][i]["points"][a]["id"];
+                  points_no          = result.data["sections"][i]["points"][a]["no"];
+                  points_title         = result.data["sections"][i]["points"][a]["title"];
+                  videoLink           = result.data["sections"][i]["points"][a]["videoLink"];
+                  preview             = result.data["sections"][i]["points"][a]["preview"];
+                  sections_id        = result.data["sections"][i]["points"][a]["section_id"];
+                  message           =  result.data["sections"][i]["points"][a]["message"];
+
+            }
+          }
+        }
+
+        List data = [
+                section_id   ,          
+                course_id        ,     
+                section_no     ,       
+                section_title    ,      
+                section_message  ,
+                points_id  ,
+                points_no ,
+                points_title,
+                videoLink  ,
+                preview    ,
+                sections_id,
+                message ,
+        ];
+        print(data);
+         setState(() {
             listSection.add(
               Section(
-                result.data["sections"][i]["id"],
-                result.data["sections"][i]["course_id"],
-                result.data["sections"][i]["no"],
-                result.data["sections"][i]["title"],
-                result.data["sections"][i]["message"],
-                result.data["sections"][i]["points"][a]["id"],
-                result.data["sections"][i]["points"][a]["no"],
-                result.data["sections"][i]["points"][a]["title"],
-                result.data["sections"][i]["points"][a]["videoLink"],
-                result.data["sections"][i]["points"][a]["preview"],
-                result.data["sections"][i]["points"][a]["section_id"],
-                result.data["sections"][i]["points"][a]["message"],
+                section_id   ,          
+                course_id        ,     
+                section_no     ,       
+                section_title    ,      
+                section_message  ,
+                points_id  ,
+                points_no ,
+                points_title,
+                videoLink  ,
+                preview    ,
+                sections_id,
+                message ,
               )
             );
             print(listSection.length);
-            print("${ result.data["sections"][i]["points"][0]["id"] }");
+            print(listSection.toList());
+            // print("${ result.data["sections"][i]["points"][0]["id"] }");
             // print("${title}");
           });
-        }
       }
     }
 
@@ -95,7 +145,7 @@ class _EndDrawerState extends State<EndDrawer> {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView.builder(
-        itemCount: 5,
+        itemCount: listSection.length,
         itemBuilder: (BuildContext context,int index) {
           return  Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
