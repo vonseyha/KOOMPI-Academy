@@ -53,35 +53,6 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
     super.initState();
   }
 
-  // void _addPerson(context) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       AlertDialogWindow alertDialogWindow =
-  //           new AlertDialogWindow(isAdd: true);
-  //       return alertDialogWindow;
-  //     },
-  //   ).whenComplete(() {
-  //     listPerson.clear();
-  //     fillList();
-  //   });
-  // }
-
-  // void _editDeletePerson(context, Course person) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       AlertDialogWindow alertDialogWindow =
-  //           new AlertDialogWindow(isAdd: false, person: person);
-  //       return alertDialogWindow;
-  //     },
-  //   ).whenComplete(() {
-  //     listPerson.clear();
-  //     fillList();
-  //   });
-  // }
-  // String course_id;
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
