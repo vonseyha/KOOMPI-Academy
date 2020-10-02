@@ -17,11 +17,16 @@ class VideoDatas {
   final String title;
   final String feature_image;
   final int views;
+  final String fullname;
+  final String avatar;
 
-  VideoDatas(this.id, this.title, this.feature_image, this.views);
+  VideoDatas(this.id, this.title, this.feature_image, this.views, this.fullname,
+      this.avatar);
 
   getId() => this.id;
   getTitle() => this.title;
   getImage() => this.feature_image;
   getView() => this.views;
+  getFullname() => this.fullname;
+  getAvatar() => this.avatar;
 }

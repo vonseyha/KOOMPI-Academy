@@ -64,6 +64,8 @@ class _SampleGridState extends State<SampleGrid> {
             result.data["courses"][i]["title"],
             result.data["courses"][i]["feature_image"],
             result.data["courses"][i]["views"],
+            result.data["courses"][i]["user"]["fullname"],
+            result.data["courses"][i]["user"]["avatar"],
           ));
         });
       }
@@ -93,7 +95,8 @@ class _SampleGridState extends State<SampleGrid> {
           SizedBox(width: 10);
           return _buildListItem(context, SampleGrid.datamodel[index]);
         },
-        childCount: SampleGrid.datamodel.length,
+        childCount: list.length,
+        // childCount: SampleGrid.datamodel.length,
       ),
     );
   }
@@ -131,8 +134,7 @@ class _SampleGridState extends State<SampleGrid> {
                       width: MediaQuery.of(context).size.width,
                       height: 210.0,
                       fit: BoxFit.cover,
-                      image: NetworkImage(
-                          "https://learnbackend.koompi.com/uploads/a.png"),
+                      image: NetworkImage("${list[index].getImage()}"),
                     ),
                   ),
                 ),
@@ -170,12 +172,12 @@ class _SampleGridState extends State<SampleGrid> {
                           radius: 30,
                           child: CircleAvatar(
                             backgroundColor: Colors.white,
-                            backgroundImage: NetworkImage(
-                                "https://avatars0.githubusercontent.com/u/41331389?s=280&v=4"),
+                            backgroundImage:
+                                NetworkImage("${list[index].getAvatar()}"),
                           ),
                         ),
                         title: Text(
-                          "Tang Eamseng",
+                          "${list[index].getFullname()}",
                           style: new TextStyle(
                             fontFamily: 'sans-serif',
                             fontWeight: FontWeight.w600,

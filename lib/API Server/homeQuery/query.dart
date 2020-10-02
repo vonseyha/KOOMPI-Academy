@@ -20,6 +20,10 @@ class QueryData {
         title
         feature_image
         views
+        user{
+          fullname
+          avatar
+        }
       }
     }
     """;
