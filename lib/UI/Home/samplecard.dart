@@ -51,7 +51,7 @@ class _SampleGridState extends State<SampleGrid> {
           return GestureDetector(
             onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => PortfolioTutorialDetailPage(videoUrl: list[index].getId())
+                    builder: (context) => PortfolioTutorialDetailPage(course_Id: list[index].getId())
                   )
                 );
                 // _buildRippleEffectNavigation(context,list[index].getId());
@@ -184,7 +184,7 @@ class _SampleGridState extends State<SampleGrid> {
       },
       pageBuilder: (context, animation, secondaryAnimation) =>
           PortfolioTutorialDetailPage(
-        videoUrl: videoUrl,
+        course_Id: videoUrl,
       ),
     );
   }

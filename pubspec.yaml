@@ -63,6 +63,7 @@ dependencies:
 
   multilevel_drawer: ^1.0.3
   flutter_settings: ^1.0.2
+  search_page: ^1.3.0
 
 
 

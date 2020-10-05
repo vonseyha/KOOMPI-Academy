@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:koompi_academy_project/UI/Dashboard/maindashboardScreen/dashboardScreen.dart';
 import 'UI/Home/homedisplay.dart';
 import 'UI/Home/samplecard.dart';
 
@@ -26,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         body: Container(
       color: Color(0xFFf7f8fc),
-      child: HomeDisplay(),
+      child: MainDashboard(),
     ));
   }
 }

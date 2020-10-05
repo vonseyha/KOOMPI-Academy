@@ -197,7 +197,7 @@ class GridSamples extends StatelessWidget {
       },
       pageBuilder: (context, animation, secondaryAnimation) =>
           PortfolioTutorialDetailPage(
-        videoUrl: videoUrl,
+        course_Id: videoUrl,
       ),
     );
   }
