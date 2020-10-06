@@ -3,6 +3,13 @@ import 'package:koompi_academy_project/UI/Home/property.dart';
 import 'CardViewMyCourse.dart';
 
 class MyCourse extends StatefulWidget {
+
+  // final Function refetchCourse;
+  // MyCourse({
+  //   Key key,
+  //   this.refetchCourse
+  // }):super(key: key);
+
   @override
   _MyCourseState createState() => _MyCourseState();
 }
@@ -83,7 +90,7 @@ class _MyCourseState extends State<MyCourse> {
             child: Container(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: CardViewMyCourse(),
+                child: CardViewMyCourse(),//refetchCourse: widget.refetchCourse
               ),
             ),
           ),

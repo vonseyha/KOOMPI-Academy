@@ -7,8 +7,15 @@ class OptionCard extends StatelessWidget {
   final String image;
   final String title;
   final int color;
-  const OptionCard({Key key, this.image, this.title, this.color})
-      : super(key: key);
+  // final Function refetchCourse;
+
+  const OptionCard({
+    Key key, 
+    this.image, 
+    this.title, 
+    this.color,
+    // this.refetchCourse
+    }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +29,12 @@ class OptionCard extends StatelessWidget {
             break;
           case "My Courses":
             Navigator.push(
-                context, MaterialPageRoute(builder: (_) => MyCourse()));
+                context, MaterialPageRoute(builder: (_) => MyCourse()));//refetchCourse: refetchCourse
             print("My Courses");
             break;
           case "Create Course":
             Navigator.push(
-                context, MaterialPageRoute(builder: (_) => CreateCourse()));
+                context, MaterialPageRoute(builder: (_) => CreateCourse()));//refetchCourse: refetchCourse
             print("Create Course");
             break;
         }

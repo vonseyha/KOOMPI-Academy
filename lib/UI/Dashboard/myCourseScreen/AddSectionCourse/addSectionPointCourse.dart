@@ -8,10 +8,12 @@ import 'menu_drawer.dart';
 
 class AddSectionPointCourse extends StatefulWidget {
   final String course_id;
+  final String course_title;
 
   const AddSectionPointCourse({
     Key key,
-    this.course_id
+    this.course_id,
+    this.course_title,
   }):super(key:key);
 
   @override
@@ -78,7 +80,7 @@ String sectionid;
         body: TabBarView(
           controller: _tabController,
           children: <Widget>[
-                    AddSection(courseId: widget.course_id),
+                    AddSection(courseId: widget.course_id, courseTitle: widget.course_title),
                     AddPoint(courseId: widget.course_id),
                   ]
         ),

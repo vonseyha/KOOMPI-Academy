@@ -7,22 +7,17 @@ import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart
 import 'package:koompi_academy_project/Model/GetSectionIdModel.dart';
 
 class AddPoint extends StatefulWidget {
-
   final String courseId;
 
-  const AddPoint({
-    Key key,
-    this.courseId
-  }):super(key:key);
+  const AddPoint({Key key, this.courseId}) : super(key: key);
 
   @override
   _AddPointState createState() => _AddPointState();
 }
 
 class _AddPointState extends State<AddPoint> {
-
   List<GetSection> listPerson = List<GetSection>();
-  
+  var items = List<String>();
   void fillList() async {
     QueryGraphQL queryGraphQL = QueryGraphQL();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
@@ -40,17 +35,19 @@ class _AddPointState extends State<AddPoint> {
               result.data["sections"][i]["title"],
             ),
           );
-          print( result.data["sections"][i]["title"]);
-          print(listPerson);
+          // print(result.data["sections"][i]["title"]);
+          // items.addAll(result.data["sections"][i]["title"]);
         });
       }
     }
   }
-   var items = List<String>();
 
-    @override
+
+
+  @override
   void initState() {
     fillList();
+    // items.addAll()
     super.initState();
   }
 
@@ -72,10 +69,9 @@ class _AddPointState extends State<AddPoint> {
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   QueryMutation addMutation = QueryMutation();
 
-
   @override
   Widget build(BuildContext context) {
-    print(listPerson);
+    print(_currencies);
     return Scaffold(
       // backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -91,8 +87,8 @@ class _AddPointState extends State<AddPoint> {
                       builder: (FormFieldState<String> state) {
                         return InputDecorator(
                           decoration: InputDecoration(
-                              errorStyle: TextStyle(
-                                  color: Colors.redAccent, fontSize: 16.0),
+                              // errorStyle: TextStyle(
+                              //     color: Colors.redAccent, fontSize: 16.0),
                               labelText: "Choose Category",
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0))),
@@ -106,8 +102,7 @@ class _AddPointState extends State<AddPoint> {
                                   state.didChange(newValue);
                                 });
                               },
-                              items:
-                               _currencies.map((String value) {
+                              items: _currencies.map(( value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(
@@ -122,6 +117,7 @@ class _AddPointState extends State<AddPoint> {
                       },
                     )),
               ),
+              
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -198,43 +194,45 @@ class _AddPointState extends State<AddPoint> {
                       child: new RaisedButton(
                         color: Color(0xFF5dabff),
                         // color: Colors.black,
-                        onPressed: () async{
-                          if(_categoryName.isNotEmpty && _pointNoController.text.isNotEmpty&&_pointTitleController.text.isNotEmpty && _pointVideoLinkController.text.isNotEmpty){
-                              GraphQLClient _client = graphQLConfiguration.clientToQuery();
-                              QueryResult result = await _client.mutate(
-                                  MutationOptions(
-                                    documentNode: gql(addMutation.createPoint(
-                                        "5f5ae3c98f0da80235fbece4",
-                                        int.parse(_pointNoController.text),
-                                        _pointTitleController.text,
-                                        _pointVideoLinkController.text
-                                    )),
-                                  )
-                              );
-                               if (!result.hasException) {
-                                      _pointNoController.clear();
-                                      _pointTitleController.clear();
-                                      _pointVideoLinkController.clear();
-                                      Navigator.of(context).pop();
-                                      return Fluttertoast.showToast(
-                                          msg: "Add Point  Sucessfuly!",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIos: 1,
-                                          backgroundColor: Colors.blue,
-                                          textColor: Colors.white);
-                              }else {
-                                print("Add Failed");
-                              } 
-                            }else {
-                                   return Fluttertoast.showToast(
-                                          msg: "Please fill form!",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIos: 1,
-                                          backgroundColor: Colors.blue,
-                                          textColor: Colors.white);
-                                }
+                        onPressed: () async {
+                          if (_categoryName.isNotEmpty &&
+                              _pointNoController.text.isNotEmpty &&
+                              _pointTitleController.text.isNotEmpty &&
+                              _pointVideoLinkController.text.isNotEmpty) {
+                            GraphQLClient _client =
+                                graphQLConfiguration.clientToQuery();
+                            QueryResult result =
+                                await _client.mutate(MutationOptions(
+                              documentNode: gql(addMutation.createPoint(
+                                  "5f5ae3c98f0da80235fbece4",
+                                  int.parse(_pointNoController.text),
+                                  _pointTitleController.text,
+                                  _pointVideoLinkController.text)),
+                            ));
+                            if (!result.hasException) {
+                              _pointNoController.clear();
+                              _pointTitleController.clear();
+                              _pointVideoLinkController.clear();
+                              Navigator.of(context).pop();
+                              return Fluttertoast.showToast(
+                                  msg: "Add Point  Sucessfuly!",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIos: 1,
+                                  backgroundColor: Colors.blue,
+                                  textColor: Colors.white);
+                            } else {
+                              print("Add Failed");
+                            }
+                          } else {
+                            return Fluttertoast.showToast(
+                                msg: "Please fill form!",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIos: 1,
+                                backgroundColor: Colors.blue,
+                                textColor: Colors.white);
+                          }
                         },
                         child: new Text(
                           "Add Section",

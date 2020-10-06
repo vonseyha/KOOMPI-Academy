@@ -6,6 +6,12 @@ import 'package:koompi_academy_project/Model/CourseModel.dart';
 import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';
 import 'ShowPupPopMenu.dart';
 class CardViewMyCourse extends StatefulWidget {
+  // final Function refetchCourse;
+  // CardViewMyCourse({
+  //   Key key,
+  //   this.refetchCourse
+  // }):super(key: key);
+ 
   @override
   _CardViewMyCourseState createState() => _CardViewMyCourseState();
 }
@@ -14,7 +20,6 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
   
   List<Course> listPerson = List<Course>();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
-  var items = List<String>();
   
   void fillList() async {
     QueryGraphQL queryGraphQL = QueryGraphQL();
@@ -42,6 +47,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
               result.data["courses"][i]["views"],
             ),
           );
+          print(result.data["courses"][i]["id"]);
         });
       }
     }
@@ -57,13 +63,15 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
   Widget build(BuildContext context) {
     // TODO: implement build
       return Scaffold(
-              body: ListView.builder(
+          body: 
+          ListView.builder(
           itemCount: listPerson.length,
           itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-              onTap: () {
+             GestureDetector(
+              onTap: () async {
+                // await widget.refetchCourse();
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => AddSectionPointCourse(course_id: listPerson[index].getId()),
+                      builder: (context) => AddSectionPointCourse(course_id: listPerson[index].getId(),course_title:listPerson[index].getTitle()),
                     )
                   );
                   },
@@ -152,6 +160,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                                     category: listPerson[index].getCategories(),
                                     // thumbnail: listPerson[index].getThumbnail(),
                                     description: listPerson[index].getDescription(),
+                                    // refetchCourse: widget.refetchCourse,
                                   ),
                                 )
                               ],

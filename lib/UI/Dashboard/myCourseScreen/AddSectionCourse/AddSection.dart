@@ -5,9 +5,11 @@ import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
 class AddSection extends StatefulWidget {
   final String courseId;
+  final String courseTitle;
   const AddSection({
     Key key,
-    this.courseId
+    this.courseId,
+    this.courseTitle
   }):super(key:key);
 
   @override
@@ -16,63 +18,60 @@ class AddSection extends StatefulWidget {
 
 class _AddSectionState extends State<AddSection> {
 
-  var _currencies = [
-    "Google Chrome",
-  ];
+// String a
+//   var _currencies = [
+//     widget.courseTitle,
+//   ];
+
 
   String _categoryName;
   final _sectionTitleController = TextEditingController();
   final _sectionNoController = TextEditingController();
+  final _courseTitleController = TextEditingController();
+
+  @override
+  void initState() {
+    _courseTitleController.text = widget.courseTitle;
+    super.initState();
+  }
+
 
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   QueryMutation addMutation = QueryMutation();
 
   @override
   Widget build(BuildContext context) {
+    print(widget.courseTitle);
+    setState(() {
+      _courseTitleController.text = widget.courseTitle;
+    });
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                    width: MediaQuery.of(context).size.width / 1,
-                    child: FormField<String>(
-                      builder: (FormFieldState<String> state) {
-                        return InputDecorator(
-                          decoration: InputDecoration(
-                              errorStyle: TextStyle(
-                                  color: Colors.redAccent, fontSize: 16.0),
-                              labelText: "Choose Category",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0))),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              value: _categoryName,
-                              isDense: true,
-                              onChanged: (String newValue) {
-                                setState(() {
-                                  _categoryName = newValue;
-                                  state.didChange(newValue);
-                                });
-                              },
-                              items: _currencies.map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    style: TextStyle(fontSize: 15.0),
-                                  ),
-                                );
-                              }).toList(),
+               Padding(
+                 padding: const EdgeInsets.all(8.0),
+                 child: Container(
+                          width: MediaQuery.of(context).size.width / 1,
+                          child: new TextFormField(
+                            controller: _courseTitleController,
+                            enabled: false,
+                            decoration: new InputDecoration(
+                              labelText: "Section Title",
+                              fillColor: Colors.white,
+                              border: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(5.0),
+                                borderSide: new BorderSide(),
+                              ),
+                              //fillColor: Colors.green
                             ),
+                            onChanged: (value) => value = widget.courseTitle,
                           ),
-                        );
-                      },
-                    )),
-              ),
+                        ),
+               ),
+                    
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -102,6 +101,7 @@ class _AddSectionState extends State<AddSection> {
                         width: MediaQuery.of(context).size.width / 1,
                         child: new TextFormField(
                           controller: _sectionTitleController,
+                          // maxLength: 50,
                           decoration: new InputDecoration(
                             labelText: "Section Title",
                             fillColor: Colors.white,

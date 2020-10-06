@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
+import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
+import 'package:koompi_academy_project/Model/CourseModel.dart';
 import 'package:koompi_academy_project/UI/Home/profile.dart';
 import '../../../constants.dart';
 import 'StatisticDashboard.dart';
@@ -11,6 +15,45 @@ class MainDashboard extends StatefulWidget {
 }
 
 class _MainDashboardState extends State<MainDashboard> {
+
+  void printOut(){
+    print("Hello world");
+  }
+
+  List<Course> listPerson = List<Course>();
+  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+  
+  void fillList() async {
+    QueryGraphQL queryGraphQL = QueryGraphQL();
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    QueryResult result = await _client.query(
+      QueryOptions(
+        documentNode: gql(queryGraphQL.getAll()),
+      ),
+    );
+    if (!result.hasException) {
+      for (var i = 0; i < result.data["courses"].length; i++) {
+        setState(() {
+          listPerson.add(
+            Course(
+              result.data["courses"][i]["id"],
+              result.data["courses"][i]["org_id"],
+              result.data["courses"][i]["title"],
+              result.data["courses"][i]["privacy"],
+              result.data["courses"][i]["price"],
+              result.data["courses"][i]["categories"],
+              result.data["courses"][i]["thumbnail"],
+              result.data["courses"][i]["description"],
+              result.data["courses"][i]["owner_id"],
+              result.data["courses"][i]["user"]["fullname"],
+              result.data["courses"][i]["views"],
+            ),
+          );
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,16 +146,19 @@ class _MainDashboardState extends State<MainDashboard> {
                     image: "images/viewcourse.png",
                     title: "View Courses",
                     color: 0xFF2db697,
+                    // refetchCourse: (){},
                   ),
                   OptionCard(
                     image: "images/mycourse.png",
                     title: "My Courses",
                     color: 0xFFf3a11f,
+                    // refetchCourse: fillList,
                   ),
                   OptionCard(
                     image: "images/createcourse.png",
                     title: "Create Course",
                     color: 0xFF9e68d6,
+                    // refetchCourse: fillList,
                   ),
                 ],
               ),

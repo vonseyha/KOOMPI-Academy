@@ -4,10 +4,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
+import 'package:koompi_academy_project/API%20Server/grapqlMutation/api.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 
 class CreateCourse extends StatefulWidget {
+
+  final Function refetchCourse;
+
+  CreateCourse({
+    this.refetchCourse
+  });
  
   @override
   _CreateCourseState createState() => _CreateCourseState();
@@ -369,6 +376,7 @@ class _CreateCourseState extends State<CreateCourse> {
                             child: new RaisedButton(
                               color: Color(0xFF5dabff),
                               onPressed: () async {
+                                // widget.refetchCourse();
                                 if (_courseTitleController.text.isNotEmpty &&
                                     _tageModeController.text.isNotEmpty &&
                                     price.toString().isNotEmpty &&
@@ -379,6 +387,10 @@ class _CreateCourseState extends State<CreateCourse> {
                                     GraphQLClient _client = graphQLConfiguration.clientToQuery();
                                     QueryResult result = await _client.mutate(
                                       MutationOptions(
+                                        onCompleted: (data){
+                                          print(data);
+                                          widget.refetchCourse();
+                                        },
                                         documentNode: gql(addMutation.addCourse(
                                           "5f432977da0863337654d38c",
                                           _courseTitleController.text,
@@ -399,6 +411,7 @@ class _CreateCourseState extends State<CreateCourse> {
                                         _categoryName = null;
                                         imagefile = null;
                                         _descriptionController.clear();
+                                        widget.refetchCourse();
                                       Navigator.of(context).pop();
                                       return Fluttertoast.showToast(
                                           msg: "Uploade Course  Sucessfuly!",

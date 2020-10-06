@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:koompi_academy_project/API%20Server/grapqlMutation/api.dart';
 import 'package:koompi_academy_project/UI/Dashboard/createCourseScreen/UpdateCourse.dart';
 import 'package:koompi_academy_project/UI/Home/property.dart';
 import 'functionbuild.dart';
@@ -14,6 +15,7 @@ class ShowPupPopMenu extends StatefulWidget {
   final List category;
   final Future<File> thumbnail;
   final String description;
+  final Function refetchCourse;
 
   const ShowPupPopMenu({
     Key key,
@@ -25,6 +27,7 @@ class ShowPupPopMenu extends StatefulWidget {
     this.category,
     this.thumbnail,
     this.description,
+    this.refetchCourse,
   }) : super(key: key);
 
   @override
@@ -65,7 +68,7 @@ class _ShowPupPopMenuState extends State<ShowPupPopMenu> {
               PopupMenuItem<MyPupopMenu>(
                 value: MyPupopMenu.delete,
                 child: GestureDetector(
-                  onTap: () => displayDeleteCourse(context,widget.id),
+                  onTap: () => displayDeleteCourse(context,widget.id,widget.refetchCourse),
                   child: Padding(
                       padding: const EdgeInsets.only(left: 25.0),
                       child: Row(

@@ -10,7 +10,7 @@ QueryMutation addMutation = QueryMutation();
 List<Course> listPerson = List<Course>();
 //***************Alert Option Delete **************/
 
-displayDeleteCourse(BuildContext context, String id) async {
+displayDeleteCourse(BuildContext context, String id,Function refetchCourse) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
   print(id);
@@ -80,12 +80,17 @@ displayDeleteCourse(BuildContext context, String id) async {
                             graphQLConfiguration.clientToQuery();
                         QueryResult result = await _client.mutate(
                           MutationOptions(
+                            onCompleted: (data){
+                              print(data);
+                                refetchCourse();
+                            },
                             documentNode: gql(addMutation.deleteCourse(id)),
                           ),
                         );
                         if (!result.hasException) {
                           Navigator.of(context).pop();
                           loginToast("Delete Sucessfuly!");
+                          refetchCourse();
                           listPerson.clear();
                         } else {
                           loginToast("Delete Course Not Found!");
