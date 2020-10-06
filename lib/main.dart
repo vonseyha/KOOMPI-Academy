@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/UI/Dashboard/maindashboardScreen/dashboardScreen.dart';
+import 'package:koompi_academy_project/UI/SplashScreen/splashscreen.dart';
 import 'UI/Home/homedisplay.dart';
 import 'UI/Home/homedisplay.dart';
 import 'UI/Home/samplecard.dart';
@@ -12,7 +13,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: Colors.blue),
-      home: HomeDisplay(),
+      home: HomeScreen(),
     );
   }
 }
@@ -28,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         body: Container(
       color: Color(0xFFf7f8fc),
-      child: MainDashboard(),
+      child: SplashScreen(),
     ));
   }
 }
