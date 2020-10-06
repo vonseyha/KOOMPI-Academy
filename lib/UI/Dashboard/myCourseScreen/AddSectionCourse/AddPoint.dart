@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
+import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
+import 'package:koompi_academy_project/Model/GetSectionIdModel.dart';
 
 class AddPoint extends StatefulWidget {
 
-  final String sectionId;
+  final String courseId;
 
   const AddPoint({
     Key key,
-    this.sectionId
+    this.courseId
   }):super(key:key);
 
   @override
@@ -18,6 +20,40 @@ class AddPoint extends StatefulWidget {
 }
 
 class _AddPointState extends State<AddPoint> {
+
+  List<GetSection> listPerson = List<GetSection>();
+  
+  void fillList() async {
+    QueryGraphQL queryGraphQL = QueryGraphQL();
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    QueryResult result = await _client.query(
+      QueryOptions(
+        documentNode: gql(queryGraphQL.getSectionId(widget.courseId)),
+      ),
+    );
+    if (!result.hasException) {
+      for (var i = 0; i < result.data["sections"].length; i++) {
+        setState(() {
+          listPerson.add(
+            GetSection(
+              result.data["sections"][i]["id"],
+              result.data["sections"][i]["title"],
+            ),
+          );
+          print( result.data["sections"][i]["title"]);
+          print(listPerson);
+        });
+      }
+    }
+  }
+   var items = List<String>();
+
+    @override
+  void initState() {
+    fillList();
+    super.initState();
+  }
+
   var _currencies = [
     "Google Chrome Part1",
     "Google Chrome Part2",
@@ -27,6 +63,7 @@ class _AddPointState extends State<AddPoint> {
     "Google Chrome Part6",
     "Google Chrome Part7",
   ];
+
   String _categoryName;
   final _pointNoController = TextEditingController();
   final _pointTitleController = TextEditingController();
@@ -38,6 +75,7 @@ class _AddPointState extends State<AddPoint> {
 
   @override
   Widget build(BuildContext context) {
+    print(listPerson);
     return Scaffold(
       // backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -68,7 +106,8 @@ class _AddPointState extends State<AddPoint> {
                                   state.didChange(newValue);
                                 });
                               },
-                              items: _currencies.map((String value) {
+                              items:
+                               _currencies.map((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(
@@ -165,7 +204,7 @@ class _AddPointState extends State<AddPoint> {
                               QueryResult result = await _client.mutate(
                                   MutationOptions(
                                     documentNode: gql(addMutation.createPoint(
-                                        widget.sectionId,
+                                        "5f5ae3c98f0da80235fbece4",
                                         int.parse(_pointNoController.text),
                                         _pointTitleController.text,
                                         _pointVideoLinkController.text

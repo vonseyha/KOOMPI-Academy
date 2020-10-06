@@ -29,10 +29,10 @@ class _PortfolioTutorialDetailPageState
   ChewieController _chewieController;
   Future<void> _initializeVideoPlayerFuture;
 
-  final List<Tuple3> _fregement = [
-    Tuple3('OVERVIEW', ContentFregement(), Icon(Icons.view_day)),
-    Tuple3('CONTENT', FregementContent(), Icon(Icons.view_day)),
-  ];
+  // final List<Tuple3> _fregement = [
+  //   Tuple3('OVERVIEW', ContentFregement(), Icon(Icons.view_day)),
+  //   Tuple3('CONTENT', FregementContent(), Icon(Icons.view_day)),
+  // ];
 
   final List<Tab> myTabs = <Tab>[
     Tab(text: 'Overview'),

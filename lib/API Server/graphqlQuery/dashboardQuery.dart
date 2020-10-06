@@ -45,4 +45,16 @@ class QueryGraphQL{
           }
         """;
     } 
+
+    String getSectionId(String course_id){
+      return 
+      """
+      query{
+        sections(course_id:"$course_id"){
+          id
+          title
+        }
+      }
+      """;
+    }
 }

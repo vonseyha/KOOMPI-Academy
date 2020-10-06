@@ -8,9 +8,8 @@ class MyCourse extends StatefulWidget {
 }
 
 class _MyCourseState extends State<MyCourse> {
-
   TextEditingController editingSearchController = TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +38,7 @@ class _MyCourseState extends State<MyCourse> {
               ),
             ),
           ),
+          SizedBox(height: 5),
           Text(
             "Here Your Course!",
             style: TextStyle(
@@ -50,25 +50,34 @@ class _MyCourseState extends State<MyCourse> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 32.0),
             child: Container(
-              decoration: BoxDecoration(
-                  boxShadow: shadowList,
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                  color: Colors.white),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: TextField(
-                  controller: editingSearchController,
-                  textAlign: TextAlign.center,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintStyle: TextStyle(
-                      color: Colors.grey,
+                    controller: editingSearchController,
+                    // focusNode: focusNode,
+                    style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                    decoration: InputDecoration(
+                      enabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          color: Color(0x4437474F),
+                          width: 2,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Theme.of(context).primaryColor),
+                      ),
+                      suffixIcon: Icon(Icons.search),
+                      border: InputBorder.none,
+                      hintText: "Search here...",
+                      contentPadding: const EdgeInsets.only(
+                        left: 16,
+                        right: 20,
+                        top: 14,
+                        bottom: 14,
+                      ),
                     ),
-                    hintText: 'Search course',
                   ),
                 ),
-              ),
-            ),
           ),
           Expanded(
             child: Container(

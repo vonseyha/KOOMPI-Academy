@@ -22,10 +22,16 @@ class _AddSectionPointCourseState extends State<AddSectionPointCourse>
     with SingleTickerProviderStateMixin {
 
 String sectionid;
+
   final List<Tuple3> _pages = [
-    Tuple3('Add Section', AddSection(courseId: "5f6af5f12365e91c74c940b4"), Icon(Icons.video_library)),
-    Tuple3('Add Point', AddPoint(sectionId: "5f72fc2140199a7acf5da62a"), Icon(Icons.image)),
+    Tuple3('Add Section', AddSection(), Icon(Icons.video_library)),
+    Tuple3('Add Point', AddPoint(), Icon(Icons.image)),
   ];
+
+  //  final List<Tuple3> _pages = [
+  //   Tuple3('Add Section', AddSection(courseId: "5f6af5f12365e91c74c940b4"), Icon(Icons.video_library)),
+  //   Tuple3('Add Point', AddPoint(sectionId: "5f72fc2140199a7acf5da62a"), Icon(Icons.image)),
+  // ];
 
   TabController _tabController;
 
@@ -33,7 +39,9 @@ String sectionid;
   void initState() {
     super.initState();
     _tabController = TabController(length: _pages.length, vsync: this);
-    _tabController.addListener(() => setState(() {}));
+    _tabController.addListener(() => setState(() {
+      
+    }));
     setState(() {
       sectionid = widget.course_id;
     });
@@ -47,7 +55,7 @@ String sectionid;
 
   @override
   Widget build(BuildContext context) {
-    var datawh = MediaQuery.of(context);
+    // var datawh = MediaQuery.of(context);
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -69,7 +77,10 @@ String sectionid;
         },
         body: TabBarView(
           controller: _tabController,
-          children: _pages.map<Widget>((Tuple3 page) => page.item2).toList(),
+          children: <Widget>[
+                    AddSection(courseId: widget.course_id),
+                    AddPoint(courseId: widget.course_id),
+                  ]
         ),
       ),
       endDrawer: ClipPath(
