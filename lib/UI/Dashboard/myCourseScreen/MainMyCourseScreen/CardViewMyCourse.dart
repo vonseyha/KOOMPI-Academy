@@ -47,7 +47,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
               result.data["courses"][i]["views"],
             ),
           );
-          print(result.data["courses"][i]["id"]);
+          // print(result.data["courses"][i]["id"]);
         });
       }
     }
