@@ -1,21 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
+import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
+import 'package:koompi_academy_project/Model/CourseModel.dart';
 import 'package:koompi_academy_project/UI/Home/property.dart';
 import 'CardViewMyCourse.dart';
 
 class MyCourse extends StatefulWidget {
-
-  // final Function refetchCourse;
-  // MyCourse({
-  //   Key key,
-  //   this.refetchCourse
-  // }):super(key: key);
-
   @override
   _MyCourseState createState() => _MyCourseState();
 }
 
 class _MyCourseState extends State<MyCourse> {
-  TextEditingController editingSearchController = TextEditingController();
+
+TextEditingController editingSearchController = TextEditingController();
+
+List<Course> listPerson = List<Course>();
+  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+  
+ Future <String> fillList() async {
+    QueryGraphQL queryGraphQL = QueryGraphQL();
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    QueryResult result = await _client.query(
+      QueryOptions(
+        documentNode: gql(queryGraphQL.getAll()),
+      ),
+    );
+    if (!result.hasException) {
+      for (var i = 0; i < result.data["courses"].length; i++) {
+        setState(() {
+          listPerson.add(
+            Course(
+              result.data["courses"][i]["id"],
+              result.data["courses"][i]["org_id"],
+              result.data["courses"][i]["title"],
+              result.data["courses"][i]["privacy"],
+              result.data["courses"][i]["price"],
+              result.data["courses"][i]["categories"],
+              result.data["courses"][i]["thumbnail"],
+              result.data["courses"][i]["description"],
+              result.data["courses"][i]["owner_id"],
+              result.data["courses"][i]["user"]["fullname"],
+              result.data["courses"][i]["views"],
+            ),
+          );
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,14 +118,16 @@ class _MyCourseState extends State<MyCourse> {
                   ),
                 ),
           ),
+
           Expanded(
             child: Container(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: CardViewMyCourse(),//refetchCourse: widget.refetchCourse
+                child: CardViewMyCourse(refetchCourse: fillList),//refetchCourse: widget.refetchCourse
               ),
             ),
           ),
+
         ],
       ),
     );

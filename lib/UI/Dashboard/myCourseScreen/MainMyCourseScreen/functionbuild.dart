@@ -4,13 +4,14 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
 import 'package:koompi_academy_project/Model/CourseModel.dart';
+import 'myCourse.dart';
 
 GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
 QueryMutation addMutation = QueryMutation();
 List<Course> listPerson = List<Course>();
 //***************Alert Option Delete **************/
 
-displayDeleteCourse(BuildContext context, String id,Function refetchCourse) async {
+displayDeleteCourse(BuildContext context, String id , Function refechData,int index) async {//Function refetchCourse
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
   print(id);
@@ -76,22 +77,23 @@ displayDeleteCourse(BuildContext context, String id,Function refetchCourse) asyn
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(3)),
                       onPressed: () async {
-                        GraphQLClient _client =
-                            graphQLConfiguration.clientToQuery();
+                        GraphQLClient _client = graphQLConfiguration.clientToQuery();
                         QueryResult result = await _client.mutate(
-                          MutationOptions(
+                          MutationOptions (
                             onCompleted: (data){
-                              print(data);
-                                refetchCourse();
+                              // print(data);
+                                // refechData();
                             },
                             documentNode: gql(addMutation.deleteCourse(id)),
                           ),
                         );
                         if (!result.hasException) {
-                          Navigator.of(context).pop();
                           loginToast("Delete Sucessfuly!");
-                          refetchCourse();
-                          listPerson.clear();
+                           Navigator.pop(context);
+                           
+                          //refetchCourse();
+                          refechData(index);
+                          // listPerson.clear();
                         } else {
                           loginToast("Delete Course Not Found!");
                         }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -16,8 +18,9 @@ class AddPoint extends StatefulWidget {
 }
 
 class _AddPointState extends State<AddPoint> {
-  List<GetSection> listPerson = List<GetSection>();
+  List<dynamic> listSectiontitle = List<dynamic>();
   var items = List<String>();
+  var users = new List<GetSection>();
   void fillList() async {
     QueryGraphQL queryGraphQL = QueryGraphQL();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
@@ -27,22 +30,15 @@ class _AddPointState extends State<AddPoint> {
       ),
     );
     if (!result.hasException) {
-      for (var i = 0; i < result.data["sections"].length; i++) {
-        setState(() {
-          listPerson.add(
-            GetSection(
-              result.data["sections"][i]["id"],
-              result.data["sections"][i]["title"],
-            ),
-          );
-          // print(result.data["sections"][i]["title"]);
-          // items.addAll(result.data["sections"][i]["title"]);
-        });
+      listSectiontitle = List.from(result.data['sections']);
+      print(listSectiontitle);
+      for(int i = 0 ; i< listSectiontitle.length ; i++) {
+        print("${listSectiontitle[i]['title']}\n");
+        items.add(listSectiontitle[i]['title']);
+        print("List Items ======= ${items}");
       }
     }
   }
-
-
 
   @override
   void initState() {
@@ -71,7 +67,7 @@ class _AddPointState extends State<AddPoint> {
 
   @override
   Widget build(BuildContext context) {
-    print(_currencies);
+    // print(_currencies);
     return Scaffold(
       // backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -102,7 +98,7 @@ class _AddPointState extends State<AddPoint> {
                                   state.didChange(newValue);
                                 });
                               },
-                              items: _currencies.map(( value) {
+                              items: listSectiontitle.map(( value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(

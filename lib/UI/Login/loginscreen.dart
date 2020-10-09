@@ -8,6 +8,7 @@ import 'package:koompi_academy_project/UI/SignUP/signupscreen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'JwtDecode.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -26,6 +27,7 @@ class _LoginState extends State<Login> {
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
   bool _passwordVisible = true;
+  
 
   //*************** Login Connect to back-end************//
   String alertText;
@@ -34,8 +36,8 @@ class _LoginState extends State<Login> {
   Future<String> login(String email, String password, context) async {
     String token;
     String role;
-    var response =
-        await http.post("https://learnbackend.koompi.com/login", body: {
+    String message;
+    var response = await http.post("https://learnbackend.koompi.com/login", body: {
       'email': email,
       'password': password,
     });
@@ -46,34 +48,14 @@ class _LoginState extends State<Login> {
       var responseJson = json.decode(response.body);
       token = responseJson['token'];
       role = responseJson['role'];
+      message = responseJson['message'];
       print(role.toString());
       print(response.body);
+      print("++++++++Message ${message}");
       // tryParseJwt(response.body);
       if (token != null) {
-        isToken.setString('token', token);
-        if (token == null) return null;
-        final parts = token.split('.');
-        if (parts.length != 3) {
-          return null;
-        }
-        final payload = parts[1];
-        var normalized = base64Url.normalize(payload);
-        var resp = utf8.decode(base64Url.decode(normalized));
-        final payloadMap = json.decode(resp);
-        String test = payloadMap['role'];
-        print(test);
-        if (payloadMap is! Map<String, dynamic>) {
-          return null;
-        }
-        print(payloadMap);
-        // return payloadMap;
-        if(payloadMap['role'] == 'teacher'){
-          Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => MainDashboard()));
-        }else if(payloadMap['role'] == 'student'){
-            Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
-        }
+        isToken.setString('token', token);//Set Key to checkUser
+        JwtDecode.tryParseJwt(token,context);
         msg = "Login Successful";
         loginToast(msg);
         _emailController.clear();
@@ -93,25 +75,7 @@ class _LoginState extends State<Login> {
     return alertText;
   }
 
-  // Decode data by using jwt//
-  // static Map<String, dynamic> tryParseJwt(String token) {
-  //   if (token == null) return null;
-  //   final parts = token.split('.');
-  //   if (parts.length != 3) {
-  //     return null;
-  //   }
-  //   final payload = parts[1];
-  //   var normalized = base64Url.normalize(payload);
-  //   var resp = utf8.decode(base64Url.decode(normalized));
-  //   final payloadMap = json.decode(resp);
-  //   String test = payloadMap['role'];
-  //   print(test);
-  //   if (payloadMap is! Map<String, dynamic>) {
-  //     return null;
-  //   }
-  //   print(payloadMap);
-  //   return payloadMap;
-  // }
+
 
   loginToastFail(String toast) {
     return Fluttertoast.showToast(
@@ -305,10 +269,7 @@ class _LoginState extends State<Login> {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
               login(_email, _password, context);
-              // print("Your email: $_email and Password: $_password");
             }
-            // Navigator.push(context,
-            //     MaterialPageRoute(builder: (context) => HomeDisplay()));
           },
           child: Text("LOGIN",
               textAlign: TextAlign.center,
@@ -443,7 +404,7 @@ class _LoginState extends State<Login> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                      top: 130.0,
+                      top: 90.0,
                     ),
                     child: Column(
                       children: <Widget>[

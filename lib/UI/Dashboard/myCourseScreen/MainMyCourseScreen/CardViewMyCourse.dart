@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:http/http.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:koompi_academy_project/Model/CourseModel.dart';
 import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';
 import 'ShowPupPopMenu.dart';
+import 'functionbuild.dart';
 
 class CardViewMyCourse extends StatefulWidget {
-  // final Function refetchCourse;
-  // CardViewMyCourse({
-  //   Key key,
-  //   this.refetchCourse
-  // }):super(key: key);
+  final Function refetchCourse;
+  CardViewMyCourse({Key key, this.refetchCourse}) : super(key: key);
 
   @override
   _CardViewMyCourseState createState() => _CardViewMyCourseState();
@@ -30,8 +29,8 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
       ),
     );
     if (!result.hasException) {
-      for (var i = 0; i < result.data["courses"].length; i++) {
-        setState(() {
+      setState(() {
+        for (var i = 0; i < result.data["courses"].length; i++) {
           listPerson.add(
             Course(
               result.data["courses"][i]["id"],
@@ -47,15 +46,23 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
               result.data["courses"][i]["views"],
             ),
           );
-          print(result.data["courses"][i]["id"]);
-        });
-      }
+        }
+      });
     }
+  }
+
+  void onDeleteClick(int index) {
+    setState(() {
+      listPerson.removeAt(index);
+      print('index $index');
+      //fillList();
+    });
   }
 
   @override
   void initState() {
     fillList();
+    // widget.refetchCourse();
     super.initState();
   }
 
@@ -66,9 +73,8 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
       body: ListView.builder(
         itemCount: listPerson.length,
         itemBuilder: (BuildContext context, int index) {
-          GestureDetector(
+          return GestureDetector(
             onTap: () async {
-              // await widget.refetchCourse();
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => AddSectionPointCourse(
                     course_id: listPerson[index].getId(),
@@ -133,7 +139,8 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                                     child: CircleAvatar(
                                       backgroundColor: Colors.white,
                                       backgroundImage: NetworkImage(
-                                          "https://avatars0.githubusercontent.com/u/41331389?s=280&v=4"),
+                                        "https://avatars0.githubusercontent.com/u/41331389?s=280&v=4",
+                                      ),
                                     ),
                                   ),
                                   title: Text(
@@ -155,6 +162,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                               Expanded(
                                 flex: 1,
                                 child: ShowPupPopMenu(
+                                  index: index,
                                   id: listPerson[index].getId(),
                                   org_id: listPerson[index].getOrg_id(),
                                   title: listPerson[index].getTitle(),
@@ -164,7 +172,8 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                                   // thumbnail: listPerson[index].getThumbnail(),
                                   description:
                                       listPerson[index].getDescription(),
-                                  // refetchCourse: widget.refetchCourse,
+                                  refetchCourse: fillList,
+                                  onDeleteClick: onDeleteClick,
                                 ),
                               )
                             ],

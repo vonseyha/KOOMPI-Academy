@@ -3,17 +3,22 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
+import 'addSectionPointCourse.dart';
+import 'menu_drawer.dart';
 
 //----------------------- Declare Graphql -----------------------//
  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
  QueryMutation addMutation = QueryMutation(); 
+
  //----------------------- Form Section -----------------------//
 final _sectionNoController = TextEditingController();
 final _sectionTitleController = TextEditingController();
+
 //----------------------- Form Point  -----------------------//
 final _pointNoController = TextEditingController();
 final _pointTitleController = TextEditingController();
 final _videoLinkController = TextEditingController();
+
 //----------------------- Alert Option deleteSection  -----------------------//
 displayDeleteSection(BuildContext context , String section_id) async {
   var H = MediaQuery.of(context).size.height;
@@ -92,7 +97,8 @@ displayDeleteSection(BuildContext context , String section_id) async {
                           ),
                         );
                          if (!result.hasException) {
-                          Navigator.of(context).pop();
+                          //  refecthdata();
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => AddSectionPointCourse()));
                          return Fluttertoast.showToast(
                             msg: "Delete Sucessfully!",
                             toastLength: Toast.LENGTH_SHORT,
@@ -236,8 +242,7 @@ displayAddSection(BuildContext context , String section_id) async {
                 Container(
                   child: Text("Edit Google Chrome Part 1",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.w500)),
+                      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500)),
                 ),
                 SizedBox(height: 10.0),
                 Expanded(
@@ -318,20 +323,22 @@ displayAddSection(BuildContext context , String section_id) async {
                               GraphQLClient _client = graphQLConfiguration.clientToQuery();
                               QueryResult result = await _client.mutate(
                                 MutationOptions(
-                                 documentNode: gql(addMutation.updateSection(section_id, int.parse(_sectionNoController.text), _sectionTitleController.text)), 
+                                 documentNode: gql(addMutation.updateSection(section_id,_sectionNoController.text, _sectionTitleController.text)), 
                                 )
                               );
                               if(!result.hasException){
                                 _pointNoController.clear();
                                 _pointTitleController.clear();
-                                Navigator.pop(context);
+                                // refecthdata();
+                               Navigator.push(context, MaterialPageRoute(builder: (context) => AddSectionPointCourse()));
                                 return Fluttertoast.showToast(
                                         msg: "Update Section  Sucessfuly!",
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.BOTTOM,
                                         timeInSecForIos: 1,
                                         backgroundColor: Colors.blue,
-                                        textColor: Colors.white);
+                                        textColor: Colors.white,
+                                  );
                               }else {
                                 print("Update Error!!!");
                               }
@@ -346,11 +353,12 @@ displayAddSection(BuildContext context , String section_id) async {
         );
       });
 }
+
 //----------------------- Alert Option Add Point -----------------------//
 displayAddPoint(BuildContext context, String point_id) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
-  String Default = "Edit";
+  // String Default = "Edit";
   return showDialog(
       context: context,
       builder: (context) {
@@ -468,7 +476,7 @@ displayAddPoint(BuildContext context, String point_id) async {
                               MutationOptions(
                                 documentNode: gql(addMutation.updatePoint( 
                                   point_id, 
-                                  int.parse(_pointNoController.text),
+                                  _pointNoController.text,
                                   _pointTitleController.text, 
                                   _videoLinkController.text
                                   )
@@ -509,4 +517,5 @@ displayAddPoint(BuildContext context, String point_id) async {
           ),
         );
       });
+
 }

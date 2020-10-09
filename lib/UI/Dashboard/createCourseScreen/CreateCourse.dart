@@ -2,19 +2,22 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/api.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
+import 'dart:io';
+import 'package:path/path.dart';
+import 'package:http_parser/http_parser.dart';
 
 class CreateCourse extends StatefulWidget {
 
-  final Function refetchCourse;
-
-  CreateCourse({
-    this.refetchCourse
-  });
+  //final Function refetchCourse;
+  // CreateCourse({
+  //   this.refetchCourse
+  // });
  
   @override
   _CreateCourseState createState() => _CreateCourseState();
@@ -142,7 +145,7 @@ class _CreateCourseState extends State<CreateCourse> {
           border: null,
         ),
         onIncrement: (num newlyIncrementedValue) {
-          loginToastFail("Course price");
+          // loginToastFail("Course price");
           print('Newly incremented value is $newlyIncrementedValue');
           setState(() {
             price = newlyIncrementedValue.toInt();
@@ -163,7 +166,8 @@ class _CreateCourseState extends State<CreateCourse> {
         gravity: ToastGravity.BOTTOM,
         timeInSecForIos: 1,
         backgroundColor: Colors.blueAccent,
-        textColor: Colors.white);
+        textColor: Colors.white
+    );
   }
 
 //********Display Image Static and from Gellery************/
@@ -266,6 +270,11 @@ class _CreateCourseState extends State<CreateCourse> {
     });
   }
 
+void _uploadFile(filePath) async{
+    //Get base file name
+    String fileName = basename(filePath.path);
+     print("File base name: $fileName");
+}
   //****************Show ImageFuntion*************** */
   Widget ShowImage() {
     return FutureBuilder(
@@ -389,7 +398,7 @@ class _CreateCourseState extends State<CreateCourse> {
                                       MutationOptions(
                                         onCompleted: (data){
                                           print(data);
-                                          widget.refetchCourse();
+                                          // widget.refetchCourse();
                                         },
                                         documentNode: gql(addMutation.addCourse(
                                           "5f432977da0863337654d38c",
@@ -411,7 +420,7 @@ class _CreateCourseState extends State<CreateCourse> {
                                         _categoryName = null;
                                         imagefile = null;
                                         _descriptionController.clear();
-                                        widget.refetchCourse();
+                                        // widget.refetchCourse();
                                       Navigator.of(context).pop();
                                       return Fluttertoast.showToast(
                                           msg: "Uploade Course  Sucessfuly!",
@@ -421,7 +430,7 @@ class _CreateCourseState extends State<CreateCourse> {
                                           backgroundColor: Colors.blue,
                                           textColor: Colors.white);
                                     } else if (result.hasException) {
-                                      print( "============$result.data['create_course']['message']");
+                                      print("============$result.data['create_course']['message']");
                                       print("============$result.data['create_course']['status']");
                                     }
                                 }else {
@@ -431,13 +440,15 @@ class _CreateCourseState extends State<CreateCourse> {
                                           gravity: ToastGravity.BOTTOM,
                                           timeInSecForIos: 1,
                                           backgroundColor: Colors.blue,
-                                          textColor: Colors.white);
+                                          textColor: Colors.white
+                                        );
                                 }
                               },
                               child: new Text(
                                 "Create Course",
                                 style: TextStyle(
-                                    fontSize: 15.0, color: Colors.white),
+                                    fontSize: 15.0, color: Colors.white
+                                ),
                               ),
                             ),
                           ),

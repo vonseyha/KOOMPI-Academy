@@ -129,7 +129,7 @@ class _AddSectionState extends State<AddSection> {
                       child: new RaisedButton(
                         color: Color(0xFF5dabff),
                         onPressed: () async {
-                            if(_categoryName.isNotEmpty && _sectionNoController.text.isNotEmpty&&_sectionTitleController.text.isNotEmpty){
+                            if(_sectionNoController.text.isNotEmpty&&_sectionTitleController.text.isNotEmpty){
                               GraphQLClient _client = graphQLConfiguration.clientToQuery();
                               QueryResult result = await _client.mutate(
                                   MutationOptions(
@@ -137,13 +137,14 @@ class _AddSectionState extends State<AddSection> {
                                         widget.courseId,
                                         int.parse(_sectionNoController.text),
                                         _sectionTitleController.text,
-                                    )),
-                                  )
+                                    )
+                                  ),
+                                )
                               );
                                if (!result.hasException) {
                                        _sectionNoController.clear();
-                                        _sectionTitleController.clear();
-                                      Navigator.of(context).pop();
+                                       _sectionTitleController.clear();
+                                      // Navigator.of(context).pop();
                                       return Fluttertoast.showToast(
                                           msg: "Add Section  Sucessfuly!",
                                           toastLength: Toast.LENGTH_SHORT,

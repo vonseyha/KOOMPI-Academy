@@ -12,6 +12,7 @@ class Section {
       this.point_preview,
       this.point_sectionid,
       this.point_message,
+      this.hello
       );
 
   final String section_id;
@@ -26,6 +27,8 @@ class Section {
   final bool point_preview;
   final String point_sectionid;
   final String point_message;
+
+  final List hello;
 
   getSectionId() => this.section_id;
   getSectionCourseId() => this.section_courseid;

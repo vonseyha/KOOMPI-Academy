@@ -78,7 +78,7 @@ class QueryMutation {
     """;
   }
 
-  String updateSection(String course_id , int no, String title) {
+  String updateSection(String course_id , String no, String title) {
     return """
       mutation{
         update_section(
@@ -120,7 +120,7 @@ class QueryMutation {
     """;
   }
 
-  String updatePoint(String id,int no,title,String video_link) {
+  String updatePoint(String id,String no,title,String video_link) {
     return """
       mutation {
         update_point(

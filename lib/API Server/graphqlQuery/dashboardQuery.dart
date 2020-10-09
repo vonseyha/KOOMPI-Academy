@@ -2,28 +2,29 @@ class QueryGraphQL{
 
   String getAll() {
     return """ 
-    query {
-      courses{
-       		id
-          org_id
-          title
-          price
-          privacy
-          categories
-          thumbnail
-          description
-          owner_id
-          views
-            user{
-              fullname
-              avatar
-            }
+        query {
+          courses{
+              id
+              org_id
+              title
+              price
+              privacy
+              categories
+              thumbnail
+              description
+              owner_id
+              views
+                user{
+                  fullname
+                  avatar
+                }
+          }
       }
-  }
     """;
   }
 
     String getSections(String course_Id){
+
       return """
           query{
             sections(course_id:"$course_Id"){
@@ -51,7 +52,7 @@ class QueryGraphQL{
       """
       query{
         sections(course_id:"$course_id"){
-          id
+          
           title
         }
       }
