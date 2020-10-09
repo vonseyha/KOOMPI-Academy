@@ -19,8 +19,7 @@ class AddPoint extends StatefulWidget {
 
 class _AddPointState extends State<AddPoint> {
   List<dynamic> listSectiontitle = List<dynamic>();
-  var items = List<String>();
-  var users = new List<GetSection>();
+   List<dynamic> list = List<dynamic>();
   void fillList() async {
     QueryGraphQL queryGraphQL = QueryGraphQL();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
@@ -34,16 +33,16 @@ class _AddPointState extends State<AddPoint> {
       print(listSectiontitle);
       for(int i = 0 ; i< listSectiontitle.length ; i++) {
         print("${listSectiontitle[i]['title']}\n");
-        items.add(listSectiontitle[i]['title']);
-        print("List Items ======= ${items}");
+        if(i >= listSectiontitle.length){
+          list.add(listSectiontitle[i]['title']);
+          print("List Items ======= ${list}");
+        }
       }
     }
   }
-
   @override
   void initState() {
     fillList();
-    // items.addAll()
     super.initState();
   }
 

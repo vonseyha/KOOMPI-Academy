@@ -22,9 +22,9 @@ class JwtDecode{
    }
   //  print(payloadMap);
    if(test == "teacher"){
-    //  Navigator.push(context, MaterialPageRoute(builder: (_) => MainDashboard()));
+     Navigator.push(context, MaterialPageRoute(builder: (_) => MainDashboard()));
    }else{
-    //  Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+     Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
    }
   //  return payloadMap;
  }
