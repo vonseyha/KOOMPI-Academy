@@ -8,6 +8,8 @@ import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
 import 'package:koompi_academy_project/Model/GetSectionIdModel.dart';
 
+import 'functionbuild.dart';
+
 class AddPoint extends StatefulWidget {
   final String courseId;
 
@@ -18,8 +20,10 @@ class AddPoint extends StatefulWidget {
 }
 
 class _AddPointState extends State<AddPoint> {
-  List<dynamic> listSectiontitle = List<dynamic>();
+
+ List<Map>  listSectiontitle ;
    List<dynamic> list = List<dynamic>();
+
   void fillList() async {
     QueryGraphQL queryGraphQL = QueryGraphQL();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
@@ -30,16 +34,29 @@ class _AddPointState extends State<AddPoint> {
     );
     if (!result.hasException) {
       listSectiontitle = List.from(result.data['sections']);
-      print(listSectiontitle);
-      for(int i = 0 ; i< listSectiontitle.length ; i++) {
-        print("${listSectiontitle[i]['title']}\n");
-        if(i >= listSectiontitle.length){
-          list.add(listSectiontitle[i]['title']);
-          print("List Items ======= ${list}");
-        }
-      }
+      // var practices = await jsonCodec.decode(result.data['sections']);
+      // practicelist = await practices.toList();
+      // parseProducts(result.data);
+      // print(parseProducts(result.data['sections']));
+      // print(listSectiontitle);
+      // for(int i = 0 ; i< listSectiontitle.length ; i++) {
+      // //   print("${listSectiontitle[i]['title']}\n");
+      //   if(i >= listSectiontitle.length){
+      //     list.add(listSectiontitle[i]['title']);
+      //     print("List Items ======= ${list}");
+      //   }
+      // }
     }
   }
+
+  // List<GetSection> parseProducts(String responseBody) { 
+  //  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>(); 
+  //   print(GetSection);
+  //  return parsed.map<GetSection>((json) => GetSection.fromMap(json)).toList(); 
+
+  //  }
+
+  List<Map> _myJson = [{"id":0,"name":"<New>"},{"id":1,"name":"Test Practice"}];
   @override
   void initState() {
     fillList();
@@ -66,9 +83,7 @@ class _AddPointState extends State<AddPoint> {
 
   @override
   Widget build(BuildContext context) {
-    // print(_currencies);
     return Scaffold(
-      // backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -82,32 +97,55 @@ class _AddPointState extends State<AddPoint> {
                       builder: (FormFieldState<String> state) {
                         return InputDecorator(
                           decoration: InputDecoration(
-                              // errorStyle: TextStyle(
-                              //     color: Colors.redAccent, fontSize: 16.0),
                               labelText: "Choose Category",
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0))),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              value: _categoryName,
-                              isDense: true,
-                              onChanged: (String newValue) {
-                                setState(() {
-                                  _categoryName = newValue;
-                                  state.didChange(newValue);
-                                });
-                              },
-                              items: listSectiontitle.map(( value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    style: TextStyle(fontSize: 15.0),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                                  child: new DropdownButton<String>(
+                                  isDense: true,
+                                  hint: new Text("Select"),
+                                  value: _categoryName,
+                                  onChanged: (String newValue) {
+
+                                    setState(() {
+                                      _categoryName = newValue;
+                                    });
+
+                                    print (_categoryName);
+                                  },
+                                  items: _myJson.map((Map map) {
+                                    return new DropdownMenuItem<String>(
+                                      value: map["id"].toString(),
+                                      child: new Text(
+                                        map["name"],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                          // child: DropdownButtonHideUnderline(
+                          //   child: DropdownButton<String>(
+                          //     value: _categoryName,
+                          //     isDense: true,
+                          //     onChanged: (String newValue) {
+                          //       setState(() {
+                          //         _categoryName = newValue;
+                          //         state.didChange(newValue);
+                          //       });
+                          //     },
+                          //     items: _myJson.map(( value) {
+                          //       return DropdownMenuItem<String>(
+                          //         value: map["id"].toString(),
+                          //         child: new Text(
+                          //           map["name"],
+                          //         ),
+                          //         // value: value,
+                          //         // child: Text(
+                          //         //   value,
+                          //         //   style: TextStyle(fontSize: 15.0),
+                          //         // ),
+                          //       );
+                          //     }).toList(),
+                          //   ),
+                          // ),
                         );
                       },
                     )),
@@ -172,12 +210,10 @@ class _AddPointState extends State<AddPoint> {
                         borderRadius: new BorderRadius.circular(5.0),
                         borderSide: new BorderSide(),
                       ),
-                      //fillColor: Colors.green
                     ),
                   ),
                 ),
               ),
-              // SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
@@ -200,7 +236,7 @@ class _AddPointState extends State<AddPoint> {
                                 await _client.mutate(MutationOptions(
                               documentNode: gql(addMutation.createPoint(
                                   "5f5ae3c98f0da80235fbece4",
-                                  int.parse(_pointNoController.text),
+                                  _pointNoController.text,
                                   _pointTitleController.text,
                                   _pointVideoLinkController.text)),
                             ));

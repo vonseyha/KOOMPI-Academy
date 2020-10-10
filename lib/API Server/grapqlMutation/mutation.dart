@@ -104,7 +104,7 @@ class QueryMutation {
     """;
   }
 
-  String createPoint(String section_id,int no,String title,String video_link) {
+  String createPoint(String section_id,String no,String title,String video_link) {
     return """
       mutation{
         create_point(
