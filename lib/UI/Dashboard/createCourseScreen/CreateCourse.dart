@@ -423,7 +423,7 @@ void _uploadFile(filePath) async{
                                         // widget.refetchCourse();
                                       Navigator.of(context).pop();
                                       return Fluttertoast.showToast(
-                                          msg: "Uploade Course  Sucessfuly!",
+                                          msg: "Create Course  Sucessfuly!",
                                           toastLength: Toast.LENGTH_SHORT,
                                           gravity: ToastGravity.BOTTOM,
                                           timeInSecForIos: 1,

@@ -37,7 +37,6 @@ class UpdateCourse extends StatefulWidget {
 }
 
 class _UpdateCourseState extends State<UpdateCourse> {
-
   var _currencies = [
     "science",
     "engineering",
@@ -79,6 +78,21 @@ class _UpdateCourseState extends State<UpdateCourse> {
   String category;
   String status;
   String description;
+
+  @override
+  void initState() {
+    _courseTitleController.text = widget.title;
+    // _tageModeController.text = widget.t;
+    // _statusName = "pravcy";
+    // _categoryName = "category" ;
+    _descriptionController.text = widget.description;
+    price = price;
+    // fillList();
+    print(widget.pravcy);
+    print(widget.category);
+    super.initState();
+  }
+
 
   String typenameDataIdFromObject(Object object) {
     if (object is Map<String, Object> &&
@@ -164,7 +178,8 @@ class _UpdateCourseState extends State<UpdateCourse> {
         onIncrement: (num newlyIncrementedValue) {
           print('Newly incremented value is $newlyIncrementedValue');
           setState(() {
-            price = newlyIncrementedValue.toInt();
+            price 
+            = newlyIncrementedValue.toInt();
           });
         },
         onDecrement: (num newlyDecrementedValue) {

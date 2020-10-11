@@ -52,7 +52,7 @@ class QueryGraphQL{
       """
       query{
         sections(course_id:"$course_id"){
-          
+          id
           title
         }
       }

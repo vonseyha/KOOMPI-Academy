@@ -5,6 +5,7 @@ import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:koompi_academy_project/Model/CourseModel.dart';
 import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'ShowPupPopMenu.dart';
 import 'functionbuild.dart';
 
@@ -55,14 +56,17 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
     setState(() {
       listPerson.removeAt(index);
       print('index $index');
-      //fillList();
     });
+  }
+
+   Future<void> saveString(String key, String course_title , String status , String category , String description , int price) async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.setString(key, course_title);
   }
 
   @override
   void initState() {
     fillList();
-    // widget.refetchCourse();
     super.initState();
   }
 
@@ -169,6 +173,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                                   price: listPerson[index].getPrice(),
                                   privacy: listPerson[index].getPrivacy(),
                                   category: listPerson[index].getCategories(),
+                                  // tage_mode: ,
                                   // thumbnail: listPerson[index].getThumbnail(),
                                   description:
                                       listPerson[index].getDescription(),
