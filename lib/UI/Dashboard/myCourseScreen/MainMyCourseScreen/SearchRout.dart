@@ -1,84 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:http/http.dart';
-import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
-import 'package:koompi_academy_project/Model/CourseModel.dart';
-import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'ShowPupPopMenu.dart';
-import 'functionbuild.dart';
 
-class CardViewMyCourse extends StatefulWidget {
-  final Function refetchCourse;
-  CardViewMyCourse({Key key, this.refetchCourse}) : super(key: key);
+class SearchCourse extends StatefulWidget {
+  final String keySearch;
+  SearchCourse({Key key, this.keySearch}) : super(key: key);
 
   @override
-  _CardViewMyCourseState createState() => _CardViewMyCourseState();
+  _SearchCourseState createState() => _SearchCourseState();
 }
 
-class _CardViewMyCourseState extends State<CardViewMyCourse> {
-  List<Course> listPerson = List<Course>();
-  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+class _SearchCourseState extends State<SearchCourse> {
+    ValueNotifier<GraphQLClient> client = ValueNotifier(
+    GraphQLClient(
+      cache: InMemoryCache(),
+      link: HttpLink(uri: 'http://192.168.1.145:6001/private/api'),
+    ),
+  );
 
-  void fillList() async {
-    QueryGraphQL queryGraphQL = QueryGraphQL();
-    GraphQLClient _client = graphQLConfiguration.clientToQuery();
-    QueryResult result = await _client.query(
-      QueryOptions(
-        documentNode: gql(queryGraphQL.getAll()),
-      ),
-    );
-    if (!result.hasException) {
-      setState(() {
-        for (var i = 0; i < result.data["courses"].length; i++) {
-          listPerson.add(
-            Course(
-              result.data["courses"][i]["id"],
-              result.data["courses"][i]["org_id"],
-              result.data["courses"][i]["title"],
-              result.data["courses"][i]["privacy"],
-              result.data["courses"][i]["price"],
-              result.data["courses"][i]["categories"],
-              result.data["courses"][i]["thumbnail"],
-              result.data["courses"][i]["description"],
-              result.data["courses"][i]["owner_id"],
-              result.data["courses"][i]["user"]["fullname"],
-              result.data["courses"][i]["views"],
-            ),
-          );
-        }
-      });
-    }
-  }
-
-  void onDeleteClick(int index) {
-    setState(() {
-      listPerson.removeAt(index);
-      print('index $index');
-    });
-  }
-
-  @override
-  void initState() {
-    fillList();
-    super.initState();
-  }
-
+  QueryGraphQL queryGraphQL = QueryGraphQL();
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      body: ListView.builder(
-        itemCount: listPerson.length,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
+    return GraphQLProvider(
+      client: client,
+      child: Scaffold(
+        body: Query(
+            options: QueryOptions(
+              documentNode: gql(queryGraphQL.searchCourse(widget.keySearch)), 
+            ),
+            builder: (QueryResult result,
+              {VoidCallback refetch, FetchMore fetchMore}) {
+            if (result.hasException) {
+              return Text(result.exception.toString());
+            }
+            if (result.loading) {
+              return Text('Loading');
+            }
+            List repositories = result.data['courses_by_search'];
+            return ListView.builder(
+              itemCount: repositories.length,
+              itemBuilder: (BuildContext context, int index) {
+                 return GestureDetector(
             onTap: () async {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => AddSectionPointCourse(
-                    course_id: listPerson[index].getId(),
-                    course_title: listPerson[index].getTitle()),
-              ));
+              // Navigator.of(context).push(MaterialPageRoute(
+              //   builder: (context) => AddSectionPointCourse(
+              //       course_id: listPerson[index].getId(),
+              //       course_title: listPerson[index].getTitle()),
+              // ));
             },
             child: Padding(
               padding:
@@ -119,7 +87,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                           Container(
                             padding: const EdgeInsets.only(top: 10.0, left: 20),
                             child: Text(
-                              "${listPerson[index].getTitle()}",
+                              "${repositories [index]['title']}",
                               style: new TextStyle(
                                 fontSize: 17.0,
                                 fontWeight: FontWeight.bold,
@@ -143,7 +111,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                                     ),
                                   ),
                                   title: Text(
-                                    "${listPerson[index].getFullname()}",
+                                    "${repositories [index]['user']['fullname']}",
                                     style: new TextStyle(
                                       fontFamily: 'sans-serif',
                                       fontWeight: FontWeight.w600,
@@ -151,31 +119,31 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                                     ),
                                   ),
                                   subtitle: Text(
-                                      '${listPerson[index].getView()} views | 1 month ago',
+                                      '${repositories [index]['views']} views | 1 month ago',
                                       style: new TextStyle(
                                         fontSize: 12.0,
                                         color: Color(0xFF4d6890),
                                       )),
                                 ),
                               ),
-                              Expanded(
-                                flex: 1,
-                                child: ShowPupPopMenu(
-                                  index: index,
-                                  id: listPerson[index].getId(),
-                                  org_id: listPerson[index].getOrg_id(),
-                                  title: listPerson[index].getTitle(),
-                                  price: listPerson[index].getPrice(),
-                                  privacy: listPerson[index].getPrivacy(),
-                                  category: listPerson[index].getCategories(),
-                                  // tage_mode: ,
-                                  // thumbnail: listPerson[index].getThumbnail(),
-                                  description:
-                                      listPerson[index].getDescription(),
-                                  refetchCourse: fillList,
-                                  onDeleteClick: onDeleteClick,
-                                ),
-                              )
+                            //   Expanded(
+                            //     flex: 1,
+                            //     child: ShowPupPopMenu(
+                            //       index: index,
+                            //       id: listPerson[index].getId(),
+                            //       org_id: listPerson[index].getOrg_id(),
+                            //       title: listPerson[index].getTitle(),
+                            //       price: listPerson[index].getPrice(),
+                            //       privacy: listPerson[index].getPrivacy(),
+                            //       category: listPerson[index].getCategories(),
+                            //       // tage_mode: ,
+                            //       // thumbnail: listPerson[index].getThumbnail(),
+                            //       description:
+                            //           listPerson[index].getDescription(),
+                            //       refetchCourse: fillList,
+                            //       onDeleteClick: onDeleteClick,
+                            //     ),
+                            //   )
                             ],
                           ),
                         ],
@@ -186,7 +154,10 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
               ),
             ),
           );
-        },
+              },
+            );
+          },
+        ),
       ),
     );
   }

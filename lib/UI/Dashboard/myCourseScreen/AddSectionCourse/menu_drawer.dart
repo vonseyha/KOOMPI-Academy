@@ -67,7 +67,6 @@ class _EndDrawerState extends State<EndDrawer> {
 
   QueryGraphQL queryGraphQL = QueryGraphQL();
   // List<Section> listSection = List<Section>();
-
   @override
   Widget build(BuildContext context) {
     return Drawer(

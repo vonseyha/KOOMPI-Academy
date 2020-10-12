@@ -24,7 +24,6 @@ class QueryGraphQL{
   }
 
     String getSections(String course_Id){
-
       return """
           query{
             sections(course_id:"$course_Id"){
@@ -56,6 +55,32 @@ class QueryGraphQL{
           title
         }
       }
+      """;
+    }
+
+    String searchCourse(String keySearch){
+      return 
+      """
+        query{
+          courses_by_search(search:"$keySearch"){
+            id
+            title
+            price
+            privacy
+            categories
+            thumbnail
+            description
+            views
+            message
+            user{
+              id
+              fullname
+              email
+              avatar
+              message
+            }
+          }
+        }
       """;
     }
 }

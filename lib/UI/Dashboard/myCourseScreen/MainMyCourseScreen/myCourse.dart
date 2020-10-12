@@ -5,6 +5,7 @@ import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.
 import 'package:koompi_academy_project/Model/CourseModel.dart';
 import 'package:koompi_academy_project/UI/Home/property.dart';
 import 'CardViewMyCourse.dart';
+import 'SearchRout.dart';
 
 class MyCourse extends StatefulWidget {
   @override
@@ -14,39 +15,12 @@ class MyCourse extends StatefulWidget {
 class _MyCourseState extends State<MyCourse> {
 
 TextEditingController editingSearchController = TextEditingController();
-
-List<Course> listPerson = List<Course>();
-  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
-  
- Future <String> fillList() async {
-    QueryGraphQL queryGraphQL = QueryGraphQL();
-    GraphQLClient _client = graphQLConfiguration.clientToQuery();
-    QueryResult result = await _client.query(
-      QueryOptions(
-        documentNode: gql(queryGraphQL.getAll()),
-      ),
-    );
-    if (!result.hasException) {
-      for (var i = 0; i < result.data["courses"].length; i++) {
-        setState(() {
-          listPerson.add(
-            Course(
-              result.data["courses"][i]["id"],
-              result.data["courses"][i]["org_id"],
-              result.data["courses"][i]["title"],
-              result.data["courses"][i]["privacy"],
-              result.data["courses"][i]["price"],
-              result.data["courses"][i]["categories"],
-              result.data["courses"][i]["thumbnail"],
-              result.data["courses"][i]["description"],
-              result.data["courses"][i]["owner_id"],
-              result.data["courses"][i]["user"]["fullname"],
-              result.data["courses"][i]["views"],
-            ),
-          );
-        });
-      }
-    }
+String search;
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    search = editingSearchController.text ; 
   }
 
   @override
@@ -86,38 +60,58 @@ List<Course> listPerson = List<Course>();
             ),
           ),
           SizedBox(height: 15.0),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32.0),
-            child: Container(
-                child: TextField(
-                    controller: editingSearchController,
-                    // focusNode: focusNode,
-                    style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                    decoration: InputDecoration(
-                      enabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          color: Color(0x4437474F),
-                          width: 2,
+          Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+                  Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32.0),
+              child: Container(
+                width: 200.0,
+                  child: TextField(
+                      controller: editingSearchController,
+                      // focusNode: focusNode,
+                      style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                      decoration: InputDecoration(
+                        enabledBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(
+                            color: Color(0x4437474F),
+                            width: 2,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Theme.of(context).primaryColor),
+                        ),
+                        // suffixIcon: Icon(Icons.search),
+                        border: InputBorder.none,
+                        hintText: "Search here...",
+                        contentPadding: const EdgeInsets.only(
+                          left: 16,
+                          right: 20,
+                          top: 14,
+                          bottom: 14,
                         ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Theme.of(context).primaryColor),
-                      ),
-                      suffixIcon: Icon(Icons.search),
-                      border: InputBorder.none,
-                      hintText: "Search here...",
-                      contentPadding: const EdgeInsets.only(
-                        left: 16,
-                        right: 20,
-                        top: 14,
-                        bottom: 14,
-                      ),
+                      onChanged: (value) {
+                        value = editingSearchController.text ;
+                      }            
                     ),
                   ),
-                ),
+            ),
+            Container(
+              child: IconButton(
+                color: Colors.black,
+                icon: Icon(Icons.arrow_right), 
+                onPressed: (){
+                setState(() {
+                  search = editingSearchController.text ; 
+                });
+              }),
+            )
+            ],
           ),
+          if(editingSearchController.text== null)
           Expanded(
             child: Container(
               child: Padding(
@@ -126,16 +120,25 @@ List<Course> listPerson = List<Course>();
               ),
             ),
           ),
+          if(editingSearchController.text != null)
+          Expanded(
+            child: Container(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SearchCourse(keySearch: editingSearchController.text ),//refetchCourse: widget.refetchCourse
+              ),
+            ),
+          ),
         ],
       ),
-      floatingActionButton:FloatingActionButton(
-          backgroundColor: Color(0xFF19B8C9),
-          foregroundColor: Colors.white,
-          onPressed: () {
-            // Respond to button press
-          },
-          child: Icon(Icons.search,size: 25),
-        ) ,
+      // floatingActionButton:FloatingActionButton(
+      //     backgroundColor: Color(0xFF19B8C9),
+      //     foregroundColor: Colors.white,
+      //     onPressed: () {
+      //       // Respond to button press
+      //     },
+      //     child: Icon(Icons.search,size: 25),
+      //   ) ,
     );
   }
 }

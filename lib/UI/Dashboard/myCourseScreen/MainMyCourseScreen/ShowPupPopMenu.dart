@@ -19,6 +19,7 @@ class ShowPupPopMenu extends StatefulWidget {
   final String description;
   final Function refetchCourse;
   final Function onDeleteClick;
+  final tage_mode;
 
   const ShowPupPopMenu(
       {Key key,
@@ -31,6 +32,7 @@ class ShowPupPopMenu extends StatefulWidget {
       this.thumbnail,
       this.description,
       this.refetchCourse,
+      this.tage_mode,
       this.onDeleteClick,
       this.index})
       : super(key: key);
