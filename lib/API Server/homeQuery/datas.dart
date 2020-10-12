@@ -30,3 +30,33 @@ class VideoDatas {
   getFullname() => this.fullname;
   getAvatar() => this.avatar;
 }
+
+class LinkVideo{
+  final String idS;
+  final String course_id;
+  final String noS;
+  final String titleS;
+  final String messageS;
+  final String idP;
+  final String noP;
+  final String titleP;
+  final String video_link;
+  final String preview;
+  final String section_id;
+  final String messageP;
+
+  LinkVideo(this.idS, this.course_id, this.noS, this.titleS, this.messageS, this.idP, this.noP, this.titleP, this.video_link, this.preview, this.messageP, this.section_id);
+  getSectionId() =>this.idS;
+  getSectionCourseId()=>this.course_id;
+  getSectionNo() =>this.noS;
+  getSectionTitle() =>this.titleS;
+  getSectionMessage() => this.messageS;
+  getPointId() =>this.idP;
+  getPointNo() =>this.noP;
+  getPointTitle() =>this.titleP;
+  getPointVideoLink() =>this.video_link;
+  getPointPreview() => this.preview;
+  getPointSectionId() => this.section_id;
+  getPointMessage() => this.messageP;
+}
+

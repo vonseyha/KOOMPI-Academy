@@ -29,11 +29,11 @@ class QueryData {
     """;
   }
 
-  String getLinkVieo(String course_id){
+  String getLinkVieo(){
        return 
        """ 
-            query{
-              sections(course_id:"5ef1a03e7cb812452191ba4d"){
+            query(\$course_id:ID){
+              sections(course_id:\$course_id){
                 id
                 course_id
                 no

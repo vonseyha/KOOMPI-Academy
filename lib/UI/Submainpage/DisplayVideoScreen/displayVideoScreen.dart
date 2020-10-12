@@ -1,6 +1,9 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:koompi_academy_project/API%20Server/homeQuery/datas.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/graphQLVideoConf.dart';
+import 'package:koompi_academy_project/API%20Server/homeQuery/query.dart';
 import 'package:koompi_academy_project/Model/CardContentModel/sectionModel.dart';
 import 'package:koompi_academy_project/UI/ContentsPage/Sliver_to_SubPage/Herowidget.dart';
 import 'package:koompi_academy_project/UI/Submainpage/CommentPage/commentScreen.dart';
@@ -39,16 +42,50 @@ class _PortfolioTutorialDetailPageState
     Tab(text: 'Content'),
   ];
 
-  List<SectionModel> list = List<SectionModel>();
+  List<LinkVideo> list = List<LinkVideo>();
   GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
+  String video;
+
+  void fillList() async {
+    QueryData queryData = QueryData();
+    GraphQLClient client = graphqlVideoConf.clientToQuery();
+    QueryResult result = await client.query(
+      QueryOptions(documentNode: gql(
+        queryData.getLinkVieo()),
+        variables: {"course_id":"${widget.course_Id}"}));
+    print("======================${widget.course_Id}");
+    print("++++++++++++++++++===$video");
+    if (!result.hasException) {
+      for (var i = 0; i < result.data["sections"].length; i++) {
+        setState(() {
+          list.add(LinkVideo(
+            result.data["sections"][i]["id"],
+            result.data["sections"][i]["course_id"],
+            result.data["sections"][i]["no"],
+            result.data["sections"][i]["title"],
+            result.data["sections"][i]["message"],
+            result.data["sections"][i]["points"]["id"],
+            result.data["sections"][i]["points"]["no"],
+            result.data["sections"][i]["points"]["title"],
+            result.data["sections"][i]["points"]["video_link"],
+            result.data["sections"][i]["points"]["preview"],
+            result.data["sections"][i]["points"]["section_id"],
+            result.data["sections"][i]["points"]["message"],
+          ));
+          video = result.data["sections"][i]["points"]["video_link"];
+        });
+      }
+    }
+  }
 
   TabController _tabController;
 
   @override
   void initState() {
     super.initState();
+    fillList();
     _chewieController = ChewieController(
-        videoPlayerController: VideoPlayerController.network("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"),
+        videoPlayerController: VideoPlayerController.network("$video"),//$video
         aspectRatio: 16 / 9,
         autoInitialize: true,
         autoPlay: true,
@@ -64,13 +101,13 @@ class _PortfolioTutorialDetailPageState
             ),
           );
         });
+        // print("VideoLink====================$video");
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) {
-    print("++++++++${widget.course_Id}");
     var datawh = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(

@@ -17,7 +17,7 @@ class _SampleGridState extends State<SampleGrid> {
   List<VideoDatas> list = List<VideoDatas>();
   GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
   String exts;
-  bool isCheck = true;
+  bool isCheck = false;
 
   void fillList() async {
     QueryData queryData = QueryData();
@@ -26,7 +26,6 @@ class _SampleGridState extends State<SampleGrid> {
 
     if (!result.hasException) {
       for (var i = 0; i < result.data["courses"].length; i++) {
-        // print("${result.data["courses"][i]["feature_image"]}\n");
         setState(() {
           list.add(VideoDatas(
             result.data["courses"][i]["id"],
@@ -39,11 +38,11 @@ class _SampleGridState extends State<SampleGrid> {
           exts = result.data["courses"][i]["feature_image"];
           for (var i = 0; i < exts.length; i++) {
             bool res = exts.endsWith('.svg');
-            print('############################$i');
-            print('IMAGE:::::::::$exts');
-            print('LENGTH::::::${exts.length}');
-            print('RESULT::::::$res');
-            print('+++++++++++++++++++++++++++++++++++++++++');
+            // print('############################$i');
+            // print('IMAGE:::::::::$exts');
+            // print('LENGTH::::::${exts.length}');
+            // print('RESULT::::::$res');
+            // print('+++++++++++++++++++++++++++++++++++++++++');
             isCheck = res;
           }
         });
@@ -68,8 +67,7 @@ class _SampleGridState extends State<SampleGrid> {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => PortfolioTutorialDetailPage(
                     course_Id: list[index].getId())));
-            // _buildRippleEffectNavigation(context,list[index].getId());
-            print("Click To Viceo Play");
+                    print('it will display the video');
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
@@ -97,6 +95,9 @@ class _SampleGridState extends State<SampleGrid> {
                           // isCheck
                           // ? NetworkImage("${list[index].getImage()}")
                           // : SvgPicture.network("${list[index].getImage()}"),
+                          // isCheck
+                          // ? NetworkImage("${list[index].getImage()}")
+                          // : null,
                       ),
                     ),
                   ),
