@@ -16,43 +16,9 @@ class MainDashboard extends StatefulWidget {
 
 class _MainDashboardState extends State<MainDashboard> {
 
-  void printOut(){
-    print("Hello world");
-  }
-
-  List<Course> listPerson = List<Course>();
-  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
-  
-  void fillList() async {
-    QueryGraphQL queryGraphQL = QueryGraphQL();
-    GraphQLClient _client = graphQLConfiguration.clientToQuery();
-    QueryResult result = await _client.query(
-      QueryOptions(
-        documentNode: gql(queryGraphQL.getAll()),
-      ),
-    );
-    if (!result.hasException) {
-      for (var i = 0; i < result.data["courses"].length; i++) {
-        setState(() {
-          listPerson.add(
-            Course(
-              result.data["courses"][i]["id"],
-              result.data["courses"][i]["org_id"],
-              result.data["courses"][i]["title"],
-              result.data["courses"][i]["privacy"],
-              result.data["courses"][i]["price"],
-              result.data["courses"][i]["categories"],
-              result.data["courses"][i]["thumbnail"],
-              result.data["courses"][i]["description"],
-              result.data["courses"][i]["owner_id"],
-              result.data["courses"][i]["user"]["fullname"],
-              result.data["courses"][i]["views"],
-            ),
-          );
-        });
-      }
-    }
-  }
+  // void printOut(){
+  //   print("Hello world");
+  // }
 
   @override
   Widget build(BuildContext context) {

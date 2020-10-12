@@ -3,17 +3,28 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
+import 'addSectionPointCourse.dart';
+import 'menu_drawer.dart';
 
 //----------------------- Declare Graphql -----------------------//
  GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
  QueryMutation addMutation = QueryMutation(); 
+
  //----------------------- Form Section -----------------------//
 final _sectionNoController = TextEditingController();
 final _sectionTitleController = TextEditingController();
+
 //----------------------- Form Point  -----------------------//
 final _pointNoController = TextEditingController();
 final _pointTitleController = TextEditingController();
 final _videoLinkController = TextEditingController();
+String _section_no;
+String _section_title;
+
+String _point_no;
+String _point_title;
+String _video_link;
+
 //----------------------- Alert Option deleteSection  -----------------------//
 displayDeleteSection(BuildContext context , String section_id) async {
   var H = MediaQuery.of(context).size.height;
@@ -24,7 +35,7 @@ displayDeleteSection(BuildContext context , String section_id) async {
       builder: (context) {
         return AlertDialog(
           content: Container(
-            height: H / 3.5,
+            height: H / 3.2,
             child: Column(
               children: [
                 Container(
@@ -92,6 +103,7 @@ displayDeleteSection(BuildContext context , String section_id) async {
                           ),
                         );
                          if (!result.hasException) {
+                          //  refecthdata();
                           Navigator.of(context).pop();
                          return Fluttertoast.showToast(
                             msg: "Delete Sucessfully!",
@@ -123,7 +135,7 @@ displayDeletePoint(BuildContext context,String point_id) async {
       builder: (context) {
         return AlertDialog(
           content: Container(
-            height: H / 3.5,
+            height: H / 3.2,
             child: Column(
               children: [
                 Container(
@@ -215,29 +227,31 @@ displayDeletePoint(BuildContext context,String point_id) async {
 }
 
 //----------------------- Alert Option Add Section -----------------------//
-displayAddSection(BuildContext context , String section_id) async {
+displayAddSection(BuildContext context , String section_id ,String section_No , String section_Title ) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
+  _sectionNoController.text =  section_No;
+  _sectionTitleController.text = section_Title;
+  print(section_id);
   print(section_id);
   return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           content: Container(
-            height: H / 2.6,
+            height: H / 2.3,
             width: W,
             child: Column(
               children: [
                 Container(
-                    width: 70,
-                    height: 70,
+                    width: 60,
+                    height: 60,
                     child: Image.asset("images/edit.png")),
                 SizedBox(height: 5.0),
                 Container(
-                  child: Text("Edit Google Chrome Part 1",
+                  child: Text("Edit ${section_Title}",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.w500)),
+                      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500)),
                 ),
                 SizedBox(height: 10.0),
                 Expanded(
@@ -258,6 +272,7 @@ displayAddSection(BuildContext context , String section_id) async {
                               ),
                               //fillColor: Colors.green
                             ),
+                            onSaved: (val) => _section_no = val,
                           ),
                         ),
                         SizedBox(height: 5.0),
@@ -274,8 +289,10 @@ displayAddSection(BuildContext context , String section_id) async {
                               ),
                               //fillColor: Colors.green
                             ),
+                            onSaved: (val) => _section_title = val,
                           ),
                         ),
+                      
                       ],
                     ),
                   ),
@@ -318,20 +335,23 @@ displayAddSection(BuildContext context , String section_id) async {
                               GraphQLClient _client = graphQLConfiguration.clientToQuery();
                               QueryResult result = await _client.mutate(
                                 MutationOptions(
-                                 documentNode: gql(addMutation.updateSection(section_id, int.parse(_sectionNoController.text), _sectionTitleController.text)), 
+                                 documentNode: gql(addMutation.updateSection(section_id,_section_no,_section_title)), 
                                 )
                               );
                               if(!result.hasException){
                                 _pointNoController.clear();
                                 _pointTitleController.clear();
-                                Navigator.pop(context);
+                                // refecthdata();
+                              //  Navigator.push(context, MaterialPageRoute(builder: (context) => AddSectionPointCourse()));
+                              Navigator.pop(context);
                                 return Fluttertoast.showToast(
                                         msg: "Update Section  Sucessfuly!",
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.BOTTOM,
                                         timeInSecForIos: 1,
                                         backgroundColor: Colors.blue,
-                                        textColor: Colors.white);
+                                        textColor: Colors.white,
+                                  );
                               }else {
                                 print("Update Error!!!");
                               }
@@ -346,27 +366,31 @@ displayAddSection(BuildContext context , String section_id) async {
         );
       });
 }
+
 //----------------------- Alert Option Add Point -----------------------//
-displayAddPoint(BuildContext context, String point_id) async {
+displayAddPoint(BuildContext context, String point_id , String point_no , String point_title, String video_link) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
-  String Default = "Edit";
+  // String Default = "Edit";
+  _pointNoController.text = point_no;
+  _pointTitleController.text = point_title;
+  _videoLinkController.text = video_link;
   return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           content: Container(
-            height: H / 2.1,
+            height: H / 1.9,
             width: W,
             child: Column(
               children: [
                 Container(
-                    width: 70,
-                    height: 70,
+                    width: 60,
+                    height: 60,
                     child: Image.asset("images/edit.png")),
                 SizedBox(height: 5.0),
                 Container(
-                  child: Text("Edit Google Chrome Part 1",
+                  child: Text("Edit ${point_title}",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 16.0, fontWeight: FontWeight.w500)),
@@ -390,6 +414,7 @@ displayAddPoint(BuildContext context, String point_id) async {
                               ),
                               //fillColor: Colors.green
                             ),
+                             onSaved: (val) => _point_no = val,
                           ),
                         ),
                         SizedBox(height: 5.0),
@@ -406,6 +431,7 @@ displayAddPoint(BuildContext context, String point_id) async {
                               ),
                               //fillColor: Colors.green
                             ),
+                             onSaved: (val) => _point_title = val,
                           ),
                         ),
                         SizedBox(height: 5.0),
@@ -422,6 +448,7 @@ displayAddPoint(BuildContext context, String point_id) async {
                               ),
                               //fillColor: Colors.green
                             ),
+                             onSaved: (val) => _video_link = val,
                           ),
                         ),
                       ],
@@ -468,9 +495,9 @@ displayAddPoint(BuildContext context, String point_id) async {
                               MutationOptions(
                                 documentNode: gql(addMutation.updatePoint( 
                                   point_id, 
-                                  int.parse(_pointNoController.text),
-                                  _pointTitleController.text, 
-                                  _videoLinkController.text
+                                  _point_no,
+                                  _point_title, 
+                                  _video_link
                                   )
                                 ),
                               ),
@@ -509,4 +536,5 @@ displayAddPoint(BuildContext context, String point_id) async {
           ),
         );
       });
+
 }

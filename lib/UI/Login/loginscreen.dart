@@ -8,6 +8,7 @@ import 'package:koompi_academy_project/UI/SignUP/signupscreen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'JwtDecode.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
@@ -26,7 +28,7 @@ class _LoginState extends State<Login> {
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
   bool _passwordVisible = true;
-
+  
   //*************** Login Connect to back-end************//
   String alertText;
   String msg;
@@ -34,8 +36,7 @@ class _LoginState extends State<Login> {
   Future<String> login(String email, String password, context) async {
     String token;
     String role;
-    var response =
-        await http.post("https://learnbackend.koompi.com/login", body: {
+    var response = await http.post("https://learnbackend.koompi.com/login", body: {
       'email': email,
       'password': password,
     });
@@ -44,36 +45,15 @@ class _LoginState extends State<Login> {
     if (response.statusCode == 200) {
       SharedPreferences isToken = await SharedPreferences.getInstance();
       var responseJson = json.decode(response.body);
+       final data = jsonDecode(response.body);
       token = responseJson['token'];
       role = responseJson['role'];
       print(role.toString());
       print(response.body);
-      // tryParseJwt(response.body);
+      isToken.setString('saved_email', email);
       if (token != null) {
-        isToken.setString('token', token);
-        if (token == null) return null;
-        final parts = token.split('.');
-        if (parts.length != 3) {
-          return null;
-        }
-        final payload = parts[1];
-        var normalized = base64Url.normalize(payload);
-        var resp = utf8.decode(base64Url.decode(normalized));
-        final payloadMap = json.decode(resp);
-        String test = payloadMap['role'];
-        print(test);
-        if (payloadMap is! Map<String, dynamic>) {
-          return null;
-        }
-        print(payloadMap);
-        // return payloadMap;
-        if(payloadMap['role'] == 'teacher'){
-          Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => MainDashboard()));
-        }else if(payloadMap['role'] == 'student'){
-            Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
-        }
+        isToken.setString('token', token);//Set Key to checkUser
+        JwtDecode.tryParseJwt(token,context);
         msg = "Login Successful";
         loginToast(msg);
         _emailController.clear();
@@ -88,30 +68,11 @@ class _LoginState extends State<Login> {
     } else {
       final data = jsonDecode(response.body);
       msg = data['message'];
+      print(msg);
       loginToastFail(msg);
     }
     return alertText;
   }
-
-  // Decode data by using jwt//
-  // static Map<String, dynamic> tryParseJwt(String token) {
-  //   if (token == null) return null;
-  //   final parts = token.split('.');
-  //   if (parts.length != 3) {
-  //     return null;
-  //   }
-  //   final payload = parts[1];
-  //   var normalized = base64Url.normalize(payload);
-  //   var resp = utf8.decode(base64Url.decode(normalized));
-  //   final payloadMap = json.decode(resp);
-  //   String test = payloadMap['role'];
-  //   print(test);
-  //   if (payloadMap is! Map<String, dynamic>) {
-  //     return null;
-  //   }
-  //   print(payloadMap);
-  //   return payloadMap;
-  // }
 
   loginToastFail(String toast) {
     return Fluttertoast.showToast(
@@ -305,10 +266,7 @@ class _LoginState extends State<Login> {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
               login(_email, _password, context);
-              // print("Your email: $_email and Password: $_password");
             }
-            // Navigator.push(context,
-            //     MaterialPageRoute(builder: (context) => HomeDisplay()));
           },
           child: Text("LOGIN",
               textAlign: TextAlign.center,
@@ -383,6 +341,57 @@ class _LoginState extends State<Login> {
     ));
   }
 
+  //*************** Remember check box************//
+bool get rememberMe => _isRembemerMe;
+bool _isRembemerMe = false;
+
+  Widget remberMeCheckBox() {
+    return CheckboxListTile(
+      checkColor: Theme.of(context).primaryColor,
+      activeColor: Colors.white,
+      value: _isRembemerMe,
+      onChanged: handleRememberMe,
+      title: Text(
+        "Remember me",
+        style: TextStyle(color: Colors.black54),
+      ),
+      controlAffinity: ListTileControlAffinity.leading,
+    );
+  }
+
+   void handleRememberMe(bool value) {
+    print("Handle Rember Me");
+    _isRembemerMe = value;
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        prefs.setBool("remember_me", value);
+      },
+    );
+    setState(() {});
+  }
+  
+  void _loadUserEmail() async {
+    print("Load Email");
+    try {
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      _email = _prefs.getString("saved_email") ?? "";
+      var _remeberMe = _prefs.getBool("remember_me") ?? false;
+      if (_remeberMe) {
+        _emailController.text = _email ?? "";
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+     _loadUserEmail();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -412,7 +421,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   SizedBox(
-                    height: 35.0,
+                    height: 20.0,
                   ),
                   Container(
                       child: new Theme(
@@ -423,7 +432,7 @@ class _LoginState extends State<Login> {
                     //******Call Widget Email Full Form ******//
                     child: _emailForm(),
                   )),
-                  SizedBox(height: 35.0),
+                  SizedBox(height: 10.0),
                   Container(
                       child: new Theme(
                     data: new ThemeData(
@@ -434,7 +443,11 @@ class _LoginState extends State<Login> {
                     child: _passwordForm(),
                   )),
                   SizedBox(
-                    height: 35.0,
+                    height: 5.0,
+                  ),
+                  remberMeCheckBox(),
+                  SizedBox(
+                    height: 05.0,
                   ),
                   //******Call Widget Login Button ******//
                   _loginButon(),
@@ -443,7 +456,7 @@ class _LoginState extends State<Login> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                      top: 130.0,
+                      top: 90.0,
                     ),
                     child: Column(
                       children: <Widget>[

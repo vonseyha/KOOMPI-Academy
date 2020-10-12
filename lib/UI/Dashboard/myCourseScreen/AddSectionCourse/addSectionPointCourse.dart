@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
+import 'package:koompi_academy_project/Model/SectionModel.dart';
 import 'package:koompi_academy_project/UI/ContentsPage/Sliver_to_SubPage/sliverAppbar.dart';
 import 'package:koompi_academy_project/UI/ContentsPage/Sliver_to_SubPage/sliver_persistent_header.dart';
+import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:tuple/tuple.dart';
 import 'AddPoint.dart';
 import 'AddSection.dart';
@@ -11,6 +15,7 @@ class AddSectionPointCourse extends StatefulWidget {
   final String course_title;
 
   const AddSectionPointCourse({
+
     Key key,
     this.course_id,
     this.course_title,
@@ -20,33 +25,22 @@ class AddSectionPointCourse extends StatefulWidget {
   _AddSectionPointCourseState createState() => _AddSectionPointCourseState();
 }
 
-class _AddSectionPointCourseState extends State<AddSectionPointCourse>
-    with SingleTickerProviderStateMixin {
-
-String sectionid;
+class _AddSectionPointCourseState extends State<AddSectionPointCourse>  with SingleTickerProviderStateMixin {
 
   final List<Tuple3> _pages = [
     Tuple3('Add Section', AddSection(), Icon(Icons.video_library)),
     Tuple3('Add Point', AddPoint(), Icon(Icons.image)),
   ];
 
-  //  final List<Tuple3> _pages = [
-  //   Tuple3('Add Section', AddSection(courseId: "5f6af5f12365e91c74c940b4"), Icon(Icons.video_library)),
-  //   Tuple3('Add Point', AddPoint(sectionId: "5f72fc2140199a7acf5da62a"), Icon(Icons.image)),
-  // ];
-
   TabController _tabController;
 
   @override
   void initState() {
+    // fillList();
     super.initState();
     _tabController = TabController(length: _pages.length, vsync: this);
     _tabController.addListener(() => setState(() {
-      
     }));
-    setState(() {
-      sectionid = widget.course_id;
-    });
   }
 
   @override
@@ -55,9 +49,12 @@ String sectionid;
     super.dispose();
   }
 
+  List<dynamic> listSection = List<dynamic>();
+  var items = List<String>();
+GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+
   @override
   Widget build(BuildContext context) {
-    // var datawh = MediaQuery.of(context);
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -88,6 +85,7 @@ String sectionid;
       endDrawer: ClipPath(
           child: EndDrawer(
             courseId: widget.course_id,
+            // refetchdata: fillList,
           ),
           ),
     );

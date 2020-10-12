@@ -2,12 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:koompi_academy_project/UI/Home/detailcategory.dart';
-import 'package:koompi_academy_project/UI/Home/profile.dart';
 import 'package:koompi_academy_project/UI/Home/property.dart';
 import 'package:koompi_academy_project/UI/Home/samplecard.dart';
 import 'package:koompi_academy_project/UI/Home/subCategory.dart';
-import '../ContentsPage/sampleCardscreen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -15,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  
   double xOffset = 0;
   double yOffset = 0;
   double scaleFactor = 1;
@@ -235,11 +233,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Container(
                           height: MediaQuery.of(context).size.height,
                           width: MediaQuery.of(context).size.width,
-
                           ///
                           ///all video here///
                           ///
-
                           child: SampleGrid(),
                           // child: VideoDisplay(),
                         ),

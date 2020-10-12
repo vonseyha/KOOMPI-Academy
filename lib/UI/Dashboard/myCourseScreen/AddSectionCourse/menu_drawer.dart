@@ -2,41 +2,59 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:koompi_academy_project/Model/CourseModel.dart';
+import 'package:koompi_academy_project/Model/SectionModel.dart';
+import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/MainMyCourseScreen/functionbuild.dart';
+import 'package:koompi_academy_project/UI/Submainpage/CommentPage/commentScreen.dart';
 import 'functionbuild.dart';
 
 class EndDrawer extends StatefulWidget {
   final String courseId;
-  const EndDrawer({Key key, this.courseId}) : super(key: key);
+  final Function refetchdata;
+  const EndDrawer({Key key, this.courseId,this.refetchdata}) : super(key: key);
 
   @override
   _EndDrawerState createState() => _EndDrawerState();
 }
 
+enum MyPupopMenu { delete, edit }
 class _EndDrawerState extends State<EndDrawer> {
+
   //----------------------- Show item select option-----------------------//
-  Widget _simplePopup(String sectionID) => PopupMenuButton<int>(
+  Widget _simplePopup(String sectionID, String section_No , String section_Title ) => PopupMenuButton<MyPupopMenu>(
+        onSelected: (MyPupopMenu result){
+            if(result == MyPupopMenu.delete){
+                Navigator.push(
+                  context,
+                  //  MaterialPageRoute(builder: (_) => displayDeleteSection(context, sectionID)),
+                  displayDeleteSection(context, sectionID)
+                );
+            }else if (result == MyPupopMenu.edit){
+              print("edit");
+                Navigator.push(
+                  context,
+                  //  MaterialPageRoute(builder: (_) => displayDeleteSection(context, sectionID)),
+                    // displayDeleteSection(context, sectionID)
+                     displayAddSection(context, sectionID,section_No,section_Title),
+                );
+            }
+        },
         icon: Icon(Icons.more_horiz, color: Colors.grey, size: 20),
         itemBuilder: (context) => [
           PopupMenuItem(
-            value: 1,
-            child: GestureDetector(
-              onTap: () => displayDeleteSection(context, sectionID),
+            value: MyPupopMenu.delete,
               child: Padding(
                 padding: const EdgeInsets.only(left: 25.0),
                 child: Icon(Icons.delete, size: 25, color: Colors.grey),
               ),
             ),
-          ),
           PopupMenuItem(
-            value: 2,
-            child: GestureDetector(
-              onTap: () => displayAddSection(context, sectionID),
+            value:  MyPupopMenu.edit,
               child: Padding(
                 padding: const EdgeInsets.only(left: 25.0),
                 child: Icon(Icons.edit, size: 25, color: Colors.grey),
               ),
             ),
-          ),
         ],
       );
 
@@ -46,7 +64,9 @@ class _EndDrawerState extends State<EndDrawer> {
       link: HttpLink(uri: 'http://192.168.1.145:6001/private/api'),
     ),
   );
+
   QueryGraphQL queryGraphQL = QueryGraphQL();
+  // List<Section> listSection = List<Section>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +76,7 @@ class _EndDrawerState extends State<EndDrawer> {
         child: Scaffold(
             body: Query(
           options: QueryOptions(
-            documentNode: gql(queryGraphQL.getSections(widget.courseId)),
+            documentNode: gql(queryGraphQL.getSections(widget.courseId,)),
           ),
           builder: (QueryResult result,
               {VoidCallback refetch, FetchMore fetchMore}) {
@@ -73,7 +93,11 @@ class _EndDrawerState extends State<EndDrawer> {
                   return Column(
                     children: [
                       ExpansionTile(
-                        leading: _simplePopup(repositories[index]["id"]),
+                        leading: _simplePopup(
+                        repositories[index]["id"],
+                        repositories[index]["no"],
+                        repositories[index]["title"]
+                      ),
                         title: Text(
                           " ${repositories[index]["no"]}.\t${repositories[index]["title"]}",
                           maxLines: 2,
@@ -81,21 +105,18 @@ class _EndDrawerState extends State<EndDrawer> {
                           style: TextStyle(fontSize: 14),
                         ),
                         children: <Widget>[
-                          if (result.data['sections'][index]
-                              .containsKey("points"))
-                            for (var a = 0; a <result.data['sections'][index]["points"].length;
-                                a++)
+                          if (result.data['sections'][index].containsKey("points"))
+                            for (var a = 0; a <result.data['sections'][index]["points"].length;a++)
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 15.0),
+                                horizontal: 15.0),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                        " ${repositories[index]["points"][a]["no"]}.\t${repositories[index]["points"][a]["title"]}",
+                                    Text(" ${repositories[index]["points"][a]["no"]}.\t${repositories[index]["points"][a]["title"]}",
                                         maxLines: 2,
-                                        style: TextStyle(fontSize: 14)),
+                                        style: TextStyle(fontSize: 14)
+                                      ),
                                     Row(
                                       children: [
                                         Container(
@@ -104,11 +125,13 @@ class _EndDrawerState extends State<EndDrawer> {
                                             onPressed: () {
                                               displayAddPoint(
                                                   context,
-                                                  repositories[index]["points"][a]["id"]);
-                                              print('edit');
+                                                  repositories[index]["points"][a]["id"],
+                                                  repositories[index]["points"][a]["no"],
+                                                  repositories[index]["points"][a]["title"],
+                                                  repositories[index]["points"][a]["video_link"],
+                                                  );
                                             },
-                                            icon: Icon(Icons.edit,
-                                                size: 15, color: Colors.grey),
+                                            icon: Icon(Icons.edit,size: 15, color: Colors.grey),
                                           ),
                                         ),
                                         Container(
@@ -117,7 +140,8 @@ class _EndDrawerState extends State<EndDrawer> {
                                             onPressed: () {
                                               displayDeletePoint(
                                                   context,
-                                                  repositories[index]["points"][a]["id"]);
+                                                  repositories[index]["points"][a]["id"],
+                                              );
                                             },
                                             icon: Icon(Icons.delete,
                                                 size: 15, color: Colors.grey),

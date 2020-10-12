@@ -5,6 +5,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
+import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/MainMyCourseScreen/myCourse.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 
 class UpdateCourse extends StatefulWidget {
@@ -50,6 +51,7 @@ class _UpdateCourseState extends State<UpdateCourse> {
     "សាលាបឋមសិក្សាវត្តបូព៍",
     "new-generation-school"
   ];
+
   var _currenstatus = [
     "Private",
     "Public",
@@ -60,6 +62,7 @@ class _UpdateCourseState extends State<UpdateCourse> {
   String _categoryName;
   int price;
   String imagefile;
+
   Widget sizeHight() {
     return SizedBox(height: 8.0);
   }
@@ -75,6 +78,21 @@ class _UpdateCourseState extends State<UpdateCourse> {
   String category;
   String status;
   String description;
+
+  @override
+  void initState() {
+    _courseTitleController.text = widget.title;
+    // _tageModeController.text = widget.t;
+    // _statusName = "pravcy";
+    // _categoryName = "category" ;
+    _descriptionController.text = widget.description;
+    price = price;
+    // fillList();
+    print(widget.pravcy);
+    print(widget.category);
+    super.initState();
+  }
+
 
   String typenameDataIdFromObject(Object object) {
     if (object is Map<String, Object> &&
@@ -158,10 +176,10 @@ class _UpdateCourseState extends State<UpdateCourse> {
           border: null,
         ),
         onIncrement: (num newlyIncrementedValue) {
-          loginToastFail("Course price");
           print('Newly incremented value is $newlyIncrementedValue');
           setState(() {
-            price = newlyIncrementedValue.toInt();
+            price 
+            = newlyIncrementedValue.toInt();
           });
         },
         onDecrement: (num newlyDecrementedValue) {
@@ -305,8 +323,8 @@ class _UpdateCourseState extends State<UpdateCourse> {
             return (ImageEmpty());
           }
         });
-  }
-
+    }
+  
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   QueryMutation addMutation = QueryMutation();
 
@@ -424,14 +442,16 @@ class _UpdateCourseState extends State<UpdateCourse> {
                                     _categoryName = null;
                                     imagefile = null;
                                     _descriptionController.clear();
-                                    Navigator.of(context).pop();
+                                    // Navigator.of(context).pop();
+                                    Navigator.pop(context);
                                     return Fluttertoast.showToast(
                                         msg: "Update Course  Sucessfuly!",
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.BOTTOM,
                                         timeInSecForIos: 1,
                                         backgroundColor: Colors.blue,
-                                        textColor: Colors.white);
+                                        textColor: Colors.white
+                                    );
                                   } else if (result.hasException) {
                                     print( "============$result.data['create_course']['message']");
                                     print("============$result.data['create_course']['status']");
@@ -443,7 +463,8 @@ class _UpdateCourseState extends State<UpdateCourse> {
                                       gravity: ToastGravity.BOTTOM,
                                       timeInSecForIos: 1,
                                       backgroundColor: Colors.blue,
-                                      textColor: Colors.white);
+                                      textColor: Colors.white
+                                    );
                                 }
                               },
                               child: new Text(
