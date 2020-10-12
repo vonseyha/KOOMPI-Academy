@@ -21,7 +21,7 @@ enum MyPupopMenu { delete, edit }
 class _EndDrawerState extends State<EndDrawer> {
 
   //----------------------- Show item select option-----------------------//
-  Widget _simplePopup(String sectionID ) => PopupMenuButton<MyPupopMenu>(
+  Widget _simplePopup(String sectionID, String section_No , String section_Title ) => PopupMenuButton<MyPupopMenu>(
         onSelected: (MyPupopMenu result){
             if(result == MyPupopMenu.delete){
                 Navigator.push(
@@ -35,7 +35,7 @@ class _EndDrawerState extends State<EndDrawer> {
                   context,
                   //  MaterialPageRoute(builder: (_) => displayDeleteSection(context, sectionID)),
                     // displayDeleteSection(context, sectionID)
-                     displayAddSection(context, sectionID),
+                     displayAddSection(context, sectionID,section_No,section_Title),
                 );
             }
         },
@@ -66,7 +66,7 @@ class _EndDrawerState extends State<EndDrawer> {
   );
 
   QueryGraphQL queryGraphQL = QueryGraphQL();
-  List<Section> listSection = List<Section>();
+  // List<Section> listSection = List<Section>();
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +95,8 @@ class _EndDrawerState extends State<EndDrawer> {
                       ExpansionTile(
                         leading: _simplePopup(
                         repositories[index]["id"],
+                        repositories[index]["no"],
+                        repositories[index]["title"]
                       ),
                         title: Text(
                           " ${repositories[index]["no"]}.\t${repositories[index]["title"]}",
@@ -124,7 +126,9 @@ class _EndDrawerState extends State<EndDrawer> {
                                               displayAddPoint(
                                                   context,
                                                   repositories[index]["points"][a]["id"],
-                                                    // ),
+                                                  repositories[index]["points"][a]["no"],
+                                                  repositories[index]["points"][a]["title"],
+                                                  repositories[index]["points"][a]["video_link"],
                                                   );
                                             },
                                             icon: Icon(Icons.edit,size: 15, color: Colors.grey),

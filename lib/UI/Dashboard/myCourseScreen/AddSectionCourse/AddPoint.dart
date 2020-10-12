@@ -32,7 +32,7 @@ class _AddPointState extends State<AddPoint> {
     if (!result.hasException) {
       setState(() {
          lists = List.from(result.data['sections']);
-         print(lists);
+         print('$result');
       });
      
     }

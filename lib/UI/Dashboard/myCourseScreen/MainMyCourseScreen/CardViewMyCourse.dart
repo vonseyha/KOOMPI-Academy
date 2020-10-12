@@ -59,10 +59,10 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
     });
   }
 
-   Future<void> saveString(String key, String course_title , String status , String category , String description , int price) async{
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.setString(key, course_title);
-  }
+  //  Future<void> saveString(String key, String course_title , String status , String category , String description , int price) async{
+  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  //   return sharedPreferences.setString(key, course_title);
+  // }
 
   @override
   void initState() {

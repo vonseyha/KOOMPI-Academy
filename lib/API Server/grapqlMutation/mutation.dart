@@ -64,7 +64,7 @@ class QueryMutation {
      """;
   }
 
-  String createSection(String course_id ,int no,String title) {
+  String createSection(String course_id ,String no,String title) {
     return """
       mutation{
         create_section(
@@ -78,17 +78,17 @@ class QueryMutation {
     """;
   }
 
-  String updateSection(String course_id , String no, String title) {
+  String updateSection(String section_id , String no, String title) {
     return """
-      mutation{
-        update_section(
-          id:"$course_id",
-          no:"$no",
-          title:"$title",
-        ){
-          message
+        mutation{
+          update_section(
+            id:"$section_id",
+            no:"$no",
+            title:"$title",
+          ){
+            message
+          }
         }
-      }
     """;
   }
 

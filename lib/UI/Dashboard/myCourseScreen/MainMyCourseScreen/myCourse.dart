@@ -118,18 +118,24 @@ List<Course> listPerson = List<Course>();
                   ),
                 ),
           ),
-
           Expanded(
             child: Container(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: CardViewMyCourse(refetchCourse: fillList),//refetchCourse: widget.refetchCourse
+                child: CardViewMyCourse(),//refetchCourse: widget.refetchCourse
               ),
             ),
           ),
-
         ],
       ),
+      floatingActionButton:FloatingActionButton(
+          backgroundColor: Color(0xFF19B8C9),
+          foregroundColor: Colors.white,
+          onPressed: () {
+            // Respond to button press
+          },
+          child: Icon(Icons.search,size: 25),
+        ) ,
     );
   }
 }

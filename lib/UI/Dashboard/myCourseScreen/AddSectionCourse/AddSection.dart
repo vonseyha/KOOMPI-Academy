@@ -41,10 +41,10 @@ class _AddSectionState extends State<AddSection> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.courseTitle);
-    setState(() {
-      _courseTitleController.text = widget.courseTitle;
-    });
+    // print(widget.courseTitle);
+    // setState(() {
+    //   _courseTitleController.text = widget.courseTitle;
+    // });
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -135,7 +135,7 @@ class _AddSectionState extends State<AddSection> {
                                   MutationOptions(
                                     documentNode: gql(addMutation.createSection(
                                         widget.courseId,
-                                        int.parse(_sectionNoController.text),
+                                        _sectionNoController.text,
                                         _sectionTitleController.text,
                                     )
                                   ),
