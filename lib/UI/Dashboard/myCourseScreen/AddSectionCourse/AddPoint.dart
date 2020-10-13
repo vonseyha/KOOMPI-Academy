@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -13,14 +12,18 @@ class AddPoint extends StatefulWidget {
   final String courseId;
 
   const AddPoint({Key key, this.courseId}) : super(key: key);
-
   @override
   _AddPointState createState() => _AddPointState();
 }
 
 class _AddPointState extends State<AddPoint> {
+
   List<GetSection> listGetSection = List<GetSection>();
-  List<Map<String, dynamic>> lists;
+  List <Map> lists;
+  List testList = List<String>();
+  String id ;
+  String title;
+
   void fillList() async {
     QueryGraphQL queryGraphQL = QueryGraphQL();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
@@ -30,14 +33,36 @@ class _AddPointState extends State<AddPoint> {
       ),
     );
     if (!result.hasException) {
-      setState(() {
-        print(result.data['sections']);
-      });
-     
+        testList = List.from(result.data['sections']);
+        print(testList);
+        for(var i = 0 ; i < testList.length ; i++) {
+          print("${ result.data['sections'][i]['id'] }");
+          print("${result.data['sections'][i]['title']}");
+        }
+        // _myJson = [
+        //     {
+        //       'id':,
+        //       'title':,
+        //     }
+        //   ];
+        //   print(_myJson);
+
+      // setState(() {
+      //   for(var i = 0 ; i < result.data['sections'].length ; i++){
+      //     listGetSection.add(
+      //       GetSection(
+      //         result.data['sections'][i]['id'],
+      //         result.data['sections'][i]['title'],
+      //       )
+      //     );
+          // print("${ result.data['sections'][i]['id'] }");
+          // print("${result.data['sections'][i]['title']}");
+      //   }
+      // });
     }
   }
 
-  List<Map<String, dynamic>> _myJson = [
+  List<Map<String, dynamic>> _myJsons = [
       {
         "id": "5f5ae3c98f0da80235fbece4",
         "title": "លីមីតនៃអនុគមន៍"
@@ -55,6 +80,8 @@ class _AddPointState extends State<AddPoint> {
         "title": "ចំណងជើងមេរៀន"
       }
   ];
+
+  List<Map<String, dynamic>> _myJson;
   
   @override
   void initState() {
@@ -94,9 +121,10 @@ class _AddPointState extends State<AddPoint> {
                         });
                         print(_categoryName);
                       },
-                      items: _myJson.map((Map map) {
+                      
+                      items: _myJsons.map((Map map) {
                         return new DropdownMenuItem<String>(
-                          value: map["id"].toString(),
+                          value: map["id"],
                           child: new Text(
                             map["title"],
                           ),
@@ -190,7 +218,8 @@ class _AddPointState extends State<AddPoint> {
                                   _categoryName,
                                   _pointNoController.text,
                                   _pointTitleController.text,
-                                  _pointVideoLinkController.text)),
+                                  _pointVideoLinkController.text
+                                )),
                             ));
                             if (!result.hasException) {
                               _pointNoController.clear();
