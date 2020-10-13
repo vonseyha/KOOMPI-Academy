@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/UI/Dashboard/maindashboardScreen/dashboardScreen.dart';
+import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/AddPoint.dart';
 import 'package:koompi_academy_project/UI/Home/samplecard.dart';
 import 'package:koompi_academy_project/UI/SplashScreen/splashscreen.dart';
 import 'UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';

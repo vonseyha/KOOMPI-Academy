@@ -24,7 +24,7 @@ class addUser extends StatefulWidget {
 class _addUserState extends State<addUser> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  
+
   String _email;
   String _password;
   String _username;
@@ -35,7 +35,8 @@ class _addUserState extends State<addUser> {
 
   bool _isHidePassword = true;
 
-  TextStyle style =  TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
+  TextStyle style =
+      TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
 
   //*************** Login Button************//
   _buildLoginBtn() {
@@ -191,17 +192,16 @@ class _addUserState extends State<addUser> {
       onSaved: (val) => _password = val,
     ));
   }
-
-  loginToast() {
+  loginToast(String message , Color color) {
     return Fluttertoast.showToast(
-        msg: "Register Done!",
+        msg: message,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIos: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white);
+        backgroundColor: color,
+        textColor: Colors.white
+      );
   }
-
   @override
   Widget build(BuildContext context) {
     print(client);
@@ -210,10 +210,17 @@ class _addUserState extends State<addUser> {
           options: MutationOptions(
             document: CREATE_USER,
             update: (Cache cache, QueryResult result) {
-              print(result.data['create_user']['message']);
-              if (result.data['create_user']['message'] != null) {
-                print(result.data['create_user']['message']);
-                print("You have successfully add document!");
+              // print(result.data['create_user']['message']);
+              if (!result.hasException) {
+                // print("1");//
+                loginToast("Register Sucessfuly.", Colors.green);
+                print( "Your name: $_username and Your email: $_email and Password: $_password");
+                _usernaController.clear();
+                _emailController.clear();
+                _passController.clear();
+                Navigator.pushReplacement( context, MaterialPageRoute(builder: (context) => Login()));
+              } else {
+                loginToast("Error: Email is already in use.",Colors.red);
               }
               return result;
             },
@@ -266,7 +273,6 @@ class _addUserState extends State<addUser> {
                           //******Call Widget Email Fill Form ******//
                           child: _emailForm(),
                         )),
-
                         SizedBox(height: 20.0),
                         Container(
                             child: new Theme(
@@ -296,14 +302,6 @@ class _addUserState extends State<addUser> {
                                     'email': _email,
                                     'password': _password,
                                   });
-                                  // Navigator.pushReplacement(
-                                  //     context, MaterialPageRoute(builder: (context) => Login()));
-                                  loginToast();
-                                  print(
-                                      "Your name: $_username and Your email: $_email and Password: $_password");
-                                  _usernaController.clear();
-                                  _emailController.clear();
-                                  _passController.clear();
                                 }
                               },
                               child: Text("SIGN UP",
@@ -320,7 +318,7 @@ class _addUserState extends State<addUser> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
-                            top: 100.0,
+                            top: 70.0,
                           ),
                           child: Column(
                             children: <Widget>[

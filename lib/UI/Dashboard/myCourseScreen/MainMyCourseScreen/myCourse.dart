@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
@@ -52,66 +53,24 @@ String search;
             ),
           ),
           SizedBox(height: 5),
-          Text(
-            "Here Your Course!",
-            style: TextStyle(
-              fontSize: 25.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 15.0),
-          Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-                  Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32.0),
-              child: Container(
-                width: 200.0,
-                  child: TextField(
-                      controller: editingSearchController,
-                      // focusNode: focusNode,
-                      style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            color: Color(0x4437474F),
-                            width: 2,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Theme.of(context).primaryColor),
-                        ),
-                        // suffixIcon: Icon(Icons.search),
-                        border: InputBorder.none,
-                        hintText: "Search here...",
-                        contentPadding: const EdgeInsets.only(
-                          left: 16,
-                          right: 20,
-                          top: 14,
-                          bottom: 14,
-                        ),
-                      ),
-                      onChanged: (value) {
-                        value = editingSearchController.text ;
-                      }            
+          Container(
+             child: Row(
+               children: [
+                 Expanded(
+                    child:Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Here!",style: TextStyle(fontSize: 30)),
+                        Text("Your Course.",style: TextStyle(fontSize: 25)),
+                      ],
                     ),
-                  ),
-            ),
-            Container(
-              child: IconButton(
-                color: Colors.black,
-                icon: Icon(Icons.arrow_right), 
-                onPressed: (){
-                setState(() {
-                  search = editingSearchController.text ; 
-                });
-              }),
-            )
-            ],
+                 ),
+                 Expanded(
+                    child: SvgPicture.asset('images/teacher.svg',width: 100,height: 100),
+                 ),
+               ],
+             ),
           ),
-          if(editingSearchController.text== null)
           Expanded(
             child: Container(
               child: Padding(
@@ -120,25 +79,20 @@ String search;
               ),
             ),
           ),
-          if(editingSearchController.text != null)
-          Expanded(
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SearchCourse(keySearch: editingSearchController.text ),//refetchCourse: widget.refetchCourse
-              ),
-            ),
-          ),
+          // if(editingSearchController.text != null)
         ],
       ),
-      // floatingActionButton:FloatingActionButton(
-      //     backgroundColor: Color(0xFF19B8C9),
-      //     foregroundColor: Colors.white,
-      //     onPressed: () {
-      //       // Respond to button press
-      //     },
-      //     child: Icon(Icons.search,size: 25),
-      //   ) ,
+      floatingActionButton:FloatingActionButton(
+          backgroundColor: Color(0xFF026DA2),
+          foregroundColor: Colors.white,
+          onPressed: () {
+            Navigator.push(
+              context, 
+              MaterialPageRoute(builder: (context ) => SearchCourse(keySearch: search))
+            );
+          },
+          child: Icon(Icons.search,size: 25),
+        ) ,
     );
   }
 }

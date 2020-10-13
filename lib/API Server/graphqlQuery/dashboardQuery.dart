@@ -50,7 +50,7 @@ class QueryGraphQL{
       return 
       """
       query{
-        sections(course_id:"$course_id"){
+        sections(course_id:"5f4f050415643b0057a28ae1"){
           id
           title
         }

@@ -31,8 +31,7 @@ class _AddPointState extends State<AddPoint> {
     );
     if (!result.hasException) {
       setState(() {
-         lists = List.from(result.data['sections']);
-         print('$result');
+        print(result.data['sections']);
       });
      
     }
@@ -234,3 +233,5 @@ class _AddPointState extends State<AddPoint> {
     );
   }
 }
+
+
