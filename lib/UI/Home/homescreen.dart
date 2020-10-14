@@ -180,7 +180,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => DisplayCourseByCategories(
-                                        name: categories[index]['name']),
+                                        name: categories[index]['name'],
+                                        imagesvg: categories[index]['svg'],
+                                        ),
                                   ));
                               }
                             },

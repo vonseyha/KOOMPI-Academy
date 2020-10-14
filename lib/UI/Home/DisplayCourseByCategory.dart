@@ -11,7 +11,8 @@ import 'property.dart';
 
 class DisplayCourseByCategories extends StatefulWidget {
   final String name;
-  const DisplayCourseByCategories({Key key, this.name}) : super(key: key);
+  final String imagesvg;
+  const DisplayCourseByCategories({Key key, this.name ,this.imagesvg}) : super(key: key);
   @override
   _DisplayCourseByCategoriesState createState() => _DisplayCourseByCategoriesState();
 }
@@ -63,7 +64,7 @@ QueryData queryData = QueryData();
                  child:Row(
                    children: [
                      Expanded(
-                       child:Image.asset("images/img3.png",width: 100,height: 100), 
+                       child:SvgPicture.asset(widget.imagesvg,width: 100,height: 100), 
                      ),
                      Padding(
                        padding: const EdgeInsets.only(top: 20.0),
