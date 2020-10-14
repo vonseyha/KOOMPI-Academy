@@ -52,4 +52,63 @@ class QueryData {
             }
        """;
   }
+
+
+  // ------------------------------------ Query fetch data of contents of course ------------------------------------------//
+  String getContentCourse(String courseID){
+    return 
+    """
+      query{
+      sections(course_id:"$courseID"){
+        id
+        no
+        title
+        points{
+          id
+          no
+          title
+          video_link
+          section_id
+        }
+      }
+    }
+    """;
+  }
+
+  // ------------------------------------ Query fetch data of overview of course ------------------------------------------//
+  String getOverviewCourse(String courseTitle){
+    return 
+    """
+    query{
+      courses_by_search(search:"$courseTitle"){
+        id
+        description
+      }
+    }
+    """;
+
+  }
+// ------------------------------------ Query fetch course by categories ------------------------------------------//
+  String getCourseByCategories(String categoryName){
+    return 
+    """
+    query{
+      courses_by_category(query:"$categoryName"){
+            id
+            title
+            feature_image
+            category_name
+            views
+            user{
+              fullname
+              avatar
+            } 
+      }
+    }
+    """;
+  }
+  
 }
+
+
+

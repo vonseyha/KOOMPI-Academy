@@ -66,8 +66,12 @@ class _SampleGridState extends State<SampleGrid> {
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => PortfolioTutorialDetailPage(
-                    course_Id: list[index].getId())));
-                    print('it will display the video');
+                    course_Id: list[index].getId(),
+                    course_Title: list[index].getTitle(),
+                    )
+                  )
+                );
+            print('it will display the video');
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
@@ -163,45 +167,6 @@ class _SampleGridState extends State<SampleGrid> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildRippleEffectNavigation(BuildContext context, String videoUrl) {
-    return Positioned.fill(
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          splashColor: Colors.blue.withOpacity(0.5),
-          onTap: () {
-            Navigator.of(context).push(
-              _createTutorialDetailRoute(videoUrl),
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  PageRoute<Object> _createTutorialDetailRoute(videoUrl) {
-    return PageRouteBuilder(
-      transitionDuration: Duration(milliseconds: 200),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return SlideTransition(
-          position: Tween(begin: Offset(1.0, 0.0), end: Offset.zero)
-              .chain(CurveTween(curve: Curves.ease))
-              .animate(animation),
-          child: FadeTransition(
-            opacity: Tween(begin: 0.0, end: 1.0)
-                .chain(CurveTween(curve: Curves.ease))
-                .animate(animation),
-            child: child,
-          ),
-        );
-      },
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          PortfolioTutorialDetailPage(
-        course_Id: videoUrl,
-      ),
     );
   }
 }

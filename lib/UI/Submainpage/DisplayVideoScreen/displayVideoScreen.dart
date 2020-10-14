@@ -15,10 +15,11 @@ import 'package:page_transition/page_transition.dart';
 
 class PortfolioTutorialDetailPage extends StatefulWidget {
   final String course_Id;
+  final  String course_Title;
 
   const PortfolioTutorialDetailPage({
     Key key,
-    @required this.course_Id,
+    @required this.course_Id,this.course_Title
   }) : super(key: key);
 
   @override
@@ -46,46 +47,46 @@ class _PortfolioTutorialDetailPageState
   GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
   String video;
 
-  void fillList() async {
-    QueryData queryData = QueryData();
-    GraphQLClient client = graphqlVideoConf.clientToQuery();
-    QueryResult result = await client.query(
-      QueryOptions(documentNode: gql(
-        queryData.getLinkVieo()),
-        variables: {"course_id":"${widget.course_Id}"}));
-    print("======================${widget.course_Id}");
-    print("++++++++++++++++++===$video");
-    if (!result.hasException) {
-      for (var i = 0; i < result.data["sections"].length; i++) {
-        setState(() {
-          list.add(LinkVideo(
-            result.data["sections"][i]["id"],
-            result.data["sections"][i]["course_id"],
-            result.data["sections"][i]["no"],
-            result.data["sections"][i]["title"],
-            result.data["sections"][i]["message"],
-            result.data["sections"][i]["points"]["id"],
-            result.data["sections"][i]["points"]["no"],
-            result.data["sections"][i]["points"]["title"],
-            result.data["sections"][i]["points"]["video_link"],
-            result.data["sections"][i]["points"]["preview"],
-            result.data["sections"][i]["points"]["section_id"],
-            result.data["sections"][i]["points"]["message"],
-          ));
-          video = result.data["sections"][i]["points"]["video_link"];
-        });
-      }
-    }
-  }
+  // void fillList() async {
+  //   QueryData queryData = QueryData();
+  //   GraphQLClient client = graphqlVideoConf.clientToQuery();
+  //   QueryResult result = await client.query(
+  //     QueryOptions(documentNode: gql(
+  //       queryData.getLinkVieo()),
+  //       variables: {"course_id":"${widget.course_Id}"}));
+  //   print("======================${widget.course_Id}");
+  //   print("++++++++++++++++++===$video");
+  //   if (!result.hasException) {
+  //     for (var i = 0; i < result.data["sections"].length; i++) {
+  //       setState(() {
+  //         list.add(LinkVideo(
+  //           result.data["sections"][i]["id"],
+  //           result.data["sections"][i]["course_id"],
+  //           result.data["sections"][i]["no"],
+  //           result.data["sections"][i]["title"],
+  //           result.data["sections"][i]["message"],
+  //           result.data["sections"][i]["points"]["id"],
+  //           result.data["sections"][i]["points"]["no"],
+  //           result.data["sections"][i]["points"]["title"],
+  //           result.data["sections"][i]["points"]["video_link"],
+  //           result.data["sections"][i]["points"]["preview"],
+  //           result.data["sections"][i]["points"]["section_id"],
+  //           result.data["sections"][i]["points"]["message"],
+  //         ));
+  //         video = result.data["sections"][i]["points"]["video_link"];
+  //       });
+  //     }
+  //   }
+  // }
 
   TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    fillList();
+    // fillList();
     _chewieController = ChewieController(
-        videoPlayerController: VideoPlayerController.network("$video"),//$video
+        videoPlayerController: VideoPlayerController.network("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"),//$video
         aspectRatio: 16 / 9,
         autoInitialize: true,
         autoPlay: true,
@@ -216,8 +217,8 @@ class _PortfolioTutorialDetailPageState
                   height: datawh.size.height / 1.95,
                   child:
                       TabBarView(controller: _tabController, children: <Widget>[
-                    ContentFregement(),
-                    FregementContent(),
+                    ContentFregement(courseTitle: widget.course_Title),
+                    FregementContent(courseID: widget.course_Id),
                   ]),
                 ),
               )

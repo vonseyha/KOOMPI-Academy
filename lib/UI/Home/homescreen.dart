@@ -6,6 +6,8 @@ import 'package:koompi_academy_project/UI/Home/property.dart';
 import 'package:koompi_academy_project/UI/Home/samplecard.dart';
 import 'package:koompi_academy_project/UI/Home/subCategory.dart';
 
+import 'DisplayCourseByCategory.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -166,12 +168,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         return Container(
                           child: InkWell(
                             onTap: () {
-                              Navigator.push(
+                              if( categories[index]['name'] == "sala"){
+                                  Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => SubCagateory(
                                         name: categories[index]['name']),
                                   ));
+                              }else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DisplayCourseByCategories(
+                                        name: categories[index]['name']),
+                                  ));
+                              }
                             },
                             child: Column(
                               children: [
