@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -23,7 +25,6 @@ String search;
     super.initState();
     search = editingSearchController.text ; 
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,34 +53,31 @@ String search;
               ),
             ),
           ),
-          SizedBox(height: 5),
           Container(
-             child: Row(
-               children: [
-                 Expanded(
-                    child:Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Here!",style: TextStyle(fontSize: 30)),
-                        Text("Your Course.",style: TextStyle(fontSize: 25)),
-                      ],
-                    ),
+              height: MediaQuery.of(context).size.height / 5,
+                 child:Row(
+                   children: [
+                     Expanded(
+                       child:Image.asset('images/imgcourse.png',width: 130,height: 130),
+                     ),
+                     Padding(
+                       padding: const EdgeInsets.only( top:40.0,right: 20),
+                       child: Expanded(
+                         child: Column(
+                           crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text("Here!",style: TextStyle(fontSize: 30,fontFamily: "RobotoMono ",fontWeight: FontWeight.w400)),
+                              Text("Your course.",style: TextStyle(fontSize: 20,fontFamily: "RobotoMono ",fontWeight: FontWeight.w300)),
+                            ],
+                         ),
+                       ),
+                     ),
+                   ],
                  ),
-                 Expanded(
-                    child: SvgPicture.asset('images/teacher.svg',width: 100,height: 100),
-                 ),
-               ],
-             ),
-          ),
-          Expanded(
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CardViewMyCourse(),//refetchCourse: widget.refetchCourse
-              ),
             ),
+          Expanded(
+            child: CardViewMyCourse(),//refetchCourse: widget.refetchCourse
           ),
-          // if(editingSearchController.text != null)
         ],
       ),
       floatingActionButton:FloatingActionButton(

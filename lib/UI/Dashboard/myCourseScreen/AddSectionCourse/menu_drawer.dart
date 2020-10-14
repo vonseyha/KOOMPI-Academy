@@ -31,11 +31,8 @@ class _EndDrawerState extends State<EndDrawer> {
                   displayDeleteSection(context, sectionID)
                 );
             }else if (result == MyPupopMenu.edit){
-              print("edit");
                 Navigator.push(
                   context,
-                  //  MaterialPageRoute(builder: (_) => displayDeleteSection(context, sectionID)),
-                    // displayDeleteSection(context, sectionID)
                      displayAddSection(context, sectionID,section_No,section_Title),
                 );
             }
@@ -115,10 +112,12 @@ class _EndDrawerState extends State<EndDrawer> {
                                 child: Row(
                                   mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(" ${repositories[index]["points"][a]["no"]}.\t${repositories[index]["points"][a]["title"]}",
-                                        maxLines: 2,
-                                        style: TextStyle(fontSize: 14)
-                                      ),
+                                    Container(
+                                      child: Text(" ${repositories[index]["points"][a]["no"]}.\t${repositories[index]["points"][a]["title"]}",
+                                          maxLines: 3,
+                                          style: TextStyle(fontSize: 14)
+                                        ),
+                                    ),
                                     Row(
                                       children: [
                                         Container(

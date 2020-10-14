@@ -8,12 +8,14 @@ import 'UI/Dashboard/myCourseScreen/MainMyCourseScreen/CardViewMyCourse.dart';
 import 'UI/Dashboard/myCourseScreen/MainMyCourseScreen/myCourse.dart';
 import 'UI/Home/homedisplay.dart';
 import 'UI/Home/homedisplay.dart';
+import 'UI/Home/profile.dart';
 import 'UI/Login/loginscreen.dart';
 import 'UI/Splash.dart';
 
 void main() => runApp(App());
 
 class App extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Container(
         color: Color(0xFFf7f8fc),
-        child: MainDashboard(),
+        child: MyCourse(),
       )
     );
   }

@@ -7,10 +7,10 @@ import 'addSectionPointCourse.dart';
 import 'menu_drawer.dart';
 
 //----------------------- Declare Graphql -----------------------//
- GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
- QueryMutation addMutation = QueryMutation(); 
+GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+QueryMutation addMutation = QueryMutation();
 
- //----------------------- Form Section -----------------------//
+//----------------------- Form Section -----------------------//
 final _sectionNoController = TextEditingController();
 final _sectionTitleController = TextEditingController();
 
@@ -25,11 +25,32 @@ String _point_no;
 String _point_title;
 String _video_link;
 
+flutterToastT(String toast) {
+  return Fluttertoast.showToast(
+    msg: toast,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIos: 1,
+    backgroundColor: Colors.blue,
+    textColor: Colors.white,
+  );
+}
+
+flutterToastF(String toast) {
+  return Fluttertoast.showToast(
+    msg: toast,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIos: 1,
+    backgroundColor: Colors.red,
+    textColor: Colors.white,
+  );
+}
+
 //----------------------- Alert Option deleteSection  -----------------------//
-displayDeleteSection(BuildContext context , String section_id) async {
+displayDeleteSection(BuildContext context, String section_id) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
-  print(section_id);
   return showDialog(
       context: context,
       builder: (context) {
@@ -94,27 +115,24 @@ displayDeleteSection(BuildContext context , String section_id) async {
                       ),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(3)),
-                      onPressed: () async{
+                      onPressed: () async {
                         GraphQLClient _client =
                             graphQLConfiguration.clientToQuery();
                         QueryResult result = await _client.mutate(
                           MutationOptions(
-                            documentNode: gql(addMutation.deleteSection(section_id)),
+                            update: (Cache cache, QueryResult result) {
+                              if (!result.hasException) {
+                                flutterToastT(result.data['delete_section']['message']);
+                                Navigator.pop(context);
+                              } else {
+                                flutterToastT("Update Error!!!");
+                              }
+                              return result;
+                            },
+                            documentNode:
+                                gql(addMutation.deleteSection(section_id)),
                           ),
                         );
-                         if (!result.hasException) {
-                          //  refecthdata();
-                          Navigator.of(context).pop();
-                         return Fluttertoast.showToast(
-                            msg: "Delete Sucessfully!",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIos: 1,
-                            backgroundColor: Colors.blue,
-                            textColor: Colors.white);
-                        }else {
-                              Navigator.of(context).pop();
-                        }
                       },
                     ),
                   ],
@@ -127,7 +145,7 @@ displayDeleteSection(BuildContext context , String section_id) async {
 }
 
 //----------------------- Alert Option Point -----------------------//
-displayDeletePoint(BuildContext context,String point_id) async {
+displayDeletePoint(BuildContext context, String point_id) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
   return showDialog(
@@ -194,27 +212,25 @@ displayDeletePoint(BuildContext context,String point_id) async {
                       ),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(3)),
-                      onPressed: () async{
+                      onPressed: () async {
                         Navigator.of(context).pop();
                         GraphQLClient _client =
                             graphQLConfiguration.clientToQuery();
                         QueryResult result = await _client.mutate(
                           MutationOptions(
-                            documentNode: gql(addMutation.deletePoint(point_id)),
+                            update: (Cache cache, QueryResult result) {
+                              if (!result.hasException) {
+                                flutterToastT(result.data['delete_point']['message']);
+                                Navigator.pop(context);
+                              } else {
+                                flutterToastT("Update Error!!!");
+                              }
+                              return result;
+                            },
+                            documentNode:
+                                gql(addMutation.deletePoint(point_id)),
                           ),
                         );
-                         if (!result.hasException) {
-                          Navigator.of(context).pop();
-                         return Fluttertoast.showToast(
-                            msg: "Delete Sucessfully!",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIos: 1,
-                            backgroundColor: Colors.blue,
-                            textColor: Colors.white);
-                        }else {
-                              Navigator.of(context).pop();
-                        }
                       },
                     ),
                   ],
@@ -227,13 +243,12 @@ displayDeletePoint(BuildContext context,String point_id) async {
 }
 
 //----------------------- Alert Option Add Section -----------------------//
-displayAddSection(BuildContext context , String section_id ,String section_No , String section_Title ) async {
+displayAddSection(BuildContext context, String section_id, String section_No,
+    String section_Title) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
-  _sectionNoController.text =  section_No;
+  _sectionNoController.text = section_No;
   _sectionTitleController.text = section_Title;
-  print(section_id);
-  print(section_id);
   return showDialog(
       context: context,
       builder: (context) {
@@ -251,7 +266,8 @@ displayAddSection(BuildContext context , String section_id ,String section_No , 
                 Container(
                   child: Text("Edit ${section_Title}",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500)),
+                      style: TextStyle(
+                          fontSize: 16.0, fontWeight: FontWeight.w500)),
                 ),
                 SizedBox(height: 10.0),
                 Expanded(
@@ -272,7 +288,6 @@ displayAddSection(BuildContext context , String section_id ,String section_No , 
                               ),
                               //fillColor: Colors.green
                             ),
-                            onSaved: (val) => _section_no = val,
                           ),
                         ),
                         SizedBox(height: 5.0),
@@ -289,10 +304,8 @@ displayAddSection(BuildContext context , String section_id ,String section_No , 
                               ),
                               //fillColor: Colors.green
                             ),
-                            onSaved: (val) => _section_title = val,
                           ),
                         ),
-                      
                       ],
                     ),
                   ),
@@ -330,32 +343,33 @@ displayAddSection(BuildContext context , String section_id ,String section_No , 
                       ),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(3)),
-                      onPressed: () async{
-                            if(_sectionNoController.text.isNotEmpty && _sectionTitleController.text.isNotEmpty){
-                              GraphQLClient _client = graphQLConfiguration.clientToQuery();
-                              QueryResult result = await _client.mutate(
-                                MutationOptions(
-                                 documentNode: gql(addMutation.updateSection(section_id,_section_no,_section_title)), 
-                                )
-                              );
-                              if(!result.hasException){
+                      onPressed: () async {
+                        if (_sectionNoController.text.isNotEmpty &&
+                            _sectionTitleController.text.isNotEmpty) {
+                          GraphQLClient _client =
+                              graphQLConfiguration.clientToQuery();
+                          QueryResult result =
+                              await _client.mutate(MutationOptions(
+                            update: (Cache cache, QueryResult result) {
+                              if (!result.hasException) {
                                 _pointNoController.clear();
                                 _pointTitleController.clear();
-                                // refecthdata();
-                              //  Navigator.push(context, MaterialPageRoute(builder: (context) => AddSectionPointCourse()));
-                              Navigator.pop(context);
-                                return Fluttertoast.showToast(
-                                        msg: "Update Section  Sucessfuly!",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIos: 1,
-                                        backgroundColor: Colors.blue,
-                                        textColor: Colors.white,
-                                  );
-                              }else {
-                                print("Update Error!!!");
+                                Navigator.pop(context);
+                                flutterToastT(
+                                    result.data['update_section']['message']);
+                              } else {
+                                flutterToastT("Update Error!!!");
                               }
-                            }
+                              return result;
+                            },
+                            documentNode: gql(addMutation.updateSection(
+                                section_id,
+                                _sectionNoController.text,
+                                _sectionTitleController.text)),
+                          ));
+                        } else {
+                          flutterToastF("Please fill form!");
+                        }
                       },
                     ),
                   ],
@@ -368,10 +382,10 @@ displayAddSection(BuildContext context , String section_id ,String section_No , 
 }
 
 //----------------------- Alert Option Add Point -----------------------//
-displayAddPoint(BuildContext context, String point_id , String point_no , String point_title, String video_link) async {
+displayAddPoint(BuildContext context, String point_id, String point_no,
+    String point_title, String video_link) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
-  // String Default = "Edit";
   _pointNoController.text = point_no;
   _pointTitleController.text = point_title;
   _videoLinkController.text = video_link;
@@ -412,9 +426,7 @@ displayAddPoint(BuildContext context, String point_id , String point_no , String
                                 borderRadius: new BorderRadius.circular(5.0),
                                 borderSide: new BorderSide(),
                               ),
-                              //fillColor: Colors.green
                             ),
-                             onSaved: (val) => _point_no = val,
                           ),
                         ),
                         SizedBox(height: 5.0),
@@ -429,9 +441,7 @@ displayAddPoint(BuildContext context, String point_id , String point_no , String
                                 borderRadius: new BorderRadius.circular(5.0),
                                 borderSide: new BorderSide(),
                               ),
-                              //fillColor: Colors.green
                             ),
-                             onSaved: (val) => _point_title = val,
                           ),
                         ),
                         SizedBox(height: 5.0),
@@ -446,9 +456,7 @@ displayAddPoint(BuildContext context, String point_id , String point_no , String
                                 borderRadius: new BorderRadius.circular(5.0),
                                 borderSide: new BorderSide(),
                               ),
-                              //fillColor: Colors.green
                             ),
-                             onSaved: (val) => _video_link = val,
                           ),
                         ),
                       ],
@@ -477,58 +485,49 @@ displayAddPoint(BuildContext context, String point_id , String point_no , String
                     ),
                     SizedBox(width: 25.0),
                     new FlatButton(
-                      color: Color(0xFF29b6d6),
-                      child: Text(
-                        'Update',
-                        style: TextStyle(
-                          fontSize: 15.0,
-                          fontFamily: 'sans-serif',
-                          color: Colors.white,
+                        color: Color(0xFF29b6d6),
+                        child: Text(
+                          'Update',
+                          style: TextStyle(
+                            fontSize: 15.0,
+                            fontFamily: 'sans-serif',
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(3)),
-                      onPressed: () async{
-                          if(_pointNoController.text.isNotEmpty && _pointTitleController.text.isNotEmpty && _videoLinkController.text.isNotEmpty){
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(3)),
+                        onPressed: () async {
+                          if (_pointNoController.text.isNotEmpty &&
+                              _pointTitleController.text.isNotEmpty &&
+                              _videoLinkController.text.isNotEmpty) {
                             GraphQLClient _client = graphQLConfiguration.clientToQuery();
                             QueryResult result = await _client.mutate(
                               MutationOptions(
-                                documentNode: gql(addMutation.updatePoint( 
-                                  point_id, 
-                                  _point_no,
-                                  _point_title, 
-                                  _video_link
-                                  )
-                                ),
+                                update: (Cache cache, QueryResult result) {
+                                  if (!result.hasException) {
+                                    _pointNoController.clear();
+                                    _pointTitleController.clear();
+                                    _videoLinkController.clear();
+                                    Navigator.pop(context);
+                                    flutterToastT(
+                                        result.data['update_point']['message']);
+                                  } else {
+                                    flutterToastF("Update Error!!!");
+                                  }
+                                  return result;
+                                },
+                                documentNode: gql(addMutation.updatePoint(
+                                  point_id,
+                                  _pointNoController.text,
+                                  _pointTitleController.text,
+                                  _videoLinkController.text,
+                                )),
                               ),
                             );
-                            if(!result.hasException){
-                              _pointNoController.clear();
-                              _pointTitleController.clear();
-                              _videoLinkController.clear();
-                              Navigator.of(context).pop();
-                                    return Fluttertoast.showToast(
-                                        msg: "Update Course  Sucessfuly!",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIos: 1,
-                                        backgroundColor: Colors.blue,
-                                        textColor: Colors.white);
-                            }else {
-                                print("Error Update!!!");
-                            }
-                          }else {
-                                  return Fluttertoast.showToast(
-                                      msg: "Please fill form!",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIos: 1,
-                                      backgroundColor: Colors.blue,
-                                      textColor: Colors.white);
-                                }
-                        Navigator.of(context).pop();
-                        }
-                    ),
+                          } else {
+                            flutterToastF("Please fill form!");
+                          }
+                        }),
                   ],
                 ),
               ],
@@ -536,5 +535,4 @@ displayAddPoint(BuildContext context, String point_id , String point_no , String
           ),
         );
       });
-
 }
