@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/query.dart';
 import 'package:koompi_academy_project/UI/Submainpage/DisplayVideoScreen/displayVideoScreen.dart';
-
+import 'package:intl/intl.dart';
 import '../../constants.dart';
 import 'detailcategory.dart';
 import 'property.dart';
@@ -50,7 +51,8 @@ QueryData queryData = QueryData();
                 ),
                 Container(
                   child: Text(
-                    '${widget.name}',
+                    toBeginningOfSentenceCase(widget.name),
+                    //'${widget.name}',
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -60,7 +62,8 @@ QueryData queryData = QueryData();
               ],
             ),
             Container(
-              height: MediaQuery.of(context).size.height / 4,
+              height: MediaQuery.of(context).size.height / 4.5,
+              // color: Colors.blue,
                  child:Row(
                    children: [
                      Expanded(
@@ -81,11 +84,14 @@ QueryData queryData = QueryData();
                    ],
                  ),
             ),
-            Text(
-              "${widget.name} courses",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600),
-            ),
+             Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                   "${toBeginningOfSentenceCase(widget.name)} Courses",
+                   textAlign: TextAlign.center,
+                   style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600),
+                 ),
+              ),
               Expanded(
                 child: GraphQLProvider(
                   client: clientdata,
@@ -98,7 +104,9 @@ QueryData queryData = QueryData();
                         return Text('error');
                       }
                       if (result.loading) {
-                        return Text('Loading');
+                        return Center(
+                         child: SpinKitFadingCircle  (color: Colors.blueGrey, size: 50),
+                      );
                       }
                       List repositories = result.data['courses_by_category'];
                       return ListView.builder(
@@ -116,7 +124,7 @@ QueryData queryData = QueryData();
                                   print('it will display the video');
                                 },
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+                                  padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
                                   child: Card(
                                     elevation: 2,
                                     shape: RoundedRectangleBorder(

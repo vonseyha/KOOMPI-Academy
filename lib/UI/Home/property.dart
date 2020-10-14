@@ -11,22 +11,12 @@ List<BoxShadow> shadowList = [
   BoxShadow(color: Colors.grey[300], blurRadius: 30, offset: Offset(0, 10))
 ];
 
-// List<Map> categories = [
-//   {'name': 'Sala', 'iconPath': 'images/koompi_logos.png'},
-//   {'name': 'Science', 'iconPath': 'images/koompi_logos.png'},
-//   {'name': 'Technology', 'iconPath': 'images/koompi_logos.png'},
-//   {'name': 'Engineering', 'iconPath': 'images/koompi_logos.png'},
-//   {'name': 'Art', 'iconPath': 'images/koompi_logos.png'},
-//   {'name': 'Mathematics', 'iconPath': 'images/koompi_logos.png'},
-//   {'name': 'Hina', 'iconPath': 'images/koompi_logos.png'}
-// ];
-
 List<Map> categories = [
   {'name': 'sala', 'iconPath': 'images/knowledge.svg','svg':"images/art.svg"},
   {'name': 'science', 'iconPath': 'images/idea.svg','svg':"images/science.svg"},
   {'name': 'technology', 'iconPath': 'images/brain.svg','svg':"images/technology.svg"},
   {'name': 'engineering', 'iconPath': 'images/prototype.svg','svg':"images/engeneering.svg"},
-  {'name': 'art', 'iconPath': 'images/art.svg','svg':"images/engineering.svg"},
+  {'name': 'art', 'iconPath': 'images/art.svg','svg':"images/arts.svg"},
   {'name': 'mathermatic', 'iconPath': 'images/formula.svg','svg':"images/mathermatic.svg"},
   {'name': 'hina', 'iconPath': 'images/princess.svg','svg':"images/hina.svg"}
 ];

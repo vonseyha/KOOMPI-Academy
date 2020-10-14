@@ -5,16 +5,18 @@ import 'package:flutter_svg/svg.dart';
 import 'package:koompi_academy_project/UI/Home/property.dart';
 import 'package:koompi_academy_project/UI/Home/samplecard.dart';
 import 'package:koompi_academy_project/UI/Home/subCategory.dart';
-
+import 'package:intl/intl.dart';
 import 'DisplayCourseByCategory.dart';
 
 class HomeScreen extends StatefulWidget {
+    final String checkAppbar;
+    const HomeScreen({Key key,this.checkAppbar}):super(key:key);
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  
   double xOffset = 0;
   double yOffset = 0;
   double scaleFactor = 1;
@@ -24,8 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent));
     return AnimatedContainer(
       transform: Matrix4.translationValues(xOffset, yOffset, 0)
         ..scale(scaleFactor)
@@ -44,10 +45,12 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
         child: Scaffold(
-          appBar: AppBar(
-            ///for expend the appbar///
-            // toolbarHeight: 80,
-            leading: isDrawerOpen
+          appBar: 
+           AppBar(
+             //------------------------- check type of user to set icon appbar --------------------//
+            leading: widget.checkAppbar == "login" || widget.checkAppbar == null ?
+            //------------------------- type students user --------------------//
+            isDrawerOpen
                 ? GestureDetector(
                     onTap: () {
                       setState(() {
@@ -71,7 +74,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         isDrawerOpen = true;
                       });
                     },
-                    child: Icon(Icons.menu, color: Colors.black)),
+                    child: Icon(Icons.menu, color: Colors.black)
+              )
+              //------------------------- type teachers user --------------------//
+              :  widget.checkAppbar== "dashboard" ? Builder(
+                  builder: (BuildContext context) {
+                    return IconButton(
+                      icon: const Icon(Icons.arrow_back_ios, size: 18,color: Colors.black),
+                      onPressed: () { 
+                        Navigator.pop(context);
+                       },
+                      tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                    );
+                  },
+                ): null,
+              
             title: Image(
               image: AssetImage('images/koompi_academy_black.png'),
               width: 170,
@@ -168,22 +185,23 @@ class _HomeScreenState extends State<HomeScreen> {
                         return Container(
                           child: InkWell(
                             onTap: () {
-                              if( categories[index]['name'] == "sala"){
-                                  Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SubCagateory(
-                                        name: categories[index]['name']),
-                                  ));
-                              }else {
+                              if (categories[index]['name'] == "sala") {
                                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DisplayCourseByCategories(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SubCagateory(
+                                          name: categories[index]['name']),
+                                    ));
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          DisplayCourseByCategories(
                                         name: categories[index]['name'],
                                         imagesvg: categories[index]['svg'],
-                                        ),
-                                  ));
+                                      ),
+                                    ));
                               }
                             },
                             child: Column(
@@ -207,7 +225,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Container(
                                   margin: EdgeInsets.only(left: 20),
                                   child: Text(
-                                    categories[index]['name'],
+                                    toBeginningOfSentenceCase(
+                                        categories[index]['name']),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 11,
@@ -246,6 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Container(
                           height: MediaQuery.of(context).size.height,
                           width: MediaQuery.of(context).size.width,
+
                           ///
                           ///all video here///
                           ///

@@ -24,7 +24,7 @@ class JwtDecode{
    if(test == "teacher"){
      Navigator.push(context, MaterialPageRoute(builder: (_) => MainDashboard()));
    }else{
-     Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+     Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage(checkAppbar: "login")));
    }
   //  return payloadMap;
  }

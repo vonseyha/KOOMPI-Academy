@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/datas.dart';
@@ -18,12 +19,12 @@ class _SampleGridState extends State<SampleGrid> {
   GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
   String exts;
   bool isCheck = false;
+  String check;
 
   void fillList() async {
     QueryData queryData = QueryData();
     GraphQLClient client = graphqlVideoConf.clientToQuery();
     QueryResult result = await client.query(QueryOptions(documentNode: gql(queryData.getVideoSection())));
-
     if (!result.hasException) {
       for (var i = 0; i < result.data["courses"].length; i++) {
         setState(() {
@@ -58,8 +59,7 @@ class _SampleGridState extends State<SampleGrid> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    ListView.builder(
+    return ListView.builder(
       itemCount: list.length,
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(

@@ -18,11 +18,13 @@ class HomeDisplay extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
+  final String checkAppbar;
+  const HomePage({Key key, this.checkAppbar}):super(key:key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-        children: [DrawerScreen(), HomeScreen()],
+        children: [DrawerScreen(), HomeScreen(checkAppbar: checkAppbar)],
       ),
     );
   }

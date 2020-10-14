@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/query.dart';
 
@@ -34,7 +35,9 @@ QueryData queryData = QueryData();
               return Text('error');
             }
             if (result.loading) {
-              return Text('Loading');
+              return Center(
+                 child: SpinKitFadingCircle  (color: Colors.blueGrey, size: 40),
+              );
             } 
             print("-----------------------${widget.courseTitle}");
             var dataw = MediaQuery.of(context);

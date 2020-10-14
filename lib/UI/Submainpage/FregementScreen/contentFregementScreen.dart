@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/query.dart';
 
@@ -35,7 +36,9 @@ class _FregementContentState extends State<FregementContent> {
             return Text(result.exception.toString());
           }
           if (result.loading) {
-            return Text('Loading');
+            return Center(
+                 child: SpinKitFadingCircle  (color: Colors.blueGrey, size: 40),
+              );
           }
           List repositories = result.data['sections'];
           return ListView.builder(

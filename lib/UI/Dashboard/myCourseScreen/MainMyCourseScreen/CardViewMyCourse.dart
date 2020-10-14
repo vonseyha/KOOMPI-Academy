@@ -170,8 +170,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                                   category: listPerson[index].getCategories(),
                                   // tage_mode: ,
                                   // thumbnail: listPerson[index].getThumbnail(),
-                                  description:
-                                      listPerson[index].getDescription(),
+                                  description: listPerson[index].getDescription(),
                                   refetchCourse: fillList,
                                   onDeleteClick: onDeleteClick,
                                 ),

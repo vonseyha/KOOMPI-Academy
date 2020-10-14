@@ -32,12 +32,6 @@ class _PortfolioTutorialDetailPageState
     with SingleTickerProviderStateMixin {
   ChewieController _chewieController;
   Future<void> _initializeVideoPlayerFuture;
-
-  // final List<Tuple3> _fregement = [
-  //   Tuple3('OVERVIEW', ContentFregement(), Icon(Icons.view_day)),
-  //   Tuple3('CONTENT', FregementContent(), Icon(Icons.view_day)),
-  // ];
-
   final List<Tab> myTabs = <Tab>[
     Tab(text: 'Overview'),
     Tab(text: 'Content'),
@@ -46,38 +40,6 @@ class _PortfolioTutorialDetailPageState
   List<LinkVideo> list = List<LinkVideo>();
   GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
   String video;
-
-  // void fillList() async {
-  //   QueryData queryData = QueryData();
-  //   GraphQLClient client = graphqlVideoConf.clientToQuery();
-  //   QueryResult result = await client.query(
-  //     QueryOptions(documentNode: gql(
-  //       queryData.getLinkVieo()),
-  //       variables: {"course_id":"${widget.course_Id}"}));
-  //   print("======================${widget.course_Id}");
-  //   print("++++++++++++++++++===$video");
-  //   if (!result.hasException) {
-  //     for (var i = 0; i < result.data["sections"].length; i++) {
-  //       setState(() {
-  //         list.add(LinkVideo(
-  //           result.data["sections"][i]["id"],
-  //           result.data["sections"][i]["course_id"],
-  //           result.data["sections"][i]["no"],
-  //           result.data["sections"][i]["title"],
-  //           result.data["sections"][i]["message"],
-  //           result.data["sections"][i]["points"]["id"],
-  //           result.data["sections"][i]["points"]["no"],
-  //           result.data["sections"][i]["points"]["title"],
-  //           result.data["sections"][i]["points"]["video_link"],
-  //           result.data["sections"][i]["points"]["preview"],
-  //           result.data["sections"][i]["points"]["section_id"],
-  //           result.data["sections"][i]["points"]["message"],
-  //         ));
-  //         video = result.data["sections"][i]["points"]["video_link"];
-  //       });
-  //     }
-  //   }
-  // }
 
   TabController _tabController;
 
@@ -113,12 +75,13 @@ class _PortfolioTutorialDetailPageState
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Color(0xFFf9b62f),
+        // backgroundColor: Colors,
         title: new Text(
           'KOOMPI Academy',
           style: new TextStyle(
             fontFamily: 'sans-serif',
             fontWeight: FontWeight.w500,
+            // color: Colors.black
           ),
         ),
       ),
