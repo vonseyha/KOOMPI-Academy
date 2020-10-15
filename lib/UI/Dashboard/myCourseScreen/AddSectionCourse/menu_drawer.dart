@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/Model/CourseModel.dart';
@@ -30,11 +31,8 @@ class _EndDrawerState extends State<EndDrawer> {
                   displayDeleteSection(context, sectionID)
                 );
             }else if (result == MyPupopMenu.edit){
-              print("edit");
                 Navigator.push(
                   context,
-                  //  MaterialPageRoute(builder: (_) => displayDeleteSection(context, sectionID)),
-                    // displayDeleteSection(context, sectionID)
                      displayAddSection(context, sectionID,section_No,section_Title),
                 );
             }
@@ -83,7 +81,9 @@ class _EndDrawerState extends State<EndDrawer> {
               return Text(result.exception.toString());
             }
             if (result.loading) {
-              return Text('Loading');
+              return Center(
+                 child: SpinKitFadingCircle  (color: Colors.blueGrey, size: 50),
+              );
             }
             List repositories = result.data['sections'];
             return ListView.builder(
@@ -112,10 +112,12 @@ class _EndDrawerState extends State<EndDrawer> {
                                 child: Row(
                                   mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(" ${repositories[index]["points"][a]["no"]}.\t${repositories[index]["points"][a]["title"]}",
-                                        maxLines: 2,
-                                        style: TextStyle(fontSize: 14)
-                                      ),
+                                    Container(
+                                      child: Text(" ${repositories[index]["points"][a]["no"]}.\t${repositories[index]["points"][a]["title"]}",
+                                          maxLines: 3,
+                                          style: TextStyle(fontSize: 14)
+                                        ),
+                                    ),
                                     Row(
                                       children: [
                                         Container(

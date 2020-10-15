@@ -36,7 +36,7 @@ class _LoginState extends State<Login> {
   Future<String> login(String email, String password, context) async {
     String token;
     String role;
-    var response = await http.post("https://learnbackend.koompi.com/login", body: {
+    var response = await http.post("https://learnbackend.koompi.com/login", body: {//http://192.168.1.145:6001/login
       'email': email,
       'password': password,
     });
@@ -68,7 +68,6 @@ class _LoginState extends State<Login> {
     } else {
       final data = jsonDecode(response.body);
       msg = data['message'];
-      print(msg);
       loginToastFail(msg);
     }
     return alertText;
@@ -390,7 +389,6 @@ bool _isRembemerMe = false;
     super.initState();
      _loadUserEmail();
   }
-
 
   @override
   Widget build(BuildContext context) {

@@ -49,7 +49,6 @@ class _FregementAnswerState extends State<FregementAnswer> {
             );
           },
         ),
-        backgroundColor: Color(0xFFf9b62f),
         centerTitle: true,
         title: new Text(
           "Comment",

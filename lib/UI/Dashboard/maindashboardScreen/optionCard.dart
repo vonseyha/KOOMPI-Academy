@@ -24,7 +24,7 @@ class OptionCard extends StatelessWidget {
         switch (title) {
           case "View Courses":
             Navigator.push(
-                context, MaterialPageRoute(builder: (_) => HomePage()));
+                context, MaterialPageRoute(builder: (_) => HomePage(checkAppbar: "dashboard")));
             print("ViewCoursePage");
             break;
           case "My Courses":

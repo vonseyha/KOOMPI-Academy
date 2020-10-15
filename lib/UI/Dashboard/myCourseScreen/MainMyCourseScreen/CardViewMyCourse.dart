@@ -101,7 +101,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                           height: 170.0,
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                              "https://learnbackend.koompi.com/uploads/240_f_77895837_ku3q9pvs1dpxr2ma0myvsa2ylqtgtqut.jpg"),
+                              "${listPerson[index].getThumbnail()}"),
                           // image:  NetworkImage("${listPerson[index].getThumbnail()}"),
                         ),
                       ),
@@ -170,8 +170,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                                   category: listPerson[index].getCategories(),
                                   // tage_mode: ,
                                   // thumbnail: listPerson[index].getThumbnail(),
-                                  description:
-                                      listPerson[index].getDescription(),
+                                  description: listPerson[index].getDescription(),
                                   refetchCourse: fillList,
                                   onDeleteClick: onDeleteClick,
                                 ),
