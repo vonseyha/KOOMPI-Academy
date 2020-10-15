@@ -32,11 +32,6 @@ class _PortfolioTutorialDetailPageState
   ChewieController _chewieController;
   Future<void> _initializeVideoPlayerFuture;
 
-  // final List<Tuple3> _fregement = [
-  //   Tuple3('OVERVIEW', ContentFregement(), Icon(Icons.view_day)),
-  //   Tuple3('CONTENT', FregementContent(), Icon(Icons.view_day)),
-  // ];
-
   final List<Tab> myTabs = <Tab>[
     Tab(text: 'Overview'),
     Tab(text: 'Content'),
@@ -49,14 +44,14 @@ class _PortfolioTutorialDetailPageState
   void fillList() async {
     QueryData queryData = QueryData();
     GraphQLClient client = graphqlVideoConf.clientToQuery();
-    QueryResult result = await client.query(
-      QueryOptions(documentNode: gql(
-        queryData.getLinkVieo()),
-        variables: {"course_id":"${widget.course_Id}"}));
+    QueryResult result = await client.query(QueryOptions(
+        documentNode: gql(queryData.getLinkVieo()),
+        variables: {"course_id": "${widget.course_Id}"}));
     print("======================${widget.course_Id}");
     print("++++++++++++++++++===$video");
+
     if (!result.hasException) {
-      for (var i = 0; i < result.data["sections"].length; i++) {
+      for (var i = 0; i < result.data['sections'].length; i++) {
         setState(() {
           list.add(LinkVideo(
             result.data["sections"][i]["id"],
@@ -64,15 +59,15 @@ class _PortfolioTutorialDetailPageState
             result.data["sections"][i]["no"],
             result.data["sections"][i]["title"],
             result.data["sections"][i]["message"],
-            result.data["sections"][i]["points"]["id"],
-            result.data["sections"][i]["points"]["no"],
-            result.data["sections"][i]["points"]["title"],
-            result.data["sections"][i]["points"]["video_link"],
-            result.data["sections"][i]["points"]["preview"],
-            result.data["sections"][i]["points"]["section_id"],
-            result.data["sections"][i]["points"]["message"],
+            result.data["sections"][i]["points"][1]["id"],
+            result.data["sections"][i]["points"][1]["no"],
+            result.data["sections"][i]["points"][1]["title"],
+            result.data["sections"][i]["points"][1]["video_link"],
+            result.data["sections"][i]["points"][1]["preview"],
+            result.data["sections"][i]["points"][1]["section_id"],
+            result.data["sections"][i]["points"][1]["message"],
           ));
-          video = result.data["sections"][i]["points"]["video_link"];
+          video = result.data["sections"][i]["points"][1]["video_link"];
         });
       }
     }
@@ -85,7 +80,7 @@ class _PortfolioTutorialDetailPageState
     super.initState();
     fillList();
     _chewieController = ChewieController(
-        videoPlayerController: VideoPlayerController.network("$video"),//$video
+        videoPlayerController: VideoPlayerController.network("$video"), //$video
         aspectRatio: 16 / 9,
         autoInitialize: true,
         autoPlay: true,
@@ -101,7 +96,6 @@ class _PortfolioTutorialDetailPageState
             ),
           );
         });
-        // print("VideoLink====================$video");
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() => setState(() {}));
   }

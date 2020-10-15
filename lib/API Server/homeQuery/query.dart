@@ -29,10 +29,9 @@ class QueryData {
     """;
   }
 
-  String getLinkVieo(){
-       return 
-       """ 
-            query(\$course_id:ID){
+  String getLinkVieo() {
+    return """ 
+            query getLinkVideo(\$course_id:ID!){
               sections(course_id:\$course_id){
                 id
                 course_id

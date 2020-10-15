@@ -22,7 +22,8 @@ class _SampleGridState extends State<SampleGrid> {
   void fillList() async {
     QueryData queryData = QueryData();
     GraphQLClient client = graphqlVideoConf.clientToQuery();
-    QueryResult result = await client.query(QueryOptions(documentNode: gql(queryData.getVideoSection())));
+    QueryResult result = await client
+        .query(QueryOptions(documentNode: gql(queryData.getVideoSection())));
 
     if (!result.hasException) {
       for (var i = 0; i < result.data["courses"].length; i++) {
@@ -38,6 +39,9 @@ class _SampleGridState extends State<SampleGrid> {
           exts = result.data["courses"][i]["feature_image"];
           for (var i = 0; i < exts.length; i++) {
             bool res = exts.endsWith('.svg');
+            setState(() {
+              res = false;
+            });
             // print('############################$i');
             // print('IMAGE:::::::::$exts');
             // print('LENGTH::::::${exts.length}');
@@ -58,8 +62,7 @@ class _SampleGridState extends State<SampleGrid> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    ListView.builder(
+    return ListView.builder(
       itemCount: list.length,
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
@@ -67,7 +70,7 @@ class _SampleGridState extends State<SampleGrid> {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => PortfolioTutorialDetailPage(
                     course_Id: list[index].getId())));
-                    print('it will display the video');
+            print('it will give the id of specific video');
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
@@ -88,16 +91,15 @@ class _SampleGridState extends State<SampleGrid> {
                         width: MediaQuery.of(context).size.width,
                         height: 170.0,
                         fit: BoxFit.cover,
-                        image:
-                          isCheck
-                          ? SvgPicture.network("${list[index].getImage()}")
-                          : NetworkImage("${list[index].getImage()}"),
-                          // isCheck
-                          // ? NetworkImage("${list[index].getImage()}")
-                          // : SvgPicture.network("${list[index].getImage()}"),
-                          // isCheck
-                          // ? NetworkImage("${list[index].getImage()}")
-                          // : null,
+                        image: isCheck
+                            ? SvgPicture.network("${list[index].getImage()}")
+                            : NetworkImage("${list[index].getImage()}"),
+                        // isCheck
+                        // ? NetworkImage("${list[index].getImage()}")
+                        // : SvgPicture.network("${list[index].getImage()}"),
+                        // isCheck
+                        // ? NetworkImage("${list[index].getImage()}")
+                        // : null,
                       ),
                     ),
                   ),
