@@ -20,7 +20,7 @@ displayDeleteCourse(BuildContext context, String id , Function refechData,int in
       builder: (context) {
         return AlertDialog(
           content: Container(
-            height: MediaQuery.of(context).size.height / 3.5,
+            height: MediaQuery.of(context).size.height / 3,
             child: Column(
               children: [
                 Container(

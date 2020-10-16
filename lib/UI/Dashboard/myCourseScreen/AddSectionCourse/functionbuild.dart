@@ -56,7 +56,7 @@ displayDeleteSection(BuildContext context, String section_id, Function onDeleteS
       builder: (context) {
         return AlertDialog(
           content: Container(
-            height: H / 3.2,
+            height: H / 3,
             child: Column(
               children: [
                 Container(
@@ -154,7 +154,7 @@ displayDeletePoint(BuildContext context, String point_id,Function onDeletePoint,
       builder: (context) {
         return AlertDialog(
           content: Container(
-            height: H / 3.2,
+            height: H / 3,
             child: Column(
               children: [
                 Container(
@@ -255,22 +255,18 @@ displayAddSection(BuildContext context, String section_id, String section_No,Str
       builder: (context) {
         return AlertDialog(
           content: Container(
-            height: H / 2.3,
+            height: H / 2.7,
             width: W,
             child: Column(
               children: [
                 Container(
-                    width: 60,
-                    height: 60,
-                    child: Image.asset("images/edit.png")),
-                SizedBox(height: 5.0),
-                Container(
                   child: Text("Edit ${section_Title}",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.w500)),
+                          fontSize: 20.0, fontWeight: FontWeight.w500)
+                        ),
                 ),
-                SizedBox(height: 10.0),
+                SizedBox(height: 15),
                 Expanded(
                   flex: 2,
                   child: Container(
@@ -303,7 +299,6 @@ displayAddSection(BuildContext context, String section_id, String section_No,Str
                                 borderRadius: new BorderRadius.circular(5.0),
                                 borderSide: new BorderSide(),
                               ),
-                              //fillColor: Colors.green
                             ),
                           ),
                         ),
@@ -395,25 +390,22 @@ displayAddPoint(BuildContext context, String point_id, String point_no,
       builder: (context) {
         return AlertDialog(
           content: Container(
-            height: H / 1.9,
+            height: H / 2.1,
             width: W,
             child: Column(
               children: [
-                Container(
-                    width: 60,
-                    height: 60,
-                    child: Image.asset("images/edit.png")),
-                SizedBox(height: 5.0),
-                Container(
-                  child: Text("Edit ${point_title}",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.w500)),
-                ),
-                SizedBox(height: 10.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                       child: Container(
+                          child: Text("Edit ${point_title}",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20.0, fontWeight: FontWeight.w500)),
+                        ),
+                ), 
                 Expanded(
                   flex: 2,
-                  child: Container(
+                  child: SingleChildScrollView(
                     child: Column(
                       children: [
                         Container(

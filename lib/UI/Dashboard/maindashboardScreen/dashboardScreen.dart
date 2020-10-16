@@ -10,8 +10,9 @@ import 'functionBuilt.dart';
 import 'optionCard.dart';
 
 class MainDashboard extends StatefulWidget {
-   final String owner_id;
-  MainDashboard({Key key,this.owner_id}) : super(key: key);
+  final String owner_id;
+  final String  fullname;
+  MainDashboard({Key key,this.owner_id,this.fullname}) : super(key: key);
   @override
   _MainDashboardState createState() => _MainDashboardState();
 }
@@ -25,7 +26,7 @@ class _MainDashboardState extends State<MainDashboard> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            TopBarDesign(),
+            TopBarDesign(widget.fullname),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

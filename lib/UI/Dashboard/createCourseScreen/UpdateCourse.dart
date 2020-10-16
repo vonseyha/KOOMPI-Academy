@@ -6,10 +6,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
+import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
-import 'package:koompi_academy_project/Model/CourseModel.dart';
-import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/MainMyCourseScreen/myCourse.dart';
-import 'package:number_inc_dec/number_inc_dec.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
@@ -46,52 +44,48 @@ class UpdateCourse extends StatefulWidget {
 }
 
 class _UpdateCourseState extends State<UpdateCourse> {
-  var _currencies = [
-    "science",
-    "engineering",
-    "technology",
-    "mathermatic",
-    "moeys-cambodia",
-    "art",
-    "chroy-chongva-school",
-    "hina",
-  ];
+  List<Map<String, dynamic>> _myJsons = [];
+  void fillList() async {
+    QueryGraphQL queryGraphQL = QueryGraphQL();
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    QueryResult result = await _client.query(
+      QueryOptions(
+        documentNode: gql(queryGraphQL.getCategory()),
+      ),
+    );
+    if (!result.hasException) {
+      print(result.data["categories"].length);
+      for (var i = 0; i < result.data["categories"].length; i++) {
+        setState(() {
+          _myJsons.add(result.data['categories'][i]);
+        });
+      }
+    }
+  }
 
   var _currenstatus = [
-    "Private",
     "Public",
   ];
 
   final _formKey = GlobalKey<FormState>();
-  String _statusName;
+  String _statusName = "Public";
   String _categoryName;
-  int price;
-  String imagefile;
 
   Widget sizeHight() {
     return SizedBox(height: 8.0);
   }
 
   final _courseTitleController = TextEditingController();
-  final _tageModeController = TextEditingController();
-  final _statusController = TextEditingController();
-  final _categoryController = TextEditingController();
   final _descriptionController = TextEditingController();
-
-  String coursetitle;
-  String tagemode;
-  String category;
-  String status;
-  String description;
 
   @override
   void initState() {
+    super.initState();
+    fillList();
     _courseTitleController.text = widget.title;
     _descriptionController.text = widget.description;
-    price = price;
-    super.initState();
+    _categoryName = widget.category[0];
   }
-
 
   String typenameDataIdFromObject(Object object) {
     if (object is Map<String, Object> &&
@@ -115,12 +109,11 @@ class _UpdateCourseState extends State<UpdateCourse> {
             borderRadius: new BorderRadius.circular(5.0),
             borderSide: new BorderSide(),
           ),
-          //fillColor: Colors.green
         ),
-        onSaved: (val) => coursetitle = val,
       ),
     );
   }
+
 //**************Course Description Field Form*************/
   courseDescription(BuildContext context) {
     return Container(
@@ -137,33 +130,8 @@ class _UpdateCourseState extends State<UpdateCourse> {
           ),
           //fillColor: Colors.green
         ),
-        maxLength: 300,
+        maxLength: 600,
         maxLines: 3,
-        onSaved: (val) => description = val,
-      ),
-    );
-  }
-
-//*****************Course Price Form*************/
-  coursePrice(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 2.5,
-      child: NumberInputWithIncrementDecrement(
-        controller: TextEditingController(),
-        widgetContainerDecoration: BoxDecoration(
-          border: null,
-        ),
-        onIncrement: (num newlyIncrementedValue) {
-          print('Newly incremented value is $newlyIncrementedValue');
-          setState(() {
-            price 
-            = newlyIncrementedValue.toInt();
-          });
-        },
-        onDecrement: (num newlyDecrementedValue) {
-          print('Newly decremented value is $newlyDecrementedValue');
-        },
-        onSubmitted: (newValue) => price = newValue,
       ),
     );
   }
@@ -184,12 +152,12 @@ class _UpdateCourseState extends State<UpdateCourse> {
       height: 130.0,
       width: 130.0,
       decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("images/empty.png"),
-          ),
-          border: Border.all(width:1,color: Colors.grey),
-          borderRadius: BorderRadius.circular(10),
-     ),
+        image: DecorationImage(
+          image: AssetImage("images/empty.png"),
+        ),
+        border: Border.all(width: 1, color: Colors.grey),
+        borderRadius: BorderRadius.circular(10),
+      ),
     );
   }
 
@@ -199,7 +167,6 @@ class _UpdateCourseState extends State<UpdateCourse> {
       children: [
         Expanded(
             flex: 2,
-            // width: MediaQuery.of(context).size.width / 3.5,
             child: FormField<String>(
               builder: (FormFieldState<String> state) {
                 return InputDecorator(
@@ -222,9 +189,13 @@ class _UpdateCourseState extends State<UpdateCourse> {
                       items: _currenstatus.map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: Text(value),
+                          child: Text(
+                            value,
+                            style: TextStyle(fontSize: 15.0),
+                          ),
                         );
                       }).toList(),
+                      // }).toList(),
                     ),
                   ),
                 );
@@ -253,13 +224,10 @@ class _UpdateCourseState extends State<UpdateCourse> {
                           state.didChange(newValue);
                         });
                       },
-                      items: _currencies.map((String value) {
+                      items: _myJsons.map((Map map) {
                         return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: TextStyle(fontSize: 15.0),
-                          ),
+                          value: map['title'],
+                          child: Text(map['title']),
                         );
                       }).toList(),
                     ),
@@ -276,18 +244,18 @@ class _UpdateCourseState extends State<UpdateCourse> {
   File _image;
   String imageUrl;
   Future selectImage() async {
-  var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-  setState(() {
-    _image = image;
-    print(_image );
-  });
-  print("File Path ${_image}");
-  // decodeFile(_image);
-}
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+      print(_image);
+    });
+    print("File Path ${_image}");
+    // decodeFile(_image);
+  }
 
-  Future<String>  decodeFile(File _images)async{
+  Future<String> decodeFile(File _images) async {
     print("File Path ${_images}");
-      List<int> compressImage = await FlutterImageCompress.compressWithFile(
+    List<int> compressImage = await FlutterImageCompress.compressWithFile(
       _images.path,
       minHeight: 1300,
       minWidth: 1000,
@@ -300,21 +268,21 @@ class _UpdateCourseState extends State<UpdateCourse> {
       contentType: MediaType.parse('image/jpeg'),
     );
     /* Make request */
-     var request = new http.MultipartRequest(
+    var request = new http.MultipartRequest(
         'POST', Uri.parse('https://learnbackend.koompi.com/uploads'));
-        request.files.add(multipartFile);
-        /* Start send to server */
-        http.StreamedResponse response = await request.send();
-        /* Getting response */
-        response.stream.transform(utf8.decoder).listen((data) {
-          print("----------------------------Image url $data");
-          setState(() {
-            imageUrl = data;
-          });
-        });
-        return imageUrl;
+    request.files.add(multipartFile);
+    /* Start send to server */
+    http.StreamedResponse response = await request.send();
+    /* Getting response */
+    response.stream.transform(utf8.decoder).listen((data) {
+      print("----------------------------Image url $data");
+      setState(() {
+        imageUrl = data;
+      });
+    });
+    return imageUrl;
   }
-  
+
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   QueryMutation addMutation = QueryMutation();
 
@@ -349,19 +317,20 @@ class _UpdateCourseState extends State<UpdateCourse> {
           ),
           SizedBox(height: 15.0),
           Container(
-            child: _image != null ?
-                   Container(
+            child: _image != null
+                ? Container(
                     height: 130.0,
                     width: 130.0,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: FileImage(_image),
-                          fit: BoxFit.cover,
+                        image: FileImage(_image),
+                        fit: BoxFit.cover,
                       ),
-                      border: Border.all(width: 1 ,color: Colors.grey),
-                        borderRadius: BorderRadius.circular(10),
-                  ),  )
-                   : ImageEmpty(),
+                      border: Border.all(width: 1, color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  )
+                : ImageEmpty(),
           ),
           RaisedButton(
             onPressed: () {
@@ -390,80 +359,60 @@ class _UpdateCourseState extends State<UpdateCourse> {
                     selectStatusCategory(),
                     sizeHight(),
                     courseDescription(context),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Text(
-                        "Course Price(\$)",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          coursePrice(context),
-                          Container(
-                            width: 170.0,
-                            height: 50.0,
-                            child: new RaisedButton(
-                              color: Color(0xFF5dabff),
-                              onPressed: () async {
-                                if (_courseTitleController.text.isNotEmpty &&
-                                    _tageModeController.text.isNotEmpty &&
-                                    price.toString().isNotEmpty &&
-                                    _statusName.isNotEmpty &&
-                                    _categoryName.isNotEmpty &&
-                                    imagefile.isNotEmpty &&
-                                    _descriptionController.text.isNotEmpty) {
-                                  GraphQLClient _client =
-                                      graphQLConfiguration.clientToQuery();
-                                  QueryResult result = await _client.mutate(
-                                    MutationOptions(
-                                      update: (Cache cache, QueryResult result) {
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 5.0),
+                        child: Container(
+                          width: 170.0,
+                          height: 50.0,
+                          child: new RaisedButton(
+                            color: Color(0xFF5dabff),
+                            onPressed: () async {
+                              if (_courseTitleController.text.isNotEmpty &&
+                                  _statusName.isNotEmpty &&
+                                  _categoryName.isNotEmpty &&
+                                  _descriptionController.text.isNotEmpty) {
+                                GraphQLClient _client =
+                                    graphQLConfiguration.clientToQuery();
+                                QueryResult result = await _client.mutate(
+                                  MutationOptions(
+                                    update: (Cache cache, QueryResult result) {
                                       if (!result.hasException) {
-                                              _courseTitleController.clear();
-                                              _tageModeController.clear();
-                                              price = 0;
-                                              _statusName = null;
-                                              _categoryName = null;
-                                              imagefile = null;
-                                              _descriptionController.clear();
-                                              loginToastFail(result.data['update_course']['message']);
-                                              Navigator.pop(context);
-                                            } else {
-                                              loginToastFail("Update Error!!!");
-                                            }
-                                            return result;
-                                          },
-                                      documentNode:
-                                          gql(addMutation.updateCourse(
-                                        widget.id,
-                                        _courseTitleController.text,
-                                        _statusName,
-                                        price,
-                                        _categoryName,
-                                        imagefile,
-                                        _descriptionController.text,
-                                        widget.org_id,
-                                      )),
-                                    ),
-                                  );
-                                } else {
-                                   return loginToastFail("Please fill form!");
-                                }
-                              },
-                              child: new Text(
-                                "Update Course",
-                                style: TextStyle(
-                                    fontSize: 15.0, color: Colors.white),
-                              ),
+                                        _courseTitleController.clear();
+                                        _statusName = null;
+                                        _categoryName = null;
+                                        _descriptionController.clear();
+                                        loginToastFail(result
+                                            .data['update_course']['message']);
+                                        Navigator.pop(context);
+                                      } else {
+                                        loginToastFail("Update Error!!!");
+                                      }
+                                      return result;
+                                    },
+                                    documentNode: gql(addMutation.updateCourse(
+                                      widget.id,
+                                      _courseTitleController.text,
+                                      _statusName,
+                                      0,
+                                      _categoryName,
+                                      imageUrl,
+                                      _descriptionController.text,
+                                      widget.org_id,
+                                    )),
+                                  ),
+                                );
+                              } else {
+                                return loginToastFail("Please fill form!");
+                              }
+                            },
+                            child: new Text(
+                              "Update Course",
+                              style:
+                                  TextStyle(fontSize: 15.0, color: Colors.white),
                             ),
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ],

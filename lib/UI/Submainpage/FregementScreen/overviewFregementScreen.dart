@@ -64,20 +64,20 @@ QueryData queryData = QueryData();
                         ),
                       ),
                     ),
-                    Container(
-                      height: dataw.size.width,
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.all(20.0),
-                        child: new Text(
-                          '${repositories[index]['description']}' ,
-                          textAlign: TextAlign.justify,
-                          style: new TextStyle(
-                            fontFamily: 'Quicksand,sans-serif!important',
-                            color: Colors.black,
-                            fontSize: 17.0,
+                    SingleChildScrollView(
+                                          child: Container(
+                        height: dataw.size.width,
+                          padding: const EdgeInsets.all(20.0),
+                          child: new Text(
+                            '${repositories[index]['description']}' ,
+                            textAlign: TextAlign.justify,
+                            style: new TextStyle(
+                              fontFamily: 'Quicksand,sans-serif!important',
+                              color: Colors.black,
+                              fontSize: 17.0,
+                            ),
                           ),
                         ),
-                      ),
                     ),
                   ],
                 );

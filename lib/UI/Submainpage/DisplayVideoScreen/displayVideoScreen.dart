@@ -177,7 +177,7 @@ class _PortfolioTutorialDetailPageState
               DefaultTabController(
                 length: 2,
                 child: Container(
-                  height: datawh.size.height / 1.95,
+                  height: datawh.size.height / 2.1,
                   child:
                       TabBarView(controller: _tabController, children: <Widget>[
                     ContentFregement(courseTitle: widget.course_Title),

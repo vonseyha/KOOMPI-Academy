@@ -4,7 +4,7 @@ import '../../../constants.dart';
 import 'Cliper.dart';
 
 //********************TopBarDesign Dashboard**********************//
-Widget TopBarDesign() {
+Widget TopBarDesign(String fullname) {
   return ClipPath(
     clipper: MyCliper(),
     child: Container(
@@ -31,7 +31,7 @@ Widget TopBarDesign() {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Hey Alex,", style: kHeadingextStyle),
+                  Text(fullname, style: kHeadingextStyle),
                   Text("Welcome to your course!",
                       style: TextStyle(
                           color: Colors.grey[100], fontSize: 15, height: 1.5)),

@@ -122,7 +122,7 @@ class _EndDrawerState extends State<EndDrawer> {
                         onUpdateSection,
                         index
                       ),
-                        title: Text( " ${repositories[index]["no"]}.\t${repositories[index]["title"]}",
+                        title: Text(" ${repositories[index]["no"]}.\t${repositories[index]["title"]}",
                           maxLines: 2,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 14),
@@ -136,7 +136,7 @@ class _EndDrawerState extends State<EndDrawer> {
                                 child: Row(
                                   mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Container(
+                                    Expanded(
                                       child: Text(" ${repositories[index]["points"][a]["no"]}.\t${repositories[index]["points"][a]["title"]}",
                                           maxLines: 3,
                                           style: TextStyle(fontSize: 14)

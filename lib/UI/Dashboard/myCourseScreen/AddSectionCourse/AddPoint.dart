@@ -71,7 +71,7 @@ class _AddPointState extends State<AddPoint> {
                   child: Row(
                     children: [
                       Expanded(
-                        flex: 5,
+                        flex: 4,
                         child: new DropdownButton<String>(
                           isDense: true,
                           hint: new Text(
@@ -83,20 +83,21 @@ class _AddPointState extends State<AddPoint> {
                             setState(() {
                               _categoryName = newValue;
                             });
-                            print(_categoryName);
                           },
                           items: _myJsons.map((Map map) {
                             return new DropdownMenuItem<String>(
                               value: map['id'],
-                              child: new Text(
-                                map['title'],
-                                maxLines: 2,
+                              child: Expanded(
+                                  child: new Text(
+                                  map['title'],
+                                  maxLines: 2,
+                                ),
                               ),
                             );
                           }).toList(),
                         ),
                       ),
-                      SizedBox(width: 7),
+                      SizedBox(width: 3),
                       Expanded(
                         flex: 2,
                         child: Container(

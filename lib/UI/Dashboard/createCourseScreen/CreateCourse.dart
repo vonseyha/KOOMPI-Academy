@@ -4,14 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
-import 'package:koompi_academy_project/API%20Server/grapqlMutation/api.dart';
+import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
-import 'package:number_inc_dec/number_inc_dec.dart';
 import 'dart:io';
-import 'package:path/path.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
@@ -28,16 +25,25 @@ class CreateCourse extends StatefulWidget {
 }
 
 class _CreateCourseState extends State<CreateCourse> {
-  var _currencies = [
-    "science",
-    "engineering",
-    "technology",
-    "mathermatic",
-    "moeys-cambodia",
-    "art",
-    "chroy-chongva-school",
-    "hina",
-  ];
+
+  List<Map<String, dynamic>> _myJsons = [ ];
+  void fillList() async {
+    QueryGraphQL queryGraphQL = QueryGraphQL();
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    QueryResult result = await _client.query(
+      QueryOptions(
+        documentNode: gql(queryGraphQL.getCategory()),
+      ),
+    );
+    if (!result.hasException) {
+      print(result.data["categories"].length);
+        for (var i = 0; i < result.data["categories"].length; i++) {
+          setState(() {
+            _myJsons.add(result.data['categories'][i]);
+          });
+        }
+    }
+  }
 
   var _currenstatus = [
     "Public",
@@ -46,23 +52,14 @@ class _CreateCourseState extends State<CreateCourse> {
   final _formKey = GlobalKey<FormState>();
   String _statusName;
   String _categoryName;
-  int price;
   String imagefile;
   Widget sizeHight() {
     return SizedBox(height: 8.0);
   }
 
   final _courseTitleController = TextEditingController();
-  final _tageModeController = TextEditingController();
-  final _statusController = TextEditingController();
-  final _categoryController = TextEditingController();
   final _descriptionController = TextEditingController();
 
-  String coursetitle;
-  String tagemode;
-  String category;
-  String status;
-  String description;
 
   String typenameDataIdFromObject(Object object) {
     if (object is Map<String, Object> &&
@@ -88,7 +85,6 @@ class _CreateCourseState extends State<CreateCourse> {
           ),
           //fillColor: Colors.green
         ),
-        onSaved: (val) => coursetitle = val,
       ),
     );
   }
@@ -108,30 +104,6 @@ class _CreateCourseState extends State<CreateCourse> {
         ),
         maxLength: 300,
         maxLines: 3,
-        onSaved: (val) => description = val,
-      ),
-    );
-  }
-
-//*****************Course Price Form*************/
-  coursePrice(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 2.5,
-      child: NumberInputWithIncrementDecrement(
-        controller: TextEditingController(),
-        widgetContainerDecoration: BoxDecoration(
-          border: null,
-        ),
-        onIncrement: (num newlyIncrementedValue) {
-          print('Newly incremented value is $newlyIncrementedValue');
-          setState(() {
-            price = newlyIncrementedValue.toInt();
-          });
-        },
-        onDecrement: (num newlyDecrementedValue) {
-          print('Newly decremented value is $newlyDecrementedValue');
-        },
-        onSubmitted: (newValue) => price = newValue,
       ),
     );
   }
@@ -168,7 +140,6 @@ class _CreateCourseState extends State<CreateCourse> {
       children: [
         Expanded(
             flex: 2,
-            // width: MediaQuery.of(context).size.width / 3.5,
             child: FormField<String>(
               builder: (FormFieldState<String> state) {
                 return InputDecorator(
@@ -200,7 +171,6 @@ class _CreateCourseState extends State<CreateCourse> {
               },
             )),
         SizedBox(width: 5),
-
         Expanded(
             flex: 4,
             // width: MediaQuery.of(context).size.width / 1.6,
@@ -223,11 +193,11 @@ class _CreateCourseState extends State<CreateCourse> {
                           state.didChange(newValue);
                         });
                       },
-                      items: _currencies.map((String value) {
+                      items: _myJsons.map((Map map) {
                         return DropdownMenuItem<String>(
-                          value: value,
+                          value: map['title'],
                           child: Text(
-                            value,
+                            map['title'],
                             style: TextStyle(fontSize: 15.0),
                           ),
                         );
@@ -284,6 +254,11 @@ class _CreateCourseState extends State<CreateCourse> {
         return imageUrl;
   }
 
+ @override
+  void initState() {
+    fillList();
+    super.initState();
+  }
 
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   QueryMutation addMutation = QueryMutation();
@@ -360,78 +335,61 @@ class _CreateCourseState extends State<CreateCourse> {
                     selectStatusCategory(),
                     sizeHight(),
                     courseDescription(context),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Text(
-                        "Course Price(\$)",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          coursePrice(context),
-                          Container(
-                            width: 170.0,
-                            height: 50.0,
-                            child: new RaisedButton(
-                              color: Color(0xFF5dabff),
-                              onPressed: () async {
-                                decodeFile(_image);
-                                if (_courseTitleController.text.isNotEmpty &&
-                                    price.toString().isNotEmpty &&
-                                    _statusName.isNotEmpty &&
-                                    _categoryName.isNotEmpty &&
-                                    _descriptionController.text.isNotEmpty) {
-                                    GraphQLClient _client = graphQLConfiguration.clientToQuery();
-                                    QueryResult result = await _client.mutate(
-                                      MutationOptions(
-                                        update: (Cache cache, QueryResult result) {
-                                            if (!result.hasException) {
-                                              _courseTitleController.clear();
-                                              _tageModeController.clear();
-                                              price = 0;
-                                              _statusName = null;
-                                              _categoryName = null;
-                                              imagefile = null;
-                                              _descriptionController.clear();
-                                              loginToastFail(result.data['create_course']['message']);
-                                              Navigator.pop(context);
-                                            } else {
-                                              loginToastFail("Create Error!!!");
-                                            }
-                                            return result;
-                                          },
-                                        documentNode: gql(addMutation.addCourse(
-                                          "5f432977da0863337654d38c",
-                                          _courseTitleController.text,
-                                          _statusName,
-                                          price,
-                                          _categoryName,
-                                          imageUrl,
-                                          _descriptionController.text,
-                                          widget.owner_id,
-                                        )),
-                                      ),
-                                    );
-                                }else {
-                                   return loginToastFail("Please fill form!");
-                                }
-                              },
-                              child: new Text(
-                                "Create Course",
-                                style: TextStyle(
-                                    fontSize: 15.0, color: Colors.white
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 5.0),
+                          child: Container(
+                              width: 170.0,
+                              height: 50.0,
+                              child: new RaisedButton(
+                                color: Color(0xFF5dabff),
+                                onPressed: () async {
+                                  decodeFile(_image);
+                                  if (_courseTitleController.text.isNotEmpty &&
+                                      _statusName.isNotEmpty &&
+                                      _categoryName.isNotEmpty &&
+                                      _descriptionController.text.isNotEmpty) {
+                                      GraphQLClient _client = graphQLConfiguration.clientToQuery();
+                                      QueryResult result = await _client.mutate(
+                                        MutationOptions(
+                                          update: (Cache cache, QueryResult result) {
+                                              if (!result.hasException) {
+                                                _courseTitleController.clear();
+                                                _statusName = null;
+                                                _categoryName = null;
+                                                imagefile = null;
+                                                _descriptionController.clear();
+                                                loginToastFail(result.data['create_course']['message']);
+                                                Navigator.pop(context);
+                                              } else {
+                                                loginToastFail("Create Error!!!");
+                                              }
+                                              return result;
+                                            },
+                                          documentNode: gql(addMutation.addCourse(
+                                            "5f432977da0863337654d38c",
+                                            _courseTitleController.text,
+                                            _statusName,
+                                            0,
+                                            _categoryName,
+                                            imageUrl,
+                                            _descriptionController.text,
+                                           "5d52486a1adfbd764bd951f8",// widget.owner_id,
+                                          )),
+                                        ),
+                                      );
+                                  }else {
+                                     return loginToastFail("Please fill form!");
+                                  }
+                                },
+                                child: new Text(
+                                  "Create Course",
+                                  style: TextStyle(
+                                      fontSize: 15.0, color: Colors.white
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
                       ),
                     ),
                   ],

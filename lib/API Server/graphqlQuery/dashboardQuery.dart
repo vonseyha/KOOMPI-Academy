@@ -106,4 +106,15 @@ class QueryGraphQL{
           }
         """;
     }
+
+    String getCategory(){
+      return
+      """
+      query{
+        categories{
+          title
+        }
+      }
+      """;
+    }
 }
