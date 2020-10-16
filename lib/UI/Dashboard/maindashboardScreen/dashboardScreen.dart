@@ -10,15 +10,13 @@ import 'functionBuilt.dart';
 import 'optionCard.dart';
 
 class MainDashboard extends StatefulWidget {
+   final String owner_id;
+  MainDashboard({Key key,this.owner_id}) : super(key: key);
   @override
   _MainDashboardState createState() => _MainDashboardState();
 }
 
 class _MainDashboardState extends State<MainDashboard> {
-
-  // void printOut(){
-  //   print("Hello world");
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -112,18 +110,21 @@ class _MainDashboardState extends State<MainDashboard> {
                     image: "images/viewcourse.png",
                     title: "View Courses",
                     color: 0xFF2db697,
+                    owner_id: null,
                     // refetchCourse: (){},
                   ),
                   OptionCard(
                     image: "images/mycourse.png",
                     title: "My Courses",
                     color: 0xFFf3a11f,
+                    owner_id: "5d52486a1adfbd764bd951f8",
                     // refetchCourse: fillList,
                   ),
                   OptionCard(
                     image: "images/createcourse.png",
                     title: "Create Course",
                     color: 0xFF9e68d6,
+                    owner_id: widget.owner_id,
                     // refetchCourse: fillList,
                   ),
                 ],

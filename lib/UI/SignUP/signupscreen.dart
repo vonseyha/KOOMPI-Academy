@@ -35,8 +35,7 @@ class _addUserState extends State<addUser> {
 
   bool _isHidePassword = true;
 
-  TextStyle style =
-      TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
+  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
 
   //*************** Login Button************//
   _buildLoginBtn() {
@@ -56,8 +55,7 @@ class _addUserState extends State<addUser> {
                 fontFamily: 'Montserrat',
                 fontSize: 14.0,
                 color: Colors.white,
-              ), // Navigator.pushReplacement(
-              //     context, MaterialPageRoute(builder: (context) => HomePage(
+              ), 
             ),
           ),
           Container(
@@ -88,10 +86,8 @@ class _addUserState extends State<addUser> {
           onPressed: () {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
-              print(
-                  "Your name: $_username and Your email: $_email and Password: $_password");
+              print("Your name: $_username and Your email: $_email and Password: $_password");
             }
-            // print("Sign Up Success!");
           },
           child: Text("SIGN UP",
               textAlign: TextAlign.center,

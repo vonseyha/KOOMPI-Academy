@@ -7,6 +7,7 @@ class OptionCard extends StatelessWidget {
   final String image;
   final String title;
   final int color;
+  final String owner_id;
   // final Function refetchCourse;
 
   const OptionCard({
@@ -14,6 +15,7 @@ class OptionCard extends StatelessWidget {
     this.image, 
     this.title, 
     this.color,
+    this.owner_id
     // this.refetchCourse
     }) : super(key: key);
 
@@ -29,12 +31,12 @@ class OptionCard extends StatelessWidget {
             break;
           case "My Courses":
             Navigator.push(
-                context, MaterialPageRoute(builder: (_) => MyCourse()));//refetchCourse: refetchCourse
+                context, MaterialPageRoute(builder: (_) => MyCourse(owner_id: owner_id)));//refetchCourse: refetchCourse
             print("My Courses");
             break;
           case "Create Course":
             Navigator.push(
-                context, MaterialPageRoute(builder: (_) => CreateCourse()));//refetchCourse: refetchCourse
+                context, MaterialPageRoute(builder: (_) => CreateCourse(owner_id: owner_id)));//refetchCourse: refetchCourse
             print("Create Course");
             break;
         }

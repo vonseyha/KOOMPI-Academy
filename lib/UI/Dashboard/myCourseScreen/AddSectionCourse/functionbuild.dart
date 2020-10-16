@@ -48,7 +48,7 @@ flutterToastF(String toast) {
 }
 
 //----------------------- Alert Option deleteSection  -----------------------//
-displayDeleteSection(BuildContext context, String section_id) async {
+displayDeleteSection(BuildContext context, String section_id, Function onDeleteSection,int index) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
   return showDialog(
@@ -123,6 +123,7 @@ displayDeleteSection(BuildContext context, String section_id) async {
                             update: (Cache cache, QueryResult result) {
                               if (!result.hasException) {
                                 flutterToastT(result.data['delete_section']['message']);
+                                onDeleteSection(index);
                                 Navigator.pop(context);
                               } else {
                                 flutterToastT("Update Error!!!");
@@ -145,7 +146,7 @@ displayDeleteSection(BuildContext context, String section_id) async {
 }
 
 //----------------------- Alert Option Point -----------------------//
-displayDeletePoint(BuildContext context, String point_id) async {
+displayDeletePoint(BuildContext context, String point_id,Function onDeletePoint, int index) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
   return showDialog(
@@ -221,6 +222,7 @@ displayDeletePoint(BuildContext context, String point_id) async {
                             update: (Cache cache, QueryResult result) {
                               if (!result.hasException) {
                                 flutterToastT(result.data['delete_point']['message']);
+                                onDeletePoint(index);
                                 Navigator.pop(context);
                               } else {
                                 flutterToastT("Update Error!!!");
@@ -243,8 +245,7 @@ displayDeletePoint(BuildContext context, String point_id) async {
 }
 
 //----------------------- Alert Option Add Section -----------------------//
-displayAddSection(BuildContext context, String section_id, String section_No,
-    String section_Title) async {
+displayAddSection(BuildContext context, String section_id, String section_No,String section_Title,Function onUpdateSection , int index) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
   _sectionNoController.text = section_No;
@@ -354,9 +355,9 @@ displayAddSection(BuildContext context, String section_id, String section_No,
                               if (!result.hasException) {
                                 _pointNoController.clear();
                                 _pointTitleController.clear();
+                                onUpdateSection(index);
+                                 flutterToastT(result.data['update_section']['message']);
                                 Navigator.pop(context);
-                                flutterToastT(
-                                    result.data['update_section']['message']);
                               } else {
                                 flutterToastT("Update Error!!!");
                               }

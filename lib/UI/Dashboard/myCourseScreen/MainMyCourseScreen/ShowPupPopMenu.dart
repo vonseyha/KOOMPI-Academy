@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/api.dart';
+import 'package:koompi_academy_project/Model/CourseModel.dart';
 import 'package:koompi_academy_project/UI/Dashboard/createCourseScreen/UpdateCourse.dart';
 import 'package:koompi_academy_project/UI/Home/property.dart';
 import 'functionbuild.dart';
@@ -19,6 +20,7 @@ class ShowPupPopMenu extends StatefulWidget {
   final String description;
   final Function refetchCourse;
   final Function onDeleteClick;
+  final Function onUpdateClick;
   final tage_mode;
 
   const ShowPupPopMenu(
@@ -34,6 +36,7 @@ class ShowPupPopMenu extends StatefulWidget {
       this.refetchCourse,
       this.tage_mode,
       this.onDeleteClick,
+      this.onUpdateClick,
       this.index})
       : super(key: key);
 
@@ -68,6 +71,8 @@ class _ShowPupPopMenuState extends State<ShowPupPopMenu> {
                           category: widget.category,
                           thumbnail: widget.thumbnail,
                           description: widget.description,
+                          onClickUpdate: widget.onUpdateClick,
+                          index: widget.index,
                         )
                       )
                   );
