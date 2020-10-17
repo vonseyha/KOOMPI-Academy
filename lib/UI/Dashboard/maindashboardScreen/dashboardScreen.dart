@@ -68,22 +68,22 @@ class _MainDashboardState extends State<MainDashboard> {
                   InfoCard(
                     title: "Active",
                     iconColor: kPrimaryColorActive,
-                    effectedNum: 1062,
+                    effectedNum: 11,
                   ),
                   InfoCard(
                     title: "Idle",
                     iconColor: kPrimaryColorIdle,
-                    effectedNum: 1062,
+                    effectedNum: 93,
                   ),
                   InfoCard(
                     title: "Feedback",
                     iconColor: kPrimaryColorFeedback,
-                    effectedNum: 1062,
+                    effectedNum: 112,
                   ),
                   InfoCard(
                     title: "Unmerged",
                     iconColor: kPrimaryColorUnmerged,
-                    effectedNum: 1062,
+                    effectedNum: 93,
                   ),
                 ],
               ),

@@ -42,8 +42,8 @@ class OptionCard extends StatelessWidget {
         }
       },
       child: Container(
-        height: MediaQuery.of(context).size.height / 6,
-        width: MediaQuery.of(context).size.width / 3.5,
+        height: MediaQuery.of(context).size.height / 5.5,
+        width: MediaQuery.of(context).size.width / 3.3,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(

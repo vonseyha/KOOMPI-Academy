@@ -71,7 +71,7 @@ class InfoCard extends StatelessWidget {
                                   .textTheme
                                   .headline6
                                   .copyWith(
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w400,
                                     color: Color(0xFF3f597f),
                                   )),
                         ]),

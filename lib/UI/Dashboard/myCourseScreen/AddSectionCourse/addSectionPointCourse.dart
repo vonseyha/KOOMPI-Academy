@@ -35,7 +35,6 @@ class _AddSectionPointCourseState extends State<AddSectionPointCourse>  with Sin
 
   @override
   void initState() {
-    // fillList();
     super.initState();
     _tabController = TabController(length: _pages.length, vsync: this);
     _tabController.addListener(() => setState(() {

@@ -1,37 +1,36 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/datas.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/graphQLVideoConf.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/query.dart';
-import 'package:koompi_academy_project/Model/CardContentModel/sectionModel.dart';
-import 'package:koompi_academy_project/UI/ContentsPage/Sliver_to_SubPage/Herowidget.dart';
 import 'package:koompi_academy_project/UI/Submainpage/CommentPage/commentScreen.dart';
-import 'package:koompi_academy_project/UI/Submainpage/FregementScreen/contentFregementScreen.dart';
 import 'package:koompi_academy_project/UI/Submainpage/FregementScreen/overviewFregementScreen.dart';
-import 'package:tuple/tuple.dart';
-import 'package:video_player/video_player.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PortfolioTutorialDetailPage extends StatefulWidget {
   final String course_Id;
-  final  String course_Title;
+  final String course_Title;
 
-  const PortfolioTutorialDetailPage({
-    Key key,
-    @required this.course_Id,this.course_Title
-  }) : super(key: key);
+  const PortfolioTutorialDetailPage(
+      {Key key, @required this.course_Id, this.course_Title})
+      : super(key: key);
 
   @override
   _PortfolioTutorialDetailPageState createState() =>
       _PortfolioTutorialDetailPageState();
 }
 
-class _PortfolioTutorialDetailPageState
-    extends State<PortfolioTutorialDetailPage>
+class _PortfolioTutorialDetailPageState extends State<PortfolioTutorialDetailPage>
     with SingleTickerProviderStateMixin {
+
   ChewieController _chewieController;
   Future<void> _initializeVideoPlayerFuture;
+  
+  // YoutubePlayerController youtubePlayerController;
+
   final List<Tab> myTabs = <Tab>[
     Tab(text: 'Overview'),
     Tab(text: 'Content'),
@@ -39,35 +38,51 @@ class _PortfolioTutorialDetailPageState
 
   List<LinkVideo> list = List<LinkVideo>();
   GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
-  String video;
+  String video = "https://youtu.be/O2I5VuDn-I0";
 
   TabController _tabController;
 
+  YoutubePlayerController _controller ;
+  
+  // String playVideo(String linkvideo){
+  //        YoutubePlayer(
+  //                 controller: YoutubePlayerController(
+  //                         initialVideoId: YoutubePlayer.convertUrlToId(video),
+  //                         flags: YoutubePlayerFlags(
+  //                             autoPlay: false,
+  //                             mute: false,
+  //                             disableDragSeek: false,
+  //                             loop: false,
+  //                             isLive: false,
+  //                             forceHD: false,
+  //                         ),
+  //                     ),
+  //                 liveUIColor: Colors.amber,
+  //             );
+  //   print("------------------------${linkvideo}");
+  // }
+  
+    @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+      // _controller.dispose();
+  }
   @override
   void initState() {
     super.initState();
-    // fillList();
-    _chewieController = ChewieController(
-        videoPlayerController: VideoPlayerController.network("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"),//$video
-        aspectRatio: 16 / 9,
-        autoInitialize: true,
-        autoPlay: true,
-        looping: true,
-        errorBuilder: (context, errorMessage) {
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                errorMessage,
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          );
-        });
-        // print("VideoLink====================$video");
+    // playVideo(video);
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() => setState(() {}));
   }
+
+  ValueNotifier<GraphQLClient> clientdata = ValueNotifier(
+    GraphQLClient(
+      cache: InMemoryCache(),
+      link: HttpLink(uri: 'https://learnbackend.koompi.com/student'),
+    ),
+  );
+  QueryData queryData = QueryData();
 
   @override
   Widget build(BuildContext context) {
@@ -89,9 +104,22 @@ class _PortfolioTutorialDetailPageState
           height: datawh.size.height,
           child: Column(
             children: <Widget>[
-              _buildHeroWidget(context),
+              YoutubePlayer(
+                  controller: YoutubePlayerController(
+                          initialVideoId: YoutubePlayer.convertUrlToId(video),
+                          flags: YoutubePlayerFlags(
+                              autoPlay: false,
+                              mute: false,
+                              disableDragSeek: false,
+                              loop: false,
+                              isLive: false,
+                              forceHD: false,
+                          ),
+                      ),
+                  liveUIColor: Colors.amber,
+              ),
+
               Expanded(
-//              height: datawh.size.height / 1.68,
                 child: _buildDesc(context),
               )
             ],
@@ -112,27 +140,21 @@ class _PortfolioTutorialDetailPageState
     );
   }
 
-  HeroWidget _buildHeroWidget(BuildContext context) {
-    return HeroWidget(
-      heroTag: widget.course_Id,
-      width: MediaQuery.of(context).size.width,
-      builder: (BuildContext context) {
-        return _buildHeroWidgetContent();
-      },
-    );
-  }
+  // HeroWidget _buildHeroWidget(BuildContext context) {
+  //   return HeroWidget(
+  //     heroTag: widget.course_Id,
+  //     width: MediaQuery.of(context).size.width,
+  //     builder: (BuildContext context) {
+  //       return _buildHeroWidgetContent();
+  //     },
+  //   );
+  // }
 
-  Chewie _buildHeroWidgetContent() {
-    return Chewie(controller: _chewieController);
-  }
+  // Chewie _buildHeroWidgetContent() {
+  //   return Chewie(controller: _chewieController);
+  // }
 
-  @override
-  void dispose() {
-    _chewieController.videoPlayerController.dispose();
-    _chewieController.dispose();
-    _tabController.dispose();
-    super.dispose();
-  }
+
 
   Widget _buildDesc(BuildContext context) {
     var datawh = MediaQuery.of(context);
@@ -145,7 +167,7 @@ class _PortfolioTutorialDetailPageState
               child: Column(
             children: <Widget>[
               DefaultTabController(
-                length: 2, // Added
+                length: 2, 
                 child: Container(
                   height: datawh.size.height / 13,
                   child: TabBar(
@@ -179,9 +201,66 @@ class _PortfolioTutorialDetailPageState
                 child: Container(
                   height: datawh.size.height / 2.1,
                   child:
-                      TabBarView(controller: _tabController, children: <Widget>[
+                    TabBarView(controller: _tabController, children: <Widget>[
                     ContentFregement(courseTitle: widget.course_Title),
-                    FregementContent(courseID: widget.course_Id),
+                    GraphQLProvider(
+                      client: clientdata,
+                      child: Scaffold(
+                          body: Query(
+                        options: QueryOptions(
+                          documentNode: gql(queryData.getContentCourse(widget.course_Id)),
+                        ),
+                        builder: (QueryResult result,
+                            {VoidCallback refetch, FetchMore fetchMore}) {
+                          if (result.hasException) {
+                            return Text(result.exception.toString());
+                          }
+                          if (result.loading) {
+                            return Center(
+                              child: SpinKitFadingCircle(color: Colors.blueGrey, size: 40),
+                            );
+                          }
+                          List repositories = result.data['sections'];
+                          return ListView.builder(
+                            itemCount: repositories.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ExpansionTile(
+                                title: Text(
+                                  " ${repositories[index]["no"]}.\t${repositories[index]["title"]}",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                children: <Widget>[
+                                  if (result.data['sections'][index].containsKey("points"))
+                                    for (var a = 0;  a < result.data['sections'][index]["points"].length; a++)
+                                      Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: GestureDetector(
+                                          child: Container(
+                                            alignment: Alignment.centerLeft,
+                                            padding: const EdgeInsets.only(left: 15.0),
+                                            child: Text(
+                                              " ${repositories[index]["points"][a]["no"]}.\t${repositories[index]["points"][a]["title"]}",
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(fontSize: 14),
+                                            ),
+                                          ),
+                                          onTap: () async {
+                                            print(" ${repositories[index]["points"][a]["video_link"]}");
+                                            setState(() {
+                                              video = repositories[index]["points"][a]["video_link"];
+                                            });
+                                            //  playVideo(video);  
+                                          },
+                                        ),
+                                      ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      )),
+                    )
                   ]),
                 ),
               )
@@ -189,4 +268,7 @@ class _PortfolioTutorialDetailPageState
           ))
         ]));
   }
+}
+
+class _controller {
 }
