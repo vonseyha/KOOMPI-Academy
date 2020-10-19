@@ -17,7 +17,7 @@ class _ProfileState extends State<Profile> {
     return Column(
       children: [
         Expanded(
-          flex: 1,
+          flex: 3,
           child: Stack(
             children: <Widget>[
               Container(),
@@ -25,8 +25,7 @@ class _ProfileState extends State<Profile> {
                 clipper: _AppBarClipper(),
                 child: Container(
                   height: 250.0,
-                  decoration: BoxDecoration(
-                      color: Colors.black),
+                  decoration: BoxDecoration(color: Colors.black),
                 ),
               ),
               Padding(
@@ -42,14 +41,14 @@ class _ProfileState extends State<Profile> {
                       ),
                       SizedBox(height: 4.0),
                       Text(
-                        "Neecoder X",
+                        "Tang Eamseng",
                         style: TextStyle(
                           fontSize: 21.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        "Developer",
+                        "Teacher",
                         style: TextStyle(
                           fontSize: 12.0,
                           color: Colors.grey[700],
@@ -107,74 +106,146 @@ class _ProfileState extends State<Profile> {
           ),
         ),
         Expanded(
-          child: Column(
-            children: <Widget>[
-              Text("Name"),
-              SizedBox(
-                height: 4,
-              ),
-              Text(
-                "Milan Short",
-                style: _style(),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Text(
-                "Email",
-                style: _style(),
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Text("milan@gmail.com"),
-              SizedBox(
-                height: 16,
-              ),
-              Text(
-                "Location",
-                style: _style(),
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Text("New York, USA"),
-              SizedBox(
-                height: 16,
-              ),
-              Text(
-                "Language",
-                style: _style(),
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Text("English, French"),
-              SizedBox(
-                height: 16,
-              ),
-              Text(
-                "Occupation",
-                style: _style(),
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Text("Employee"),
-              Container(
-                  width: 130,
-                  height: 40,
-                  child: RaisedButton(
-                    textColor: Colors.white,
-                    color: Colors.black87,
-                    onPressed: () {
-                      _openSignOutDrawer(context);
-                    },
-                    child: Text("Sign Out", style: TextStyle(fontSize: 15)),
-                    // icon: Icon(, size: 18),
-                  )),
-            ],
+          flex: 3,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            margin: const EdgeInsets.only(left: 50),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Fullname:", style: TextStyle(fontSize: 15)),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Von Seyha",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w600)),
+                    ),
+                  ],
+                )),
+                Container(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Email:", style: TextStyle(fontSize: 15)),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("seyhavon22@gmail.com",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w600)),
+                    ),
+                  ],
+                )),
+                Container(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Course:", style: TextStyle(fontSize: 15)),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("120",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w600)),
+                    ),
+                  ],
+                )),
+              ],
+            ),
           ),
+        ),
+        Expanded(
+          flex: 2,
+                  child: Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width,
+            height: 100,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+              onTap: () {},
+              child: Container(
+                height: MediaQuery.of(context).size.height / 7,
+                width: MediaQuery.of(context).size.width / 4,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  border: Border.all(width: 2.0, color: Colors.black87),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                          height: 40.0,
+                          width: 40.0,
+                          child: Image.asset("images/mycourse.png",
+                              color: Colors.black87)),
+                    ),
+                    Text(
+                      "Help&Support",
+                      style: Theme.of(context).textTheme.body2.copyWith(
+                            color: Color(0xFF3f597f),
+                            fontSize: 13.0,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(width:15),
+            //----------------------------
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                height: MediaQuery.of(context).size.height / 7,
+                width: MediaQuery.of(context).size.width / 4,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  border: Border.all(width: 2.0, color: Colors.black87),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                          height: 40.0,
+                          width: 40.0,
+                          child: Image.asset("images/mycourse.png",
+                              color: Colors.black87)),
+                    ),
+                    Text(
+                      "Privacy",
+                      style: Theme.of(context).textTheme.body2.copyWith(
+                            color: Color(0xFF3f597f),
+                            fontSize: 13.0,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            //----------------------------
+              ],
+            ),
+          ),
+        ),
+        Container(
+          alignment: Alignment.center,
+          width: MediaQuery.of(context).size.width,
+          child: FlatButton(
+              onPressed: () {
+                _openSignOutDrawer(context);
+              },
+              child: Text("Sign Out", style: TextStyle(color: Colors.white)),
+              color: Colors.black,
+              splashColor: Colors.black54),
         ),
       ],
     );
