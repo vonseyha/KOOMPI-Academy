@@ -5,6 +5,7 @@ import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCou
 import 'package:koompi_academy_project/UI/Home/samplecard.dart';
 import 'package:koompi_academy_project/UI/SplashScreen/splashscreen.dart';
 import 'UI/Dashboard/createCourseScreen/UpdateCourse.dart';
+import 'UI/Dashboard/maindashboardScreen/Profile.dart';
 import 'UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';
 import 'UI/Dashboard/myCourseScreen/MainMyCourseScreen/CardViewMyCourse.dart';
 import 'UI/Dashboard/myCourseScreen/MainMyCourseScreen/SearchRout.dart';
@@ -40,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Container(
         color: Color(0xFFf7f8fc), 
-        child: HomePage(),
+        child: Profile(),
       )
     );
   }

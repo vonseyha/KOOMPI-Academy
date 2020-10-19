@@ -26,9 +26,7 @@ class SharePrefer{
    String videoLink =  _pref .getString('setvideo');
    return videoLink;
   }
-
-
   static runGetVideo(){
-    
+
   }
 }

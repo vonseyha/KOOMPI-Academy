@@ -38,7 +38,7 @@ class _PortfolioTutorialDetailPageState extends State<PortfolioTutorialDetailPag
 
   List<LinkVideo> list = List<LinkVideo>();
   GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
-  String video = "https://youtu.be/O2I5VuDn-I0";
+  String video ;
 
   TabController _tabController;
 
@@ -66,14 +66,13 @@ class _PortfolioTutorialDetailPageState extends State<PortfolioTutorialDetailPag
   void dispose() {
     _tabController.dispose();
     super.dispose();
-      // _controller.dispose();
   }
   @override
   void initState() {
     super.initState();
-    // playVideo(video);
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() => setState(() {}));
+    video = "https://youtu.be/O2I5VuDn-I0";
   }
 
   ValueNotifier<GraphQLClient> clientdata = ValueNotifier(
@@ -118,7 +117,6 @@ class _PortfolioTutorialDetailPageState extends State<PortfolioTutorialDetailPag
                       ),
                   liveUIColor: Colors.amber,
               ),
-
               Expanded(
                 child: _buildDesc(context),
               )
@@ -139,22 +137,6 @@ class _PortfolioTutorialDetailPageState extends State<PortfolioTutorialDetailPag
       ),
     );
   }
-
-  // HeroWidget _buildHeroWidget(BuildContext context) {
-  //   return HeroWidget(
-  //     heroTag: widget.course_Id,
-  //     width: MediaQuery.of(context).size.width,
-  //     builder: (BuildContext context) {
-  //       return _buildHeroWidgetContent();
-  //     },
-  //   );
-  // }
-
-  // Chewie _buildHeroWidgetContent() {
-  //   return Chewie(controller: _chewieController);
-  // }
-
-
 
   Widget _buildDesc(BuildContext context) {
     var datawh = MediaQuery.of(context);
@@ -220,6 +202,7 @@ class _PortfolioTutorialDetailPageState extends State<PortfolioTutorialDetailPag
                               child: SpinKitFadingCircle(color: Colors.blueGrey, size: 40),
                             );
                           }
+                          print("=============++============= ${video}");
                           List repositories = result.data['sections'];
                           return ListView.builder(
                             itemCount: repositories.length,
@@ -251,6 +234,7 @@ class _PortfolioTutorialDetailPageState extends State<PortfolioTutorialDetailPag
                                               video = repositories[index]["points"][a]["video_link"];
                                             });
                                             //  playVideo(video);  
+                                            print("========================== ${video}");
                                           },
                                         ),
                                       ),
@@ -268,7 +252,4 @@ class _PortfolioTutorialDetailPageState extends State<PortfolioTutorialDetailPag
           ))
         ]));
   }
-}
-
-class _controller {
 }
