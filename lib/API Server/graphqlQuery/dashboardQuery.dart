@@ -1,5 +1,4 @@
 class QueryGraphQL{
-
   String getAll() {
     return """ 
         query {
@@ -50,7 +49,7 @@ class QueryGraphQL{
       return 
       """
       query{
-        sections(course_id:"5f4f050415643b0057a28ae1"){
+        sections(course_id:"$course_id"){
           id
           title
         }
@@ -81,6 +80,41 @@ class QueryGraphQL{
             }
           }
         }
+      """;
+    }
+
+    String getCourseByOwner(String owner_id){
+        return 
+        """
+          query{
+            courses_by_owner(owner_id:"$owner_id"){
+              id
+              org_id
+              title
+              price
+              privacy
+              categories
+              thumbnail
+              description
+              owner_id
+              views
+                user{
+                  fullname
+                  avatar
+                }
+            }
+          }
+        """;
+    }
+
+    String getCategory(){
+      return
+      """
+      query{
+        categories{
+          title
+        }
+      }
       """;
     }
 }

@@ -22,18 +22,18 @@ enum MyPupopMenu { delete, edit }
 class _EndDrawerState extends State<EndDrawer> {
 
   //----------------------- Show item select option-----------------------//
-  Widget _simplePopup(String sectionID, String section_No , String section_Title ) => PopupMenuButton<MyPupopMenu>(
+  Widget _simplePopup(String sectionID, String section_No , String section_Title ,Function onDeleteSection,Function onUpdateSection,int index) => PopupMenuButton<MyPupopMenu>(
         onSelected: (MyPupopMenu result){
             if(result == MyPupopMenu.delete){
                 Navigator.push(
                   context,
                   //  MaterialPageRoute(builder: (_) => displayDeleteSection(context, sectionID)),
-                  displayDeleteSection(context, sectionID)
+                  displayDeleteSection(context, sectionID,onDeleteSection,index),
                 );
             }else if (result == MyPupopMenu.edit){
                 Navigator.push(
                   context,
-                     displayAddSection(context, sectionID,section_No,section_Title),
+                     displayAddSection(context, sectionID,section_No,section_Title,onUpdateSection,index),
                 );
             }
         },
@@ -65,6 +65,27 @@ class _EndDrawerState extends State<EndDrawer> {
 
   QueryGraphQL queryGraphQL = QueryGraphQL();
   // List<Section> listSection = List<Section>();
+  List deleteSection;
+  List deletePoint;
+
+  void  onDeleteSection(int index){
+    setState(() {
+      deleteSection.removeAt(index);
+    });
+  }
+  void  onDeletePoint(int index){
+    setState(() {
+      deletePoint.removeAt(index);
+    });
+  }
+
+
+  void onUpdateSection(int index){
+    setState(() {
+      deleteSection.toSet();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -86,6 +107,7 @@ class _EndDrawerState extends State<EndDrawer> {
               );
             }
             List repositories = result.data['sections'];
+            deleteSection = repositories;
             return ListView.builder(
               itemCount: repositories.length,
               itemBuilder: (BuildContext context, int index) {
@@ -95,10 +117,12 @@ class _EndDrawerState extends State<EndDrawer> {
                         leading: _simplePopup(
                         repositories[index]["id"],
                         repositories[index]["no"],
-                        repositories[index]["title"]
+                        repositories[index]["title"],
+                        onDeleteSection,
+                        onUpdateSection,
+                        index
                       ),
-                        title: Text(
-                          " ${repositories[index]["no"]}.\t${repositories[index]["title"]}",
+                        title: Text(" ${repositories[index]["no"]}.\t${repositories[index]["title"]}",
                           maxLines: 2,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 14),
@@ -108,11 +132,11 @@ class _EndDrawerState extends State<EndDrawer> {
                             for (var a = 0; a <result.data['sections'][index]["points"].length;a++)
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                horizontal: 15.0),
+                                horizontal: 25.0),
                                 child: Row(
                                   mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Container(
+                                    Expanded(
                                       child: Text(" ${repositories[index]["points"][a]["no"]}.\t${repositories[index]["points"][a]["title"]}",
                                           maxLines: 3,
                                           style: TextStyle(fontSize: 14)
@@ -139,9 +163,15 @@ class _EndDrawerState extends State<EndDrawer> {
                                           width: 15.0,
                                           child: IconButton(
                                             onPressed: () {
+                                              print("delete section");
+                                              setState(() {
+                                                deletePoint = repositories[index]['points'];
+                                              });
                                               displayDeletePoint(
                                                   context,
                                                   repositories[index]["points"][a]["id"],
+                                                  onDeletePoint,
+                                                  a
                                               );
                                             },
                                             icon: Icon(Icons.delete,

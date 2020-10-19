@@ -48,7 +48,7 @@ flutterToastF(String toast) {
 }
 
 //----------------------- Alert Option deleteSection  -----------------------//
-displayDeleteSection(BuildContext context, String section_id) async {
+displayDeleteSection(BuildContext context, String section_id, Function onDeleteSection,int index) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
   return showDialog(
@@ -56,7 +56,7 @@ displayDeleteSection(BuildContext context, String section_id) async {
       builder: (context) {
         return AlertDialog(
           content: Container(
-            height: H / 3.2,
+            height: H / 3,
             child: Column(
               children: [
                 Container(
@@ -123,6 +123,7 @@ displayDeleteSection(BuildContext context, String section_id) async {
                             update: (Cache cache, QueryResult result) {
                               if (!result.hasException) {
                                 flutterToastT(result.data['delete_section']['message']);
+                                onDeleteSection(index);
                                 Navigator.pop(context);
                               } else {
                                 flutterToastT("Update Error!!!");
@@ -145,7 +146,7 @@ displayDeleteSection(BuildContext context, String section_id) async {
 }
 
 //----------------------- Alert Option Point -----------------------//
-displayDeletePoint(BuildContext context, String point_id) async {
+displayDeletePoint(BuildContext context, String point_id,Function onDeletePoint, int index) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
   return showDialog(
@@ -153,7 +154,7 @@ displayDeletePoint(BuildContext context, String point_id) async {
       builder: (context) {
         return AlertDialog(
           content: Container(
-            height: H / 3.2,
+            height: H / 3,
             child: Column(
               children: [
                 Container(
@@ -221,6 +222,7 @@ displayDeletePoint(BuildContext context, String point_id) async {
                             update: (Cache cache, QueryResult result) {
                               if (!result.hasException) {
                                 flutterToastT(result.data['delete_point']['message']);
+                                onDeletePoint(index);
                                 Navigator.pop(context);
                               } else {
                                 flutterToastT("Update Error!!!");
@@ -243,8 +245,7 @@ displayDeletePoint(BuildContext context, String point_id) async {
 }
 
 //----------------------- Alert Option Add Section -----------------------//
-displayAddSection(BuildContext context, String section_id, String section_No,
-    String section_Title) async {
+displayAddSection(BuildContext context, String section_id, String section_No,String section_Title,Function onUpdateSection , int index) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
   _sectionNoController.text = section_No;
@@ -254,22 +255,18 @@ displayAddSection(BuildContext context, String section_id, String section_No,
       builder: (context) {
         return AlertDialog(
           content: Container(
-            height: H / 2.3,
+            height: H / 2.7,
             width: W,
             child: Column(
               children: [
                 Container(
-                    width: 60,
-                    height: 60,
-                    child: Image.asset("images/edit.png")),
-                SizedBox(height: 5.0),
-                Container(
                   child: Text("Edit ${section_Title}",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.w500)),
+                          fontSize: 20.0, fontWeight: FontWeight.w500)
+                        ),
                 ),
-                SizedBox(height: 10.0),
+                SizedBox(height: 15),
                 Expanded(
                   flex: 2,
                   child: Container(
@@ -302,7 +299,6 @@ displayAddSection(BuildContext context, String section_id, String section_No,
                                 borderRadius: new BorderRadius.circular(5.0),
                                 borderSide: new BorderSide(),
                               ),
-                              //fillColor: Colors.green
                             ),
                           ),
                         ),
@@ -354,9 +350,9 @@ displayAddSection(BuildContext context, String section_id, String section_No,
                               if (!result.hasException) {
                                 _pointNoController.clear();
                                 _pointTitleController.clear();
+                                onUpdateSection(index);
+                                 flutterToastT(result.data['update_section']['message']);
                                 Navigator.pop(context);
-                                flutterToastT(
-                                    result.data['update_section']['message']);
                               } else {
                                 flutterToastT("Update Error!!!");
                               }
@@ -394,25 +390,22 @@ displayAddPoint(BuildContext context, String point_id, String point_no,
       builder: (context) {
         return AlertDialog(
           content: Container(
-            height: H / 1.9,
+            height: H / 2.1,
             width: W,
             child: Column(
               children: [
-                Container(
-                    width: 60,
-                    height: 60,
-                    child: Image.asset("images/edit.png")),
-                SizedBox(height: 5.0),
-                Container(
-                  child: Text("Edit ${point_title}",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.w500)),
-                ),
-                SizedBox(height: 10.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                       child: Container(
+                          child: Text("Edit ${point_title}",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20.0, fontWeight: FontWeight.w500)),
+                        ),
+                ), 
                 Expanded(
                   flex: 2,
-                  child: Container(
+                  child: SingleChildScrollView(
                     child: Column(
                       children: [
                         Container(

@@ -8,22 +8,6 @@ ValueNotifier<GraphQLClient> dashboardC = ValueNotifier(
     link: HttpLink(uri: 'https://academybackend.koompi.com/private/api'),
   ),
 );
-//----------------------------- Part Dashboard Mutation-----------------------//
-// mutation{
-//   create_course(
-//     org_id:"5f432977da0863337654d38c"
-//     title:"flutter Course"
-//     price:30
-//     privacy:"Public"
-//     categories:"កាលវិភាគ"
-//     thumbnail:"public/upload/123.jpg"
-//     description:"flutter is good for build application"
-//     owner_id:"5d5238fdb478d918d8b8af18"
-//   ){
-//     message
-//     status
-//   }
-// }
 
 String createCourse = """
   mutation (

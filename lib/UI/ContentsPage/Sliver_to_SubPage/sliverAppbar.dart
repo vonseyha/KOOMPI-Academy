@@ -17,7 +17,7 @@ class PortfolioSliverAppBar extends StatelessWidget {
         color: Colors.black,
       ),
       backgroundColor: Colors.blueAccent,
-      expandedHeight: 280,
+      expandedHeight: 200,
       pinned: true,
       floating: true,
       flexibleSpace: FlexibleSpaceBar(

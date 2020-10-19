@@ -15,7 +15,6 @@ class AddSectionPointCourse extends StatefulWidget {
   final String course_title;
 
   const AddSectionPointCourse({
-
     Key key,
     this.course_id,
     this.course_title,
@@ -36,11 +35,11 @@ class _AddSectionPointCourseState extends State<AddSectionPointCourse>  with Sin
 
   @override
   void initState() {
-    // fillList();
     super.initState();
     _tabController = TabController(length: _pages.length, vsync: this);
     _tabController.addListener(() => setState(() {
     }));
+    print("*********************8${widget.course_id}");
   }
 
   @override

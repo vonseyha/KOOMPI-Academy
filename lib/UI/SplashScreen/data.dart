@@ -39,7 +39,7 @@ List<SliderModel> getSlides() {
   //1
   sliderModel.setDesc("To KOOMPI Academy");
   sliderModel.setTitle("Welcome");
-  sliderModel.setImagePath("images/logo_koompi_black.png");
+  sliderModel.setImagePath("images/koompi_splash.png");
   slides.add(sliderModel);
 
   sliderModel = new SliderModel();

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:frefresh/frefresh.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';
@@ -62,7 +61,7 @@ QueryGraphQL queryGraphQL = QueryGraphQL();
                               ),
                               onChanged: (value) {  
                                 setState(() {
-                                  value = editingSearchController.text ;
+                                  value = editingSearchController.text;
                                 });
                               }            
                             ),
@@ -182,18 +181,15 @@ QueryGraphQL queryGraphQL = QueryGraphQL();
                                             Expanded(
                                               flex: 1,
                                               child: ShowPupPopMenu(
-                                                // index: index,
-                                                // id: listPerson[index].getId(),
-                                                // org_id: listPerson[index].getOrg_id(),
-                                                // title: listPerson[index].getTitle(),
-                                                // price: listPerson[index].getPrice(),
-                                                // privacy: listPerson[index].getPrivacy(),
-                                                // category: listPerson[index].getCategories(),
-                                                // // tage_mode: ,
-                                                // // thumbnail: listPerson[index].getThumbnail(),
-                                                // description:
-                                                //     listPerson[index].getDescription(),
-                                                // refetchCourse: fillList,
+                                                index: index,
+                                                id:repositories[index]['id'],
+                                                org_id: repositories[index]['org_id'],
+                                                title:  repositories[index]['title'],
+                                                price: repositories[index]['price'],
+                                                privacy:  repositories[index]['privacy'],
+                                                category:  repositories[index]['category'],
+                                                description: repositories[index]['description'],
+                                                // refetchCourse: ,
                                                 // onDeleteClick: onDeleteClick,
                                               ),
                                             )

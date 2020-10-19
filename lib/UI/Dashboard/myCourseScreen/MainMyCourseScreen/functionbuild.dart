@@ -20,7 +20,7 @@ displayDeleteCourse(BuildContext context, String id , Function refechData,int in
       builder: (context) {
         return AlertDialog(
           content: Container(
-            height: MediaQuery.of(context).size.height / 3.5,
+            height: MediaQuery.of(context).size.height / 3,
             child: Column(
               children: [
                 Container(
@@ -80,18 +80,12 @@ displayDeleteCourse(BuildContext context, String id , Function refechData,int in
                         GraphQLClient _client = graphQLConfiguration.clientToQuery();
                         QueryResult result = await _client.mutate(
                           MutationOptions (
-                            onCompleted: (data){
-                              // print(data);
-                                // refechData();
-                            },
                             documentNode: gql(addMutation.deleteCourse(id)),
                           ),
                         );
                         if (!result.hasException) {
                           loginToast("Delete Sucessfuly!");
                            Navigator.pop(context);
-                           
-                          //refetchCourse();
                           refechData(index);
                           // listPerson.clear();
                         } else {

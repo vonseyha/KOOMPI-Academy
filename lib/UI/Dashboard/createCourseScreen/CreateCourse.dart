@@ -1,68 +1,65 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
-import 'package:koompi_academy_project/API%20Server/grapqlMutation/api.dart';
+import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
-import 'package:number_inc_dec/number_inc_dec.dart';
 import 'dart:io';
-import 'package:path/path.dart';
+import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 class CreateCourse extends StatefulWidget {
+  final String owner_id;
+  const CreateCourse({
+    Key key,
+    this.owner_id
+    // this.refetchCourse
+    }) : super(key: key);
 
-  //final Function refetchCourse;
-  // CreateCourse({
-  //   this.refetchCourse
-  // });
- 
   @override
   _CreateCourseState createState() => _CreateCourseState();
 }
 
 class _CreateCourseState extends State<CreateCourse> {
-  var _currencies = [
-    "science",
-    "engineering",
-    "technology",
-    "mathermatic",
-    "moeys-cambodia",
-    "art",
-    "chroy-chongva-school",
-    "hina",
-    "camboida-accounting-club",
-    "វិទ្យាល័យហ៊ុនសែនសេរីភាព",
-    "សាលាបឋមសិក្សាវត្តបូព៍",
-    "new-generation-school"
-  ];
+
+  List<Map<String, dynamic>> _myJsons = [ ];
+  void fillList() async {
+    QueryGraphQL queryGraphQL = QueryGraphQL();
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    QueryResult result = await _client.query(
+      QueryOptions(
+        documentNode: gql(queryGraphQL.getCategory()),
+      ),
+    );
+    if (!result.hasException) {
+      print(result.data["categories"].length);
+        for (var i = 0; i < result.data["categories"].length; i++) {
+          setState(() {
+            _myJsons.add(result.data['categories'][i]);
+          });
+        }
+    }
+  }
+
   var _currenstatus = [
-    "Private",
     "Public",
   ];
 
   final _formKey = GlobalKey<FormState>();
   String _statusName;
   String _categoryName;
-  int price;
   String imagefile;
   Widget sizeHight() {
     return SizedBox(height: 8.0);
   }
 
   final _courseTitleController = TextEditingController();
-  final _tageModeController = TextEditingController();
-  final _statusController = TextEditingController();
-  final _categoryController = TextEditingController();
   final _descriptionController = TextEditingController();
 
-  String coursetitle;
-  String tagemode;
-  String category;
-  String status;
-  String description;
 
   String typenameDataIdFromObject(Object object) {
     if (object is Map<String, Object> &&
@@ -88,31 +85,9 @@ class _CreateCourseState extends State<CreateCourse> {
           ),
           //fillColor: Colors.green
         ),
-        onSaved: (val) => coursetitle = val,
       ),
     );
   }
-
-//*****************Tage Mode Field Form****************/
-  tageModeField(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 1.05,
-      child: new TextFormField(
-        controller: _tageModeController,
-        decoration: new InputDecoration(
-          labelText: "Tage Mode",
-          fillColor: Colors.white,
-          border: new OutlineInputBorder(
-            borderRadius: new BorderRadius.circular(5.0),
-            borderSide: new BorderSide(),
-          ),
-          //fillColor: Colors.green
-        ),
-        onSaved: (val) => tagemode = val,
-      ),
-    );
-  }
-
 //**************Course Description Field Form*************/
   courseDescription(BuildContext context) {
     return Container(
@@ -126,35 +101,9 @@ class _CreateCourseState extends State<CreateCourse> {
             borderRadius: new BorderRadius.circular(5.0),
             borderSide: new BorderSide(),
           ),
-          //fillColor: Colors.green
         ),
-        maxLength: 400,
-        maxLines: 5,
-        onSaved: (val) => description = val,
-      ),
-    );
-  }
-
-//*****************Course Price Form*************/
-  coursePrice(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 2.5,
-      child: NumberInputWithIncrementDecrement(
-        controller: TextEditingController(),
-        widgetContainerDecoration: BoxDecoration(
-          border: null,
-        ),
-        onIncrement: (num newlyIncrementedValue) {
-          // loginToastFail("Course price");
-          print('Newly incremented value is $newlyIncrementedValue');
-          setState(() {
-            price = newlyIncrementedValue.toInt();
-          });
-        },
-        onDecrement: (num newlyDecrementedValue) {
-          print('Newly decremented value is $newlyDecrementedValue');
-        },
-        onSubmitted: (newValue) => price = newValue,
+        maxLength: 300,
+        maxLines: 3,
       ),
     );
   }
@@ -173,12 +122,15 @@ class _CreateCourseState extends State<CreateCourse> {
 //********Display Image Static and from Gellery************/
   Widget ImageEmpty() {
     return Container(
-      height: 150.0,
-      width: 150.0,
+      height: 130.0,
+      width: 130.0,
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: AssetImage("images/empty.png"),
-      )),
+              image: AssetImage("images/empty.png"),
+          ),
+          border: Border.all(width:1,color: Colors.grey),
+          borderRadius: BorderRadius.circular(10),
+     ),
     );
   }
 
@@ -188,7 +140,6 @@ class _CreateCourseState extends State<CreateCourse> {
       children: [
         Expanded(
             flex: 2,
-            // width: MediaQuery.of(context).size.width / 3.5,
             child: FormField<String>(
               builder: (FormFieldState<String> state) {
                 return InputDecorator(
@@ -242,11 +193,11 @@ class _CreateCourseState extends State<CreateCourse> {
                           state.didChange(newValue);
                         });
                       },
-                      items: _currencies.map((String value) {
+                      items: _myJsons.map((Map map) {
                         return DropdownMenuItem<String>(
-                          value: value,
+                          value: map['title'],
                           child: Text(
-                            value,
+                            map['title'],
                             style: TextStyle(fontSize: 15.0),
                           ),
                         );
@@ -260,44 +211,53 @@ class _CreateCourseState extends State<CreateCourse> {
       ],
     );
   }
-
   //***************Select Image From Gellery Fuction**************/
-  Future<File> imageFile;
-  pickImageFromGallery(ImageSource source) async {
-    imageFile = ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      imageFile = imageFile;
-    });
+  File _image;
+  String imageUrl;
+  Future selectImage() async {
+  var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  setState(() {
+    _image = image;
+    print(_image );
+  });
+  print("File Path ${_image}");
+  // decodeFile(_image);
+}
+
+  Future<String>  decodeFile(File _images)async{
+    print("File Path ${_images}");
+      List<int> compressImage = await FlutterImageCompress.compressWithFile(
+      _images.path,
+      minHeight: 1300,
+      minWidth: 1000,
+      quality: 100,
+    );
+    var multipartFile = new http.MultipartFile.fromBytes(
+      'file',
+      compressImage,
+      filename: 'image_picker.jpg',
+      contentType: MediaType.parse('image/jpeg'),
+    );
+    /* Make request */
+     var request = new http.MultipartRequest(
+        'POST', Uri.parse('https://learnbackend.koompi.com/uploads'));
+        request.files.add(multipartFile);
+        /* Start send to server */
+        http.StreamedResponse response = await request.send();
+        /* Getting response */
+        response.stream.transform(utf8.decoder).listen((data) {
+          print("----------------------------Image url $data");
+          setState(() {
+            imageUrl = data;
+          });
+        });
+        return imageUrl;
   }
 
-void _uploadFile(filePath) async{
-    //Get base file name
-    String fileName = basename(filePath.path);
-     print("File base name: $fileName");
-}
-  //****************Show ImageFuntion*************** */
-  Widget ShowImage() {
-    return FutureBuilder(
-        future: imageFile,
-        builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.data != null) {
-            print("Image is name:" + snapshot.data.toString());
-            imagefile = snapshot.data.toString();
-            return Image.file(
-              snapshot.data,
-              height: 150.0,
-              width: 150.0,
-            );
-          } else if (snapshot.error != null) {
-            return const Text(
-              'Error Picking Image',
-              textAlign: TextAlign.center,
-            );
-          } else {
-            return (ImageEmpty());
-          }
-        });
+ @override
+  void initState() {
+    fillList();
+    super.initState();
   }
 
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
@@ -332,11 +292,25 @@ void _uploadFile(filePath) async{
               ),
             ),
           ),
-          SizedBox(height: 5.0),
-          ShowImage(),
+          SizedBox(height: 15.0),
+          Container(
+            child: _image != null ?
+                   Container(
+                    height: 130.0,
+                    width: 130.0,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: FileImage(_image),
+                          fit: BoxFit.cover,
+                      ),
+                      border: Border.all(width: 1 ,color: Colors.grey),
+                        borderRadius: BorderRadius.circular(10),
+                  ),  )
+                   : ImageEmpty(),
+          ),
           RaisedButton(
             onPressed: () {
-              pickImageFromGallery(ImageSource.gallery);
+              selectImage();
             },
             textColor: Colors.white,
             padding: const EdgeInsets.all(0.0),
@@ -357,102 +331,65 @@ void _uploadFile(filePath) async{
                   children: [
                     courseTitleField(context),
                     sizeHight(),
-                    tageModeField(context),
-                    sizeHight(),
                     SizedBox(height: 8.0),
                     selectStatusCategory(),
                     sizeHight(),
                     courseDescription(context),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Text(
-                        "Course Price(\$)",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          coursePrice(context),
-                          Container(
-                            width: 170.0,
-                            height: 50.0,
-                            child: new RaisedButton(
-                              color: Color(0xFF5dabff),
-                              onPressed: () async {
-                                // widget.refetchCourse();
-                                if (_courseTitleController.text.isNotEmpty &&
-                                    _tageModeController.text.isNotEmpty &&
-                                    price.toString().isNotEmpty &&
-                                    _statusName.isNotEmpty &&
-                                    _categoryName.isNotEmpty &&
-                                    imagefile.isNotEmpty &&
-                                    _descriptionController.text.isNotEmpty) {
-                                    GraphQLClient _client = graphQLConfiguration.clientToQuery();
-                                    QueryResult result = await _client.mutate(
-                                      MutationOptions(
-                                        onCompleted: (data){
-                                          print(data);
-                                          // widget.refetchCourse();
-                                        },
-                                        documentNode: gql(addMutation.addCourse(
-                                          "5f432977da0863337654d38c",
-                                          _courseTitleController.text,
-                                          _statusName,
-                                          price,
-                                          _categoryName,
-                                          imagefile,
-                                          _descriptionController.text,
-                                          "5d5238fdb478d918d8b8af18",
-                                        )),
-                                      ),
-                                    );
-                                    if (!result.hasException) {
-                                        _courseTitleController.clear();
-                                        _tageModeController.clear();
-                                        price = 0;
-                                        _statusName = null;
-                                        _categoryName = null;
-                                        imagefile = null;
-                                        _descriptionController.clear();
-                                        // widget.refetchCourse();
-                                      Navigator.of(context).pop();
-                                      return Fluttertoast.showToast(
-                                          msg: "Create Course  Sucessfuly!",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIos: 1,
-                                          backgroundColor: Colors.blue,
-                                          textColor: Colors.white);
-                                    } else if (result.hasException) {
-                                      print("============$result.data['create_course']['message']");
-                                      print("============$result.data['create_course']['status']");
-                                    }
-                                }else {
-                                   return Fluttertoast.showToast(
-                                          msg: "Please fill form!",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIos: 1,
-                                          backgroundColor: Colors.blue,
-                                          textColor: Colors.white
-                                        );
-                                }
-                              },
-                              child: new Text(
-                                "Create Course",
-                                style: TextStyle(
-                                    fontSize: 15.0, color: Colors.white
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 5.0),
+                          child: Container(
+                              width: 170.0,
+                              height: 50.0,
+                              child: new RaisedButton(
+                                color: Color(0xFF5dabff),
+                                onPressed: () async {
+                                  decodeFile(_image);
+                                  if (_courseTitleController.text.isNotEmpty &&
+                                      _statusName.isNotEmpty &&
+                                      _categoryName.isNotEmpty &&
+                                      _descriptionController.text.isNotEmpty) {
+                                      GraphQLClient _client = graphQLConfiguration.clientToQuery();
+                                      QueryResult result = await _client.mutate(
+                                        MutationOptions(
+                                          update: (Cache cache, QueryResult result) {
+                                              if (!result.hasException) {
+                                                _courseTitleController.clear();
+                                                _statusName = null;
+                                                _categoryName = null;
+                                                imagefile = null;
+                                                _descriptionController.clear();
+                                                loginToastFail(result.data['create_course']['message']);
+                                                Navigator.pop(context);
+                                              } else {
+                                                loginToastFail("Create Error!!!");
+                                              }
+                                              return result;
+                                            },
+                                          documentNode: gql(addMutation.addCourse(
+                                            "5f432977da0863337654d38c",
+                                            _courseTitleController.text,
+                                            _statusName,
+                                            0,
+                                            _categoryName,
+                                            imageUrl,
+                                            _descriptionController.text,
+                                           "5d52486a1adfbd764bd951f8",// widget.owner_id,
+                                          )),
+                                        ),
+                                      );
+                                  }else {
+                                     return loginToastFail("Please fill form!");
+                                  }
+                                },
+                                child: new Text(
+                                  "Create Course",
+                                  style: TextStyle(
+                                      fontSize: 15.0, color: Colors.white
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
                       ),
                     ),
                   ],

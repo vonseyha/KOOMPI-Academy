@@ -11,7 +11,8 @@ import 'functionbuild.dart';
 
 class CardViewMyCourse extends StatefulWidget {
   final Function refetchCourse;
-  CardViewMyCourse({Key key, this.refetchCourse}) : super(key: key);
+  final String owner_id;
+  CardViewMyCourse({Key key, this.refetchCourse,this.owner_id}) : super(key: key);
 
   @override
   _CardViewMyCourseState createState() => _CardViewMyCourseState();
@@ -26,25 +27,25 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
     QueryResult result = await _client.query(
       QueryOptions(
-        documentNode: gql(queryGraphQL.getAll()),
+        documentNode: gql(queryGraphQL.getCourseByOwner(widget.owner_id)),
       ),
     );
     if (!result.hasException) {
       setState(() {
-        for (var i = 0; i < result.data["courses"].length; i++) {
+        for (var i = 0; i < result.data["courses_by_owner"].length; i++) {
           listPerson.add(
             Course(
-              result.data["courses"][i]["id"],
-              result.data["courses"][i]["org_id"],
-              result.data["courses"][i]["title"],
-              result.data["courses"][i]["privacy"],
-              result.data["courses"][i]["price"],
-              result.data["courses"][i]["categories"],
-              result.data["courses"][i]["thumbnail"],
-              result.data["courses"][i]["description"],
-              result.data["courses"][i]["owner_id"],
-              result.data["courses"][i]["user"]["fullname"],
-              result.data["courses"][i]["views"],
+              result.data["courses_by_owner"][i]["id"],
+              result.data["courses_by_owner"][i]["org_id"],
+              result.data["courses_by_owner"][i]["title"],
+              result.data["courses_by_owner"][i]["privacy"],
+              result.data["courses_by_owner"][i]["price"],
+              result.data["courses_by_owner"][i]["categories"],
+              result.data["courses_by_owner"][i]["thumbnail"],
+              result.data["courses_by_owner"][i]["description"],
+              result.data["courses_by_owner"][i]["owner_id"],
+              result.data["courses_by_owner"][i]["user"]["fullname"],
+              result.data["courses_by_owner"][i]["views"],
             ),
           );
         }
@@ -59,10 +60,18 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
     });
   }
 
+    void onClickUpdateCourse() {
+      setState(() {
+        listPerson.clear();
+        fillList();
+      });
+    }
+
   @override
   void initState() {
     fillList();
     super.initState();
+    print(widget.owner_id);
   }
 
   @override
@@ -173,6 +182,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                                   description: listPerson[index].getDescription(),
                                   refetchCourse: fillList,
                                   onDeleteClick: onDeleteClick,
+                                  onUpdateClick: onClickUpdateCourse,
                                 ),
                               )
                             ],

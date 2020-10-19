@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/query.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FregementContent extends StatefulWidget {
   final String courseID;
@@ -37,8 +38,8 @@ class _FregementContentState extends State<FregementContent> {
           }
           if (result.loading) {
             return Center(
-                 child: SpinKitFadingCircle  (color: Colors.blueGrey, size: 40),
-              );
+              child: SpinKitFadingCircle(color: Colors.blueGrey, size: 40),
+            );
           }
           List repositories = result.data['sections'];
           return ListView.builder(
@@ -57,14 +58,26 @@ class _FregementContentState extends State<FregementContent> {
                         a++)
                       Padding(
                         padding: const EdgeInsets.all(10.0),
-                          child:  Container(
+                        child: GestureDetector(
+                          child: Container(
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.only(left: 15.0),
-                            child: Text(" ${repositories[index]["points"][a]["no"]}.\t${repositories[index]["points"][a]["title"]}",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(fontSize: 14),
-                              ),
+                            child: Text(
+                              " ${repositories[index]["points"][a]["no"]}.\t${repositories[index]["points"][a]["title"]}",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(fontSize: 14),
+                            ),
                           ),
+                          onTap: () async {
+                            print(
+                                " ${repositories[index]["points"][a]["video_link"]}");
+                            SharedPreferences isToken =
+                                await SharedPreferences.getInstance();
+                            isToken.setString("video_link",
+                                repositories[index]["points"][a]["video_link"]);
+                            isToken.setString("setvideo", "have");
+                          },
+                        ),
                       ),
                 ],
               );

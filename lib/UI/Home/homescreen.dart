@@ -177,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.12,
+                    height: MediaQuery.of(context).size.height * 0.15,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: categories.length,

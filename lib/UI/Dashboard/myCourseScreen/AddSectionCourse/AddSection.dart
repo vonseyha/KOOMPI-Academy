@@ -18,12 +18,6 @@ class AddSection extends StatefulWidget {
 
 class _AddSectionState extends State<AddSection> {
 
-// String a
-//   var _currencies = [
-//     widget.courseTitle,
-//   ];
-
-
   String _categoryName;
   final _sectionTitleController = TextEditingController();
   final _sectionNoController = TextEditingController();
@@ -35,16 +29,22 @@ class _AddSectionState extends State<AddSection> {
     super.initState();
   }
 
+  alertToast(String toast) {
+    return Fluttertoast.showToast(
+        msg: toast,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.blueAccent,
+        textColor: Colors.white
+    );
+  }
 
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   QueryMutation addMutation = QueryMutation();
 
   @override
   Widget build(BuildContext context) {
-    // print(widget.courseTitle);
-    // setState(() {
-    //   _courseTitleController.text = widget.courseTitle;
-    // });
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -65,7 +65,6 @@ class _AddSectionState extends State<AddSection> {
                                 borderRadius: new BorderRadius.circular(5.0),
                                 borderSide: new BorderSide(),
                               ),
-                              //fillColor: Colors.green
                             ),
                             onChanged: (value) => value = widget.courseTitle,
                           ),
@@ -133,6 +132,17 @@ class _AddSectionState extends State<AddSection> {
                               GraphQLClient _client = graphQLConfiguration.clientToQuery();
                               QueryResult result = await _client.mutate(
                                   MutationOptions(
+                                     update: (Cache cache, QueryResult result) {
+                                            if (!result.hasException) {
+                                               _sectionNoController.clear();
+                                                _sectionTitleController.clear();
+                                              alertToast("Add Section  Sucessfuly!");
+                                              Navigator.pop(context);
+                                            } else {
+                                              alertToast("Error!!!");
+                                            }
+                                            return result;
+                                          },
                                     documentNode: gql(addMutation.createSection(
                                         widget.courseId,
                                         _sectionNoController.text,
@@ -141,26 +151,8 @@ class _AddSectionState extends State<AddSection> {
                                   ),
                                 )
                               );
-                               if (!result.hasException) {
-                                       _sectionNoController.clear();
-                                       _sectionTitleController.clear();
-                                      // Navigator.of(context).pop();
-                                      return Fluttertoast.showToast(
-                                          msg: "Add Section  Sucessfuly!",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIos: 1,
-                                          backgroundColor: Colors.blue,
-                                          textColor: Colors.white);
-                                    } 
                             }else {
-                                   return Fluttertoast.showToast(
-                                          msg: "Please fill form!",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIos: 1,
-                                          backgroundColor: Colors.blue,
-                                          textColor: Colors.white);
+                                   return alertToast("Please fill form!");
                                 }
                         },
                         child: new Text(

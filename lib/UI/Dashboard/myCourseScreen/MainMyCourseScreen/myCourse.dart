@@ -11,6 +11,8 @@ import 'CardViewMyCourse.dart';
 import 'SearchRout.dart';
 
 class MyCourse extends StatefulWidget {
+  final String owner_id;
+  MyCourse({Key key,this.owner_id}) : super(key: key);
   @override
   _MyCourseState createState() => _MyCourseState();
 }
@@ -76,7 +78,7 @@ String search;
                  ),
             ),
           Expanded(
-            child: CardViewMyCourse(),//refetchCourse: widget.refetchCourse
+            child: CardViewMyCourse(owner_id: widget.owner_id),//refetchCourse: widget.refetchCourse
           ),
         ],
       ),
