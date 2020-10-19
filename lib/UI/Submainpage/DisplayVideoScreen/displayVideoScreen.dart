@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/datas.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/graphQLVideoConf.dart';
@@ -36,8 +37,13 @@ class _PortfolioTutorialDetailPageState
     Tab(text: 'Content'),
   ];
 
-  List<LinkVideo> list = List<LinkVideo>();
-  GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
+  ValueNotifier<GraphQLClient> clientdata = ValueNotifier(
+    GraphQLClient(
+      cache: InMemoryCache(),
+      link: HttpLink(uri: 'https://learnbackend.koompi.com/student'),
+    ),
+  );
+  QueryData queryData = QueryData();
   String video;
 
   TabController _tabController;
@@ -45,13 +51,14 @@ class _PortfolioTutorialDetailPageState
   @override
   void initState() {
     super.initState();
-    // fillList();
+    print('video+++++++++++++++++++++++++++++$video');
     _chewieController = ChewieController(
-        videoPlayerController: VideoPlayerController.network(
-            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"), //$video
+        videoPlayerController: VideoPlayerController.network('$video'), //$video
         aspectRatio: 16 / 9,
         autoInitialize: true,
         autoPlay: true,
+        // autoInitialize: false,
+        // autoPlay: false,
         looping: true,
         errorBuilder: (context, errorMessage) {
           return Center(
@@ -84,17 +91,50 @@ class _PortfolioTutorialDetailPageState
           ),
         ),
       ),
-      body: Container(
-          height: datawh.size.height,
-          child: Column(
-            children: <Widget>[
-              _buildHeroWidget(context),
-              Expanded(
-//              height: datawh.size.height / 1.68,
-                child: _buildDesc(context),
-              )
-            ],
-          )),
+      body: GraphQLProvider(
+        client: clientdata,
+        child: Query(
+          options: QueryOptions(
+              documentNode: gql(queryData.getContentCourse(widget.course_Id))),
+          builder: (result, {fetchMore, refetch}) {
+            if (result.hasException) {
+              return Text(result.exception.toString());
+            }
+            if (result.loading) {
+              return Center(
+                child: SpinKitFadingCircle(color: Colors.blueGrey, size: 40),
+              );
+            }
+            List repositories = result.data['sections'];
+            return ListView.builder(
+              itemCount: repositories.length,
+              itemBuilder: (context, index) {
+                //add string here to do the equalty
+                // video = repositories[index]['points'][index]['video_link'];
+                if (result.data['sections'][index].containsKey("points")) {
+                  for (var i = 0;
+                      i < result.data['sections'][index]['points'].length;
+                      i++) {
+                    video = result.data['sections'][index]['points'][i]
+                        ['video_link'];
+                  }
+                }
+                print('LINKvideo___________$video');
+                return Container(
+                    height: datawh.size.height,
+                    child: Column(
+                      children: <Widget>[
+                        _buildHeroWidget(context),
+                        Expanded(
+                          child: _buildDesc(context),
+                        )
+                      ],
+                    ));
+              },
+            );
+          },
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
