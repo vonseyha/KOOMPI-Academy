@@ -5,6 +5,7 @@ import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.
 import 'package:koompi_academy_project/Model/CourseModel.dart';
 import 'package:koompi_academy_project/UI/Home/profile.dart';
 import '../../../constants.dart';
+import 'Profile.dart';
 import 'StatisticDashboard.dart';
 import 'functionBuilt.dart';
 import 'optionCard.dart';
@@ -53,7 +54,7 @@ class _MainDashboardState extends State<MainDashboard> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ProfileScreen(),
+                                builder: (context) => Profile(),
                               ));
                         },
                         icon: Icon(Icons.person_outline)),

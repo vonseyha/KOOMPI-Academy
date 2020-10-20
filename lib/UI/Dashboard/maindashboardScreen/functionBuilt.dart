@@ -31,7 +31,7 @@ Widget TopBarDesign(String fullname) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(fullname, style: kHeadingextStyle),
+                  Text(fullname, style:TextStyle(fontSize: 17,fontWeight: FontWeight.w500)),
                   Text("Welcome to your course!",
                       style: TextStyle(
                           color: Colors.grey[100], fontSize: 15, height: 1.5)),

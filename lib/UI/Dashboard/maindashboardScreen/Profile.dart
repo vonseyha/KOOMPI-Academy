@@ -14,240 +14,244 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          flex: 3,
-          child: Stack(
-            children: <Widget>[
-              Container(),
-              ClipPath(
-                clipper: _AppBarClipper(),
-                child: Container(
-                  height: 250.0,
-                  decoration: BoxDecoration(color: Colors.black),
+    return  Scaffold(
+         body: Column(
+          children: [
+            Expanded(
+              flex: 3,
+              child: Stack(
+                children: <Widget>[
+                  Container(),
+                  ClipPath(
+                    clipper: _AppBarClipper(),
+                    child: Container(
+                      height: 250.0,
+                      decoration: BoxDecoration(color: Colors.black),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 60),
+                    child: Align(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          CircularProfileAvatar(
+                            "https://cedat.mak.ac.ug/wp-content/uploads/2019/08/blank-profile-male.png",
+                            borderWidth: 4.0,
+                            radius: 50.0,
+                          ),
+                          SizedBox(height: 4.0),
+                          Text(
+                            "Tang Eamseng",
+                            style: TextStyle(
+                              fontSize: 21.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "Teacher",
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.grey[700],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SafeArea(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Container(
+                            child: Center(
+                                child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                            )),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
+                                color: Theme.of(context).scaffoldBackgroundColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Text("User Profile",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500)),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Container(
+                            child: Center(
+                                child: Icon(
+                              Icons.settings,
+                              color: Colors.white,
+                            )),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
+                                color: Theme.of(context).scaffoldBackgroundColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 3,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                margin: const EdgeInsets.only(left: 50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Fullname:", style: TextStyle(fontSize: 15)),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Von Seyha",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w600)),
+                        ),
+                      ],
+                    )),
+                    Container(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Email:", style: TextStyle(fontSize: 15)),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("seyhavon22@gmail.com",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w600)),
+                        ),
+                      ],
+                    )),
+                    Container(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Course:", style: TextStyle(fontSize: 15)),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("120",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w600)),
+                        ),
+                      ],
+                    )),
+                  ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 60),
-                child: Align(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      CircularProfileAvatar(
-                        "https://cedat.mak.ac.ug/wp-content/uploads/2019/08/blank-profile-male.png",
-                        borderWidth: 4.0,
-                        radius: 50.0,
-                      ),
-                      SizedBox(height: 4.0),
-                      Text(
-                        "Tang Eamseng",
-                        style: TextStyle(
-                          fontSize: 21.0,
-                          fontWeight: FontWeight.bold,
+            ),
+            Expanded(
+              flex: 2,
+                      child: Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width,
+                height: 100,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    height: MediaQuery.of(context).size.height / 7,
+                    width: MediaQuery.of(context).size.width / 4,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      border: Border.all(width: 2.0, color: Colors.black87),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                              height: 40.0,
+                              width: 40.0,
+                              child: Image.asset("images/mycourse.png",
+                                  color: Colors.black87)),
                         ),
-                      ),
-                      Text(
-                        "Teacher",
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: Colors.grey[700],
+                        Text(
+                          "Help&Support",
+                          style: Theme.of(context).textTheme.body2.copyWith(
+                                color: Color(0xFF3f597f),
+                                fontSize: 13.0,
+                              ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SafeArea(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    IconButton(
-                      onPressed: () {},
-                      icon: Container(
-                        child: Center(
-                            child: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                        )),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          border: Border.all(
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Text("User Profile",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500)),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Container(
-                        child: Center(
-                            child: Icon(
-                          Icons.settings,
-                          color: Colors.white,
-                        )),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          border: Border.all(
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          flex: 3,
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.only(left: 50),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Fullname:", style: TextStyle(fontSize: 15)),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("Von Seyha",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w600)),
-                    ),
-                  ],
-                )),
-                Container(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Email:", style: TextStyle(fontSize: 15)),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("seyhavon22@gmail.com",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w600)),
-                    ),
-                  ],
-                )),
-                Container(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Course:", style: TextStyle(fontSize: 15)),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("120",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w600)),
-                    ),
-                  ],
-                )),
-              ],
-            ),
-          ),
-        ),
-        Expanded(
-          flex: 2,
-                  child: Container(
-            alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width,
-            height: 100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+                SizedBox(width:15),
+                //----------------------------
                 GestureDetector(
-              onTap: () {},
-              child: Container(
-                height: MediaQuery.of(context).size.height / 7,
-                width: MediaQuery.of(context).size.width / 4,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  border: Border.all(width: 2.0, color: Colors.black87),
+                  onTap: () {},
+                  child: Container(
+                    height: MediaQuery.of(context).size.height / 7,
+                    width: MediaQuery.of(context).size.width / 4,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      border: Border.all(width: 2.0, color: Colors.black87),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                              height: 40.0,
+                              width: 40.0,
+                              child: Image.asset("images/mycourse.png",
+                                  color: Colors.black87)),
+                        ),
+                        Text(
+                          "Privacy",
+                          style: Theme.of(context).textTheme.body2.copyWith(
+                                color: Color(0xFF3f597f),
+                                fontSize: 13.0,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Container(
-                          height: 40.0,
-                          width: 40.0,
-                          child: Image.asset("images/mycourse.png",
-                              color: Colors.black87)),
-                    ),
-                    Text(
-                      "Help&Support",
-                      style: Theme.of(context).textTheme.body2.copyWith(
-                            color: Color(0xFF3f597f),
-                            fontSize: 13.0,
-                          ),
-                    ),
+                //----------------------------
                   ],
                 ),
               ),
             ),
-            SizedBox(width:15),
-            //----------------------------
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                height: MediaQuery.of(context).size.height / 7,
-                width: MediaQuery.of(context).size.width / 4,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  border: Border.all(width: 2.0, color: Colors.black87),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Container(
-                          height: 40.0,
-                          width: 40.0,
-                          child: Image.asset("images/mycourse.png",
-                              color: Colors.black87)),
-                    ),
-                    Text(
-                      "Privacy",
-                      style: Theme.of(context).textTheme.body2.copyWith(
-                            color: Color(0xFF3f597f),
-                            fontSize: 13.0,
-                          ),
-                    ),
-                  ],
-                ),
-              ),
+            Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width,
+              child: FlatButton(
+                  onPressed: () {
+                    _openSignOutDrawer(context);
+                  },
+                  child: Text("Sign Out", style: TextStyle(color: Colors.white)),
+                  color: Colors.black,
+                  splashColor: Colors.black54),
             ),
-            //----------------------------
-              ],
-            ),
-          ),
-        ),
-        Container(
-          alignment: Alignment.center,
-          width: MediaQuery.of(context).size.width,
-          child: FlatButton(
-              onPressed: () {
-                _openSignOutDrawer(context);
-              },
-              child: Text("Sign Out", style: TextStyle(color: Colors.white)),
-              color: Colors.black,
-              splashColor: Colors.black54),
-        ),
-      ],
+          ],
+      ),
     );
   }
 

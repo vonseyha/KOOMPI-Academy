@@ -9,8 +9,8 @@ class ProfileScreen extends StatefulWidget {
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
-
 class _ProfileScreenState extends State<ProfileScreen> {
+
   ///use to compare btw login and loop in data
   // final String id = "5d5238fdb478d918d8b8af18";
 
@@ -47,8 +47,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Material(
-            child: Column(
+      child: Material(
+      child: Column(
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 40),
@@ -208,99 +208,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ),
-        SizedBox(
-          height: 20,
-        ),
-        Container(
-            width: 130,
-            height: 40,
-            child: RaisedButton(
-              textColor: Colors.white,
-              color: Colors.black87,
-              onPressed: () {
-                _openSignOutDrawer(context);
-              },
-              child: Text("Sign Out", style: TextStyle(fontSize: 15)),
-              // icon: Icon(, size: 18),
-            )),
+        
       ],
     )));
-  }
-
-  void _openSignOutDrawer(BuildContext context) {
-    showModalBottomSheet(
-        shape: BottomSheetShape(),
-        backgroundColor: Colors.black54,
-        context: context,
-        builder: (context) {
-          return Container(
-            padding: const EdgeInsets.only(
-              top: 24,
-              bottom: 16,
-              left: 48,
-              right: 48,
-            ),
-            height: 180,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text(
-                  "Laura, are you sure you want to sign out?",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Expanded(
-                      child: MaterialButton(
-                        onPressed: () {
-                          print("Logouted");
-                        },
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        child: Text(
-                          "Sign out",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: OutlineButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        borderSide: BorderSide(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                        ),
-                        color: Theme.of(context).primaryColor,
-                        child: Text(
-                          "Stay logged in",
-                          style: TextStyle(
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        });
   }
 }

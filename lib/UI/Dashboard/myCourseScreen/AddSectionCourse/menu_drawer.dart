@@ -11,8 +11,7 @@ import 'functionbuild.dart';
 
 class EndDrawer extends StatefulWidget {
   final String courseId;
-  final Function refetchdata;
-  const EndDrawer({Key key, this.courseId,this.refetchdata}) : super(key: key);
+  const EndDrawer({Key key, this.courseId}) : super(key: key);
 
   @override
   _EndDrawerState createState() => _EndDrawerState();
@@ -22,7 +21,7 @@ enum MyPupopMenu { delete, edit }
 class _EndDrawerState extends State<EndDrawer> {
 
   //----------------------- Show item select option-----------------------//
-  Widget _simplePopup(String sectionID, String section_No , String section_Title ,Function onDeleteSection,Function onUpdateSection,int index) => PopupMenuButton<MyPupopMenu>(
+  Widget _simplePopup(String sectionID, String section_No , String section_Title ,Function onDeleteSection,int index,List updateListView) => PopupMenuButton<MyPupopMenu>(
         onSelected: (MyPupopMenu result){
             if(result == MyPupopMenu.delete){
                 Navigator.push(
@@ -33,7 +32,7 @@ class _EndDrawerState extends State<EndDrawer> {
             }else if (result == MyPupopMenu.edit){
                 Navigator.push(
                   context,
-                     displayAddSection(context, sectionID,section_No,section_Title,onUpdateSection,index),
+                     displayAddSection(context, sectionID,section_No,section_Title,index,updateListView),
                 );
             }
         },
@@ -79,12 +78,18 @@ class _EndDrawerState extends State<EndDrawer> {
     });
   }
 
-
-  void onUpdateSection(int index){
+  void updateListView(int index){
     setState(() {
-      deleteSection.toSet();
+      listPerson;
     });
   }
+
+  //  @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   setState(() {
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -119,8 +124,8 @@ class _EndDrawerState extends State<EndDrawer> {
                         repositories[index]["no"],
                         repositories[index]["title"],
                         onDeleteSection,
-                        onUpdateSection,
-                        index
+                        index,
+                        repositories,
                       ),
                         title: Text(" ${repositories[index]["no"]}.\t${repositories[index]["title"]}",
                           maxLines: 2,
@@ -139,7 +144,8 @@ class _EndDrawerState extends State<EndDrawer> {
                                     Expanded(
                                       child: Text(" ${repositories[index]["points"][a]["no"]}.\t${repositories[index]["points"][a]["title"]}",
                                           maxLines: 3,
-                                          style: TextStyle(fontSize: 14)
+                                          style: TextStyle(fontSize: 14
+                                         )
                                         ),
                                     ),
                                     Row(

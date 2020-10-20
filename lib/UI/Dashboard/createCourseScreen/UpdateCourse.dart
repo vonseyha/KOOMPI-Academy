@@ -382,8 +382,8 @@ class _UpdateCourseState extends State<UpdateCourse> {
                                         _statusName = null;
                                         _categoryName = null;
                                         _descriptionController.clear();
-                                        loginToastFail(result
-                                            .data['update_course']['message']);
+                                        loginToastFail(result .data['update_course']['message']);
+                                        widget.onClickUpdate();
                                         Navigator.pop(context);
                                       } else {
                                         loginToastFail("Update Error!!!");

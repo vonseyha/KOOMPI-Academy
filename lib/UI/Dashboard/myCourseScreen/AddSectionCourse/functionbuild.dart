@@ -245,7 +245,7 @@ displayDeletePoint(BuildContext context, String point_id,Function onDeletePoint,
 }
 
 //----------------------- Alert Option Add Section -----------------------//
-displayAddSection(BuildContext context, String section_id, String section_No,String section_Title,Function onUpdateSection , int index) async {
+displayAddSection(BuildContext context, String section_id, String section_No,String section_Title , int index,List updateListView) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
   _sectionNoController.text = section_No;
@@ -350,9 +350,10 @@ displayAddSection(BuildContext context, String section_id, String section_No,Str
                               if (!result.hasException) {
                                 _pointNoController.clear();
                                 _pointTitleController.clear();
-                                onUpdateSection(index);
                                  flutterToastT(result.data['update_section']['message']);
+                                 updateListView[index];
                                 Navigator.pop(context);
+                                
                               } else {
                                 flutterToastT("Update Error!!!");
                               }

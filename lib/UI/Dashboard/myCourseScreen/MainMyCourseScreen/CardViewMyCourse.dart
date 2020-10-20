@@ -5,9 +5,8 @@ import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:koompi_academy_project/Model/CourseModel.dart';
 import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'ShowPupPopMenu.dart';
-import 'functionbuild.dart';
+import 'package:flutter/foundation.dart';
 
 class CardViewMyCourse extends StatefulWidget {
   final Function refetchCourse;
@@ -21,6 +20,13 @@ class CardViewMyCourse extends StatefulWidget {
 class _CardViewMyCourseState extends State<CardViewMyCourse> {
   List<Course> listPerson = List<Course>();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+  bool _loadingCourse = true;
+  int _count = 10;
+  int _offset = 0;
+ScrollController scrollController = new ScrollController();
+  // MovieLoadMoreStatus loadMoreStatus = MovieLoadMoreStatus.STABLE;
+  // CancelableOperation movieOperation;
+  // int currentPageNumber;
 
   void fillList() async {
     QueryGraphQL queryGraphQL = QueryGraphQL();
@@ -48,8 +54,10 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
               result.data["courses_by_owner"][i]["views"],
             ),
           );
+           _loadingCourse = true;
         }
       });
+       _loadingCourse = false;
     }
   }
 
@@ -67,18 +75,50 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
       });
     }
 
+//   bool onNotification(ScrollNotification notification) {
+//   if (notification is ScrollUpdateNotification) {
+//     if (scrollController.position.maxScrollExtent > scrollController.offset &&
+//         scrollController.position.maxScrollExtent - scrollController.offset <=
+//             50) {
+//       if (loadMoreStatus != null &&
+//         loadMoreStatus == MovieLoadMoreStatus.STABLE) {
+//         loadMoreStatus = MovieLoadMoreStatus.LOADING;
+//         movieOperation = CancelableOperation.fromFuture(injector
+//             .movieRepository
+//             .fetchMovies(currentPageNumber + 1)
+//             .then((moviesObject) {
+//           currentPageNumber = moviesObject.page;
+//           loadMoreStatus = MovieLoadMoreStatus.STABLE;
+//           setState(() => listPerson.addAll(moviesObject.movies));
+//         }));
+//       }
+//     }
+//   }
+//   return true;
+// }
+
   @override
   void initState() {
     fillList();
     super.initState();
-    print(widget.owner_id);
-  }
+    scrollController.addListener(() {
+      double _pixels = scrollController.position.pixels;
+      double _maxScroll = scrollController.position.maxScrollExtent;
+      if (_pixels == _maxScroll) {
+        fillList();
+      }
+    });
+   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      body: ListView.builder(
+      backgroundColor: Colors.white,
+      body: _loadingCourse == true ? Center(child:Image.asset("images/GifLoding.gif")): 
+       ListView.builder(
+      controller: scrollController,
+      physics: BouncingScrollPhysics(),
         itemCount: listPerson.length,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
@@ -89,7 +129,8 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                     course_title: listPerson[index].getTitle()),
               ));
             },
-            child: Padding(
+            child: listPerson.length == 0 ? Center(child: Text("No Course show")):
+            Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
               child: Card(
@@ -109,8 +150,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                           width: MediaQuery.of(context).size.width,
                           height: 170.0,
                           fit: BoxFit.cover,
-                          image: NetworkImage(
-                              "${listPerson[index].getThumbnail()}"),
+                          image: NetworkImage( "${listPerson[index].getThumbnail()}"),
                           // image:  NetworkImage("${listPerson[index].getThumbnail()}"),
                         ),
                       ),
@@ -159,8 +199,7 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                                       fontSize: 15.0,
                                     ),
                                   ),
-                                  subtitle: Text(
-                                      '${listPerson[index].getView()} views | 1 month ago',
+                                  subtitle: Text('${listPerson[index].getView()} views | 1 month ago',
                                       style: new TextStyle(
                                         fontSize: 12.0,
                                         color: Color(0xFF4d6890),
@@ -177,8 +216,6 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
                                   price: listPerson[index].getPrice(),
                                   privacy: listPerson[index].getPrivacy(),
                                   category: listPerson[index].getCategories(),
-                                  // tage_mode: ,
-                                  // thumbnail: listPerson[index].getThumbnail(),
                                   description: listPerson[index].getDescription(),
                                   refetchCourse: fillList,
                                   onDeleteClick: onDeleteClick,
