@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -7,6 +6,7 @@ import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:koompi_academy_project/Model/CourseModel.dart';
 import 'package:koompi_academy_project/UI/Home/property.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'CardViewMyCourse.dart';
 import 'SearchRout.dart';
 
@@ -21,6 +21,7 @@ class _MyCourseState extends State<MyCourse> {
 
 TextEditingController editingSearchController = TextEditingController();
 String search;
+int coursevalue;
 @override
   void initState() {
     // TODO: implement initState
@@ -78,12 +79,12 @@ String search;
                  ),
             ),
           Expanded(
-            child: CardViewMyCourse(owner_id: widget.owner_id),//refetchCourse: widget.refetchCourse
+            child: CardViewMyCourse(owner_id: widget.owner_id  ),//refetchCourse: widget.refetchCourse
           ),
         ],
       ),
       floatingActionButton:FloatingActionButton(
-          backgroundColor: Color(0xFF026DA2),
+          backgroundColor:  Color(0xFF4080D6),
           foregroundColor: Colors.white,
           onPressed: () {
             Navigator.push(

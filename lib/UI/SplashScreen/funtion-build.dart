@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class SlideTitle extends StatelessWidget {
   String imagePath, title, desc;
   SlideTitle({this.imagePath, this.title, this.desc});
+  bool img;
 
   @override
   Widget build(BuildContext context) {

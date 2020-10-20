@@ -16,17 +16,5 @@ class SharePrefer{
     String option = sharedPreferences.getString('seen');
     return option;
   }
-  static isVideoLink()async{
-    SharedPreferences _pref =  await SharedPreferences.getInstance();
-   String videoLink =  _pref .getString('video_link');
-   return videoLink;
-  }
-  static isVideo()async{
-    SharedPreferences _pref =  await SharedPreferences.getInstance();
-   String videoLink =  _pref .getString('setvideo');
-   return videoLink;
-  }
-  static runGetVideo(){
 
-  }
 }

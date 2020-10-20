@@ -15,8 +15,8 @@ Widget TopBarDesign(String fullname) {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-                Color(0xFF3793f9),
-                Color(0xFF36aff8),
+                 Color(0xFF4080D6),
+                 Color(0xFF4080D6)
               ]),
           image: DecorationImage(
               image: AssetImage("images/backg.png"), fit: BoxFit.cover)

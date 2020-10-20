@@ -5,6 +5,8 @@ import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:koompi_academy_project/Model/CourseModel.dart';
 import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';
+import 'package:koompi_academy_project/UI/Login/SharePreference.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'ShowPupPopMenu.dart';
 import 'package:flutter/foundation.dart';
 
@@ -185,9 +187,8 @@ ScrollController scrollController = new ScrollController();
                                     backgroundColor: Colors.white,
                                     radius: 30,
                                     child: CircleAvatar(
-                                      backgroundColor: Colors.white,
                                       backgroundImage: NetworkImage(
-                                        "https://avatars0.githubusercontent.com/u/41331389?s=280&v=4",
+                                         "${listPerson[index].getThumbnail()}",                                       
                                       ),
                                     ),
                                   ),
