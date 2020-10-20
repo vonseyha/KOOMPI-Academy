@@ -18,7 +18,7 @@ class _SampleGridState extends State<SampleGrid> {
   List<VideoDatas> list = List<VideoDatas>();
   GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
   String exts;
-  bool isCheck = false;
+  bool isCheck;
   String check;
 
   void fillList() async {

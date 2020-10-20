@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/datas.dart';
@@ -26,9 +27,6 @@ class PortfolioTutorialDetailPage extends StatefulWidget {
 class _PortfolioTutorialDetailPageState
     extends State<PortfolioTutorialDetailPage>
     with SingleTickerProviderStateMixin {
-  ChewieController _chewieController;
-  Future<void> _initializeVideoPlayerFuture;
-
   // YoutubePlayerController youtubePlayerController;
 
   final List<Tab> myTabs = <Tab>[
@@ -42,26 +40,6 @@ class _PortfolioTutorialDetailPageState
 
   TabController _tabController;
 
-  YoutubePlayerController _controller;
-
-  // String playVideo(String linkvideo){
-  //        YoutubePlayer(
-  //                 controller: YoutubePlayerController(
-  //                         initialVideoId: YoutubePlayer.convertUrlToId(video),
-  //                         flags: YoutubePlayerFlags(
-  //                             autoPlay: false,
-  //                             mute: false,
-  //                             disableDragSeek: false,
-  //                             loop: false,
-  //                             isLive: false,
-  //                             forceHD: false,
-  //                         ),
-  //                     ),
-  //                 liveUIColor: Colors.amber,
-  //             );
-  //   print("------------------------${linkvideo}");
-  // }
-
   @override
   void dispose() {
     _tabController.dispose();
@@ -73,7 +51,12 @@ class _PortfolioTutorialDetailPageState
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() => setState(() {}));
-    video = "https://youtu.be/O2I5VuDn-I0";
+    video = "https://youtu.be/8q1_NkDbfzE";
+    // video = "$video";
+    // SchedulerBinding.instance.addPostFrameCallback((_) {
+    //   video = "$video";
+    // });
+    print('Video---------------$video'); //print video
   }
 
   ValueNotifier<GraphQLClient> clientdata = ValueNotifier(
@@ -108,7 +91,7 @@ class _PortfolioTutorialDetailPageState
                 controller: YoutubePlayerController(
                   initialVideoId: YoutubePlayer.convertUrlToId(video),
                   flags: YoutubePlayerFlags(
-                    autoPlay: false,
+                    autoPlay: true,
                     mute: false,
                     disableDragSeek: false,
                     loop: false,
@@ -191,11 +174,12 @@ class _PortfolioTutorialDetailPageState
                       child: Scaffold(
                           body: Query(
                         options: QueryOptions(
-                          documentNode:
-                              gql(queryData.getContentCourse(widget.course_Id)),
-                        ),
+                            documentNode: gql(
+                                queryData.getContentCourse(widget.course_Id)),
+                            variables: {"course_id": "${widget.course_Id}"}),
                         builder: (QueryResult result,
                             {VoidCallback refetch, FetchMore fetchMore}) {
+                          print("++++++++++${widget.course_Id}");
                           if (result.hasException) {
                             return Text(result.exception.toString());
                           }
@@ -205,14 +189,14 @@ class _PortfolioTutorialDetailPageState
                                   color: Colors.blueGrey, size: 40),
                             );
                           }
-                          print("=============++============= ${video}");
+                          print('VideoInList----------------------$video');
                           List repositories = result.data['sections'];
                           return ListView.builder(
                             itemCount: repositories.length,
                             itemBuilder: (BuildContext context, int index) {
                               return ExpansionTile(
                                 title: Text(
-                                  " ${repositories[index]["no"]}.\t${repositories[index]["title"]}",
+                                  "${repositories[index]["no"]}.\t${repositories[index]["title"]}",
                                   textAlign: TextAlign.start,
                                   style: TextStyle(fontSize: 17),
                                 ),
@@ -239,16 +223,20 @@ class _PortfolioTutorialDetailPageState
                                               style: TextStyle(fontSize: 14),
                                             ),
                                           ),
-                                          onTap: () async {
+                                          onTap: () {
                                             print(
-                                                " ${repositories[index]["points"][a]["video_link"]}");
+                                                "VideoLink------------${repositories[index]["points"][a]["video_link"]}");
                                             setState(() {
                                               video = repositories[index]
                                                   ["points"][a]["video_link"];
+                                              // SchedulerBinding.instance
+                                              //     .addPostFrameCallback((_) {
+                                              //   video = repositories[index]
+                                              //       ["points"][a]["video_link"];
+                                              // });
                                             });
-                                            //  playVideo(video);
                                             print(
-                                                "========================== ${video}");
+                                                'VideoLink2-----------$video');
                                           },
                                         ),
                                       ),
