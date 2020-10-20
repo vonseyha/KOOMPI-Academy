@@ -19,7 +19,6 @@ import 'UI/Splash.dart';
 void main() => runApp(App());
 
 class App extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,10 +38,17 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
       body: Container(
         color: Color(0xFFf7f8fc), 
         child: SplashScreen(),
       )
     );
+=======
+        body: Container(
+      color: Color(0xFFf7f8fc),
+      child: HomeDisplay(),
+    ));
+>>>>>>> c8eef41e7ac39b18fed7de6cbe2115d80470e5af
   }
 }

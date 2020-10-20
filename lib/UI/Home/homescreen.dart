@@ -9,8 +9,8 @@ import 'package:intl/intl.dart';
 import 'DisplayCourseByCategory.dart';
 
 class HomeScreen extends StatefulWidget {
-    final String checkAppbar;
-    const HomeScreen({Key key,this.checkAppbar}):super(key:key);
+  final String checkAppbar;
+  const HomeScreen({Key key, this.checkAppbar}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -26,7 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent));
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent));
     return AnimatedContainer(
       transform: Matrix4.translationValues(xOffset, yOffset, 0)
         ..scale(scaleFactor)
@@ -45,50 +46,53 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
         child: Scaffold(
-          appBar: 
-           AppBar(
-             //------------------------- check type of user to set icon appbar --------------------//
-            leading: widget.checkAppbar == "login" || widget.checkAppbar == null ?
-            //------------------------- type students user --------------------//
-            isDrawerOpen
-                ? GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        xOffset = 0;
-                        yOffset = 0;
-                        scaleFactor = 1;
-                        isDrawerOpen = false;
-                      });
-                    },
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.black,
-                    ),
-                  )
-                : GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        xOffset = 250;
-                        yOffset = 170;
-                        scaleFactor = 0.6;
-                        isDrawerOpen = true;
-                      });
-                    },
-                    child: Icon(Icons.menu, color: Colors.black)
-              )
-              //------------------------- type teachers user --------------------//
-              :  widget.checkAppbar== "dashboard" ? Builder(
-                  builder: (BuildContext context) {
-                    return IconButton(
-                      icon: const Icon(Icons.arrow_back_ios, size: 18,color: Colors.black),
-                      onPressed: () { 
-                        Navigator.pop(context);
-                       },
-                      tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                    );
-                  },
-                ): null,
-              
+          appBar: AppBar(
+            //------------------------- check type of user to set icon appbar --------------------//
+            leading: widget.checkAppbar == "login" || widget.checkAppbar == null
+                ?
+                //------------------------- type students user --------------------//
+                isDrawerOpen
+                    ? GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            xOffset = 0;
+                            yOffset = 0;
+                            scaleFactor = 1;
+                            isDrawerOpen = false;
+                          });
+                        },
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.black,
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            xOffset = 250;
+                            yOffset = 170;
+                            scaleFactor = 0.6;
+                            isDrawerOpen = true;
+                          });
+                        },
+                        child: Icon(Icons.menu, color: Colors.black))
+                //------------------------- type teachers user --------------------//
+                : widget.checkAppbar == "dashboard"
+                    ? Builder(
+                        builder: (BuildContext context) {
+                          return IconButton(
+                            icon: const Icon(Icons.arrow_back_ios,
+                                size: 18, color: Colors.black),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            tooltip: MaterialLocalizations.of(context)
+                                .openAppDrawerTooltip,
+                          );
+                        },
+                      )
+                    : null,
+
             title: Image(
               image: AssetImage('images/koompi_academy_black.png'),
               width: 170,

@@ -20,8 +20,13 @@ class VideoDatas {
   final String fullname;
   final String avatar;
 
-  VideoDatas(this.id, this.title, this.feature_image, this.views, this.fullname,
-      this.avatar);
+  VideoDatas(
+    this.id, 
+    this.title, 
+    this.feature_image, 
+    this.views, 
+    this.fullname,
+    this.avatar);
 
   getId() => this.id;
   getTitle() => this.title;
@@ -45,7 +50,22 @@ class LinkVideo{
   final String section_id;
   final String messageP;
 
-  LinkVideo(this.idS, this.course_id, this.noS, this.titleS, this.messageS, this.idP, this.noP, this.titleP, this.video_link, this.preview, this.messageP, this.section_id);
+  LinkVideo(
+    this.idS, 
+    this.course_id, 
+    this.noS, 
+    this.titleS, 
+    this.messageS, 
+    this.idP, 
+    this.noP, 
+    this.titleP, 
+    this.video_link, 
+    this.preview, 
+    this.section_id, 
+    this.messageP);
+
+
+  
   getSectionId() =>this.idS;
   getSectionCourseId()=>this.course_id;
   getSectionNo() =>this.noS;
@@ -58,5 +78,5 @@ class LinkVideo{
   getPointPreview() => this.preview;
   getPointSectionId() => this.section_id;
   getPointMessage() => this.messageP;
-}
 
+}

@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/datas.dart';
@@ -23,12 +24,9 @@ class PortfolioTutorialDetailPage extends StatefulWidget {
       _PortfolioTutorialDetailPageState();
 }
 
-class _PortfolioTutorialDetailPageState extends State<PortfolioTutorialDetailPage>
+class _PortfolioTutorialDetailPageState
+    extends State<PortfolioTutorialDetailPage>
     with SingleTickerProviderStateMixin {
-
-  ChewieController _chewieController;
-  Future<void> _initializeVideoPlayerFuture;
-  
   // YoutubePlayerController youtubePlayerController;
 
   final List<Tab> myTabs = <Tab>[
@@ -38,41 +36,27 @@ class _PortfolioTutorialDetailPageState extends State<PortfolioTutorialDetailPag
 
   List<LinkVideo> list = List<LinkVideo>();
   GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
-  String video ;
+  String video;
 
   TabController _tabController;
 
-  YoutubePlayerController _controller ;
-  
-  // String playVideo(String linkvideo){
-  //        YoutubePlayer(
-  //                 controller: YoutubePlayerController(
-  //                         initialVideoId: YoutubePlayer.convertUrlToId(video),
-  //                         flags: YoutubePlayerFlags(
-  //                             autoPlay: false,
-  //                             mute: false,
-  //                             disableDragSeek: false,
-  //                             loop: false,
-  //                             isLive: false,
-  //                             forceHD: false,
-  //                         ),
-  //                     ),
-  //                 liveUIColor: Colors.amber,
-  //             );
-  //   print("------------------------${linkvideo}");
-  // }
-  
-    @override
+  @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
   }
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() => setState(() {}));
-    video = "https://youtu.be/O2I5VuDn-I0";
+    video = "https://youtu.be/8q1_NkDbfzE";
+    // video = "$video";
+    // SchedulerBinding.instance.addPostFrameCallback((_) {
+    //   video = "$video";
+    // });
+    print('Video---------------$video'); //print video
   }
 
   ValueNotifier<GraphQLClient> clientdata = ValueNotifier(
@@ -104,18 +88,18 @@ class _PortfolioTutorialDetailPageState extends State<PortfolioTutorialDetailPag
           child: Column(
             children: <Widget>[
               YoutubePlayer(
-                  controller: YoutubePlayerController(
-                          initialVideoId: YoutubePlayer.convertUrlToId(video),
-                          flags: YoutubePlayerFlags(
-                              autoPlay: false,
-                              mute: false,
-                              disableDragSeek: false,
-                              loop: false,
-                              isLive: false,
-                              forceHD: false,
-                          ),
-                      ),
-                  liveUIColor: Colors.amber,
+                controller: YoutubePlayerController(
+                  initialVideoId: YoutubePlayer.convertUrlToId(video),
+                  flags: YoutubePlayerFlags(
+                    autoPlay: true,
+                    mute: false,
+                    disableDragSeek: false,
+                    loop: false,
+                    isLive: false,
+                    forceHD: false,
+                  ),
+                ),
+                liveUIColor: Colors.amber,
               ),
               Expanded(
                 child: _buildDesc(context),
@@ -149,7 +133,7 @@ class _PortfolioTutorialDetailPageState extends State<PortfolioTutorialDetailPag
               child: Column(
             children: <Widget>[
               DefaultTabController(
-                length: 2, 
+                length: 2,
                 child: Container(
                   height: datawh.size.height / 13,
                   child: TabBar(
@@ -183,58 +167,76 @@ class _PortfolioTutorialDetailPageState extends State<PortfolioTutorialDetailPag
                 child: Container(
                   height: datawh.size.height / 2.1,
                   child:
-                    TabBarView(controller: _tabController, children: <Widget>[
+                      TabBarView(controller: _tabController, children: <Widget>[
                     ContentFregement(courseTitle: widget.course_Title),
                     GraphQLProvider(
                       client: clientdata,
                       child: Scaffold(
                           body: Query(
                         options: QueryOptions(
-                          documentNode: gql(queryData.getContentCourse(widget.course_Id)),
-                        ),
+                            documentNode: gql(
+                                queryData.getContentCourse(widget.course_Id)),
+                            variables: {"course_id": "${widget.course_Id}"}),
                         builder: (QueryResult result,
                             {VoidCallback refetch, FetchMore fetchMore}) {
+                          print("++++++++++${widget.course_Id}");
                           if (result.hasException) {
                             return Text(result.exception.toString());
                           }
                           if (result.loading) {
                             return Center(
-                              child: SpinKitFadingCircle(color: Colors.blueGrey, size: 40),
+                              child: SpinKitFadingCircle(
+                                  color: Colors.blueGrey, size: 40),
                             );
                           }
-                          print("=============++============= ${video}");
+                          print('VideoInList----------------------$video');
                           List repositories = result.data['sections'];
                           return ListView.builder(
                             itemCount: repositories.length,
                             itemBuilder: (BuildContext context, int index) {
                               return ExpansionTile(
                                 title: Text(
-                                  " ${repositories[index]["no"]}.\t${repositories[index]["title"]}",
+                                  "${repositories[index]["no"]}.\t${repositories[index]["title"]}",
                                   textAlign: TextAlign.start,
                                   style: TextStyle(fontSize: 17),
                                 ),
                                 children: <Widget>[
-                                  if (result.data['sections'][index].containsKey("points"))
-                                    for (var a = 0;  a < result.data['sections'][index]["points"].length; a++)
+                                  if (result.data['sections'][index]
+                                      .containsKey("points"))
+                                    for (var a = 0;
+                                        a <
+                                            result
+                                                .data['sections'][index]
+                                                    ["points"]
+                                                .length;
+                                        a++)
                                       Padding(
                                         padding: const EdgeInsets.all(10.0),
                                         child: GestureDetector(
                                           child: Container(
                                             alignment: Alignment.centerLeft,
-                                            padding: const EdgeInsets.only(left: 15.0),
+                                            padding: const EdgeInsets.only(
+                                                left: 15.0),
                                             child: Text(
                                               " ${repositories[index]["points"][a]["no"]}.\t${repositories[index]["points"][a]["title"]}",
                                               textAlign: TextAlign.start,
                                               style: TextStyle(fontSize: 14),
                                             ),
                                           ),
-                                          onTap: () async {
-                                            print(" ${repositories[index]["points"][a]["video_link"]}");
+                                          onTap: () {
+                                            print(
+                                                "VideoLink------------${repositories[index]["points"][a]["video_link"]}");
                                             setState(() {
-                                              video = repositories[index]["points"][a]["video_link"];
+                                              video = repositories[index]
+                                                  ["points"][a]["video_link"];
+                                              // SchedulerBinding.instance
+                                              //     .addPostFrameCallback((_) {
+                                              //   video = repositories[index]
+                                              //       ["points"][a]["video_link"];
+                                              // });
                                             });
-                                            //  playVideo(video);  
-                                            print("========================== ${video}");
+                                            print(
+                                                'VideoLink2-----------$video');
                                           },
                                         ),
                                       ),
