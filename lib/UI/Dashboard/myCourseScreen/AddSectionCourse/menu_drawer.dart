@@ -72,6 +72,7 @@ class _EndDrawerState extends State<EndDrawer> {
       deleteSection.removeAt(index);
     });
   }
+  
   void  onDeletePoint(int index){
     setState(() {
       deletePoint.removeAt(index);
@@ -129,7 +130,7 @@ class _EndDrawerState extends State<EndDrawer> {
                       ),
                         title: Text(" ${repositories[index]["no"]}.\t${repositories[index]["title"]}",
                           maxLines: 2,
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.center, 
                           style: TextStyle(fontSize: 14),
                         ),
                         children: <Widget>[

@@ -188,11 +188,9 @@ class _SearchCourseState extends State<SearchCourse> {
                                                                 Colors.white,
                                                             radius: 30,
                                                             child: CircleAvatar(
-                                                              backgroundColor:
-                                                                  Colors.white,
                                                               backgroundImage:
                                                                   NetworkImage(
-                                                                "https://avatars0.githubusercontent.com/u/41331389?s=280&v=4",
+                                                                 "${repositories[index]['thumbnail']}"
                                                               ),
                                                             ),
                                                           ),

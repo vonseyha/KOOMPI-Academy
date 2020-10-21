@@ -22,9 +22,9 @@ class JwtDecode{
    print("================${payloadMap}");
    
    if(payloadMap['role'] == "teacher"){
-     Navigator.push(context, MaterialPageRoute(builder: (_) => MainDashboard(owner_id: payloadMap['id'],fullname: payloadMap['fullname'])));
+     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => MainDashboard(owner_id: payloadMap['id'],fullname: payloadMap['fullname'])));
    }else{
-     Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage(checkAppbar: "login")));
+     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomePage(checkAppbar: "login")));
    }
  }
 }

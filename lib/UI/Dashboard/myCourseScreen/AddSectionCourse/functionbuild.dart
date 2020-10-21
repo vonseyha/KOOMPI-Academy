@@ -104,7 +104,7 @@ displayDeleteSection(BuildContext context, String section_id, Function onDeleteS
                     ),
                     SizedBox(width: 25.0),
                     new FlatButton(
-                      color: Colors.blue,
+                      color:  Color(0xFF4080D6),
                       child: Text(
                         'Delete',
                         style: TextStyle(
@@ -202,7 +202,7 @@ displayDeletePoint(BuildContext context, String point_id,Function onDeletePoint,
                     ),
                     SizedBox(width: 25.0),
                     new FlatButton(
-                      color: Colors.blue,
+                      color:  Color(0xFF4080D6),
                       child: Text(
                         'Delete',
                         style: TextStyle(
@@ -328,7 +328,7 @@ displayAddSection(BuildContext context, String section_id, String section_No,Str
                     ),
                     SizedBox(width: 25.0),
                     new FlatButton(
-                      color: Color(0xFF29b6d6),
+                      color:  Color(0xFF4080D6),
                       child: Text(
                         'Update',
                         style: TextStyle(
@@ -479,7 +479,7 @@ displayAddPoint(BuildContext context, String point_id, String point_no,
                     ),
                     SizedBox(width: 25.0),
                     new FlatButton(
-                        color: Color(0xFF29b6d6),
+                        color:  Color(0xFF4080D6),
                         child: Text(
                           'Update',
                           style: TextStyle(

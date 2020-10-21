@@ -1,10 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/api.dart';
 import 'package:koompi_academy_project/UI/Login/loginscreen.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:koompi_academy_project/UI/Widget/Form/reuse_materialButton.dart';
+import 'package:koompi_academy_project/UI/Widget/Form/reuse_signBtn.dart';
+import 'package:koompi_academy_project/UI/Widget/Form/reuse_textform.dart';
+import 'package:koompi_academy_project/UI/Widget/Form/reuse_textform_fill.dart';
+import 'package:koompi_academy_project/UI/Widget/Form/reuse_toastMs.dart';
 
 class Signup extends StatelessWidget {
   @override
@@ -35,169 +37,9 @@ class _addUserState extends State<addUser> {
 
   bool _isHidePassword = true;
 
-  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
+  TextStyle style =
+      TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
 
-  //*************** Login Button************//
-  _buildLoginBtn() {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Login()));
-        print('Register Button Pressed');
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            child: new Text(
-              "Already have account?",
-              style: new TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 14.0,
-                color: Colors.white,
-              ), 
-            ),
-          ),
-          Container(
-            child: new Text(
-              "\tLogin here",
-              style: new TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 14.0,
-                color: Colors.amber,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  //*************** Button Signup************//
-  _signupButton() {
-    return GestureDetector(
-      child: Material(
-        elevation: 5.0,
-        borderRadius: BorderRadius.circular(30.0),
-        color: Colors.lightBlue,
-        child: MaterialButton(
-          splashColor: Colors.white,
-          onPressed: () {
-            if (_formKey.currentState.validate()) {
-              _formKey.currentState.save();
-              print("Your name: $_username and Your email: $_email and Password: $_password");
-            }
-          },
-          child: Text("SIGN UP",
-              textAlign: TextAlign.center,
-              style: style.copyWith(
-                  color: Colors.white, fontWeight: FontWeight.bold)),
-        ),
-      ),
-    );
-  }
-
-  //*************** Username Fill Form************//
-  _usernameForm() {
-    return Container(
-        child: TextFormField(
-      controller: _usernaController,
-      style: style,
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Full Name",
-          prefixIcon: Icon(Icons.child_care, color: Colors.white70),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          )),
-      validator: (val) {
-        if (val.length == 0)
-          return "Please enter fullname";
-        else if (!val.contains(""))
-          return "Please enter space after last name";
-        else
-          return null;
-      },
-      onSaved: (val) => _username = val,
-    ));
-  }
-
-  //*************** Email Fill Form************//
-  _emailForm() {
-    return Container(
-        child: TextFormField(
-      controller: _emailController,
-      style: style,
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Email",
-          prefixIcon: Icon(Icons.alternate_email, color: Colors.white70),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          )),
-      keyboardType: TextInputType.emailAddress,
-      validator: (val) {
-        if (val.length == 0)
-          return "Please enter email";
-        else if (!val.contains("@"))
-          return "Please enter valid email";
-        else
-          return null;
-      },
-      onSaved: (val) => _email = val,
-    ));
-  }
-
-  //*************** Password Fill Form************//
-  _passwordForm() {
-    return Container(
-        child: TextFormField(
-      style: style,
-      controller: _passController,
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        hintText: "Password",
-        fillColor: Colors.white,
-        prefixIcon: Icon(Icons.lock_outline, color: Colors.white70),
-        suffixIcon: GestureDetector(
-          onTap: () {
-            setState(() {
-              _isHidePassword ^= true;
-            });
-          },
-          child: Icon(
-            _isHidePassword ? Icons.visibility_off : Icons.visibility,
-          ),
-        ),
-        isDense: true,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-      ),
-      obscureText: _isHidePassword,
-      validator: (val) {
-        if (val.length == 0)
-          return "Please enter password";
-        else if (val.length <= 5)
-          return "Your password should be more then 6 char long";
-        else
-          return null;
-      },
-      onSaved: (val) => _password = val,
-    ));
-  }
-  loginToast(String message , Color color) {
-    return Fluttertoast.showToast(
-        msg: message,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIos: 1,
-        backgroundColor: color,
-        textColor: Colors.white
-      );
-  }
   @override
   Widget build(BuildContext context) {
     print(client);
@@ -206,17 +48,21 @@ class _addUserState extends State<addUser> {
           options: MutationOptions(
             document: CREATE_USER,
             update: (Cache cache, QueryResult result) {
-              // print(result.data['create_user']['message']);
               if (!result.hasException) {
-                // print("1");//
-                loginToast("Register Sucessfuly.", Colors.green);
-                print( "Your name: $_username and Your email: $_email and Password: $_password");
+                ReuseToastMessage.toastMessage(
+                    "Register Sucessfuly.", Color(0xFF4080D6), Colors.white);
+                print(
+                    "Your name: $_username and Your email: $_email and Password: $_password");
                 _usernaController.clear();
                 _emailController.clear();
                 _passController.clear();
-                Navigator.pushReplacement( context, MaterialPageRoute(builder: (context) => Login()));
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => Login()));
               } else {
-                loginToast("Error: Email is already in use.",Colors.red);
+                ReuseToastMessage.toastMessage(
+                    "Error: Email is already in use.",
+                    Colors.red,
+                    Colors.white);
               }
               return result;
             },
@@ -247,7 +93,7 @@ class _addUserState extends State<addUser> {
                           ),
                         ),
                         SizedBox(
-                          height: 35.0,
+                          height: 25.0,
                         ),
                         Container(
                             child: new Theme(
@@ -256,10 +102,24 @@ class _addUserState extends State<addUser> {
                             primaryColorDark: Colors.white70,
                           ),
                           //******Call Widget Username Fill Form ******//
-                          child: _usernameForm(),
+                          child: ResuseFormFieldEmail(
+                            style: style,
+                            controller: _usernaController,
+                            hintText: 'Full Name',
+                            prefixIcon:
+                                Icon(Icons.child_care, color: Colors.white70),
+                            validator: (val) {
+                              if (val.length == 0)
+                                return "Please enter fullname";
+                              else if (!val.contains(""))
+                                return "Please enter space after last name";
+                              else
+                                return null;
+                            },
+                            onsaved: (val) => _username = val,
+                          ),
                         )),
-                        SizedBox(height: 20.0),
-
+                        SizedBox(height: 10.0),
                         Container(
                             child: new Theme(
                           data: new ThemeData(
@@ -267,9 +127,24 @@ class _addUserState extends State<addUser> {
                             primaryColorDark: Colors.white70,
                           ),
                           //******Call Widget Email Fill Form ******//
-                          child: _emailForm(),
+                          child: ResuseFormFieldEmail(
+                            style: style,
+                            controller: _emailController,
+                            hintText: 'Email',
+                            prefixIcon: Icon(Icons.alternate_email,
+                                color: Colors.white70),
+                            validator: (val) {
+                              if (val.length == 0)
+                                return "Please enter email";
+                              else if (!val.contains("@"))
+                                return "Please enter valid email";
+                              else
+                                return null;
+                            },
+                            onsaved: (val) => _email = val,
+                          ),
                         )),
-                        SizedBox(height: 20.0),
+                        SizedBox(height: 10.0),
                         Container(
                             child: new Theme(
                           data: new ThemeData(
@@ -277,38 +152,61 @@ class _addUserState extends State<addUser> {
                             primaryColorDark: Colors.white70,
                           ),
                           //******Call Widget password Fill Form ******//
-                          child: _passwordForm(),
+                          child: ResuseFormFields(
+                            obscureText: _isHidePassword,
+                            controller: _passController,
+                            style: style,
+                            hintText: "Password",
+                            prefixIcon: Icon(Icons.lock, color: Colors.white70),
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _isHidePassword ^= true;
+                                });
+                              },
+                              child: Icon(
+                                _isHidePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                              ),
+                            ),
+                            validator: (val) {
+                              if (val.length == 0)
+                                return "Please enter password";
+                              else if (val.length <= 5)
+                                return "Your password should be more then 6 char long";
+                              else
+                                return null;
+                            },
+                            onsaved: (val) => _password = val,
+                          ),
                         )),
                         SizedBox(
-                          height: 20.0,
+                          height: 15.0,
                         ),
                         //******Call Widget Sign Up button ******//
-                        GestureDetector(
-                          child: Material(
-                            elevation: 5.0,
-                            borderRadius: BorderRadius.circular(30.0),
-                            color: Colors.lightBlue,
-                            child: MaterialButton(
-                              splashColor: Colors.white,
-                              onPressed: () {
-                                if (_formKey.currentState.validate()) {
-                                  _formKey.currentState.save();
-                                  runMutation({
-                                    'fullname': _username,
-                                    'email': _email,
-                                    'password': _password,
-                                  });
-                                }
-                              },
-                              child: Text("SIGN UP",
-                                  textAlign: TextAlign.center,
-                                  style: style.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold)),
-                            ),
+                        ReuseMeterialButton(
+                          evaluation: 0.0,
+                          color: Color(0xFF4080D6),
+                          child: MaterialButton(
+                            splashColor: null,
+                            onPressed: () {
+                              if (_formKey.currentState.validate()) {
+                                _formKey.currentState.save();
+                                runMutation({
+                                  'fullname': _username,
+                                  'email': _email,
+                                  'password': _password,
+                                });
+                              }
+                            },
+                            child: Text("SIGN UP",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold)),
                           ),
                         ),
-
                         SizedBox(
                           height: 15.0,
                         ),
@@ -319,9 +217,15 @@ class _addUserState extends State<addUser> {
                           child: Column(
                             children: <Widget>[
                               Container(
-                                //******Call Widget Login button ******//
-                                child: _buildLoginBtn(),
-                              ),
+                                  //******Call Widget Login button ******//
+                                  child: SignupBtn.buildSignupBtn(
+                                      "Already have account?", 'Login here',
+                                      () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Login()));
+                              })),
                             ],
                           ),
                         )

@@ -27,8 +27,6 @@ class PortfolioTutorialDetailPage extends StatefulWidget {
 class _PortfolioTutorialDetailPageState
     extends State<PortfolioTutorialDetailPage>
     with SingleTickerProviderStateMixin {
-  // YoutubePlayerController youtubePlayerController;
-
   final List<Tab> myTabs = <Tab>[
     Tab(text: 'Overview'),
     Tab(text: 'Content'),
@@ -37,13 +35,22 @@ class _PortfolioTutorialDetailPageState
   List<LinkVideo> list = List<LinkVideo>();
   GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
   String video;
-  YoutubePlayerController _controller;
+  String videoId;
 
   TabController _tabController;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  YoutubePlayerController _controller;
+  PlayerState _playerState;
+  YoutubeMetaData _videoMetaData;
+  double _volume = 100;
+  bool _muted = false;
+  bool _isPlayerReady = false;
 
   @override
   void dispose() {
     _tabController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -52,9 +59,11 @@ class _PortfolioTutorialDetailPageState
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() => setState(() {}));
-    video = "https://youtu.be/8q1_NkDbfzE";
+    videoId = "aaCx0t9hD7Q";
+
+    //-------------------------------Play Video ---------------------------------------//
     _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(video),
+      initialVideoId: videoId,
       flags: YoutubePlayerFlags(
         autoPlay: true,
         mute: false,
@@ -63,8 +72,46 @@ class _PortfolioTutorialDetailPageState
         isLive: false,
         forceHD: false,
       ),
+    )..addListener(listener);
+    _videoMetaData = const YoutubeMetaData();
+    _playerState = PlayerState.unknown;
+  }
+
+  void listener() {
+    if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
+      setState(() {
+        _playerState = _controller.value.playerState;
+        _videoMetaData = _controller.metadata;
+      });
+    }
+  }
+
+  @override
+  void deactivate() {
+    // Pauses video while navigating to next page.
+    _controller.pause();
+    super.deactivate();
+  }
+
+  void _showSnackBar(String message) {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontWeight: FontWeight.w300,
+            fontSize: 16.0,
+          ),
+        ),
+        backgroundColor: Colors.blueAccent,
+        behavior: SnackBarBehavior.floating,
+        elevation: 1.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+      ),
     );
-    print('Video---------------$video'); //print video
   }
 
   ValueNotifier<GraphQLClient> clientdata = ValueNotifier(
@@ -81,7 +128,6 @@ class _PortfolioTutorialDetailPageState
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        // backgroundColor: Colors,
         title: new Text(
           'KOOMPI Academy',
           style: new TextStyle(
@@ -98,6 +144,15 @@ class _PortfolioTutorialDetailPageState
               YoutubePlayer(
                 controller: _controller,
                 liveUIColor: Colors.amber,
+                showVideoProgressIndicator: true,
+                progressIndicatorColor: Colors.blueAccent,
+                onReady: () {
+                  _isPlayerReady = true;
+                },
+                onEnded: (data) {
+                  _controller.load(video);
+                  _showSnackBar('Next Video Started!');
+                },
               ),
               Expanded(
                 child: _buildDesc(context),
@@ -173,7 +228,8 @@ class _PortfolioTutorialDetailPageState
                           body: Query(
                         options: QueryOptions(
                             documentNode: gql(
-                                queryData.getContentCourse(widget.course_Id))),
+                                queryData.getContentCourse(widget.course_Id)),
+                            variables: {"course_id": "${widget.course_Id}"}),
                         builder: (QueryResult result,
                             {VoidCallback refetch, FetchMore fetchMore}) {
                           if (result.hasException) {
@@ -185,7 +241,6 @@ class _PortfolioTutorialDetailPageState
                                   color: Colors.blueGrey, size: 40),
                             );
                           }
-                          print('VideoInList----------------------$video');
                           List repositories = result.data['sections'];
                           return ListView.builder(
                             itemCount: repositories.length,
@@ -220,12 +275,13 @@ class _PortfolioTutorialDetailPageState
                                             ),
                                           ),
                                           onTap: () {
-                                            print(
-                                                "VideoLink------------${repositories[index]["points"][a]["video_link"]}");
                                             setState(() {
-                                              video = repositories[index]
-                                                  ["points"][a]["video_link"];
-                                              _controller.load(video);
+                                              videoId =
+                                                  YoutubePlayer.convertUrlToId(
+                                                      repositories[index]
+                                                              ["points"][a]
+                                                          ["video_link"]);
+                                              _controller.load(videoId);
                                             });
                                           },
                                         ),

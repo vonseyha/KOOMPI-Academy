@@ -33,6 +33,7 @@ class _HomeState extends State<SplashScreen> {
       ),
     );
   }
+
   void isSeen()async{
     SharedPreferences _pref =  await SharedPreferences.getInstance();
     _pref .setString('seen', "true");
@@ -56,6 +57,7 @@ class _HomeState extends State<SplashScreen> {
         backgroundColor: Colors.white,
         body: Container(
 //          height: MediaQuery.of(context).size.height - 100,
+          alignment: Alignment.centerLeft,
           child: PageView(
             controller: controller,
             onPageChanged: (index) {
@@ -98,11 +100,10 @@ class _HomeState extends State<SplashScreen> {
                       child: Text(
                         "SKIP",
                         style: TextStyle(
-                            color: Color(0xFF0074E4),
+                            color:  Color(0xFF4080D6),
                             fontWeight: FontWeight.w600),
                       ),
                     ),
-
                     //*************** slide index ************//
                     Container(
                       child: Row(
@@ -114,7 +115,6 @@ class _HomeState extends State<SplashScreen> {
                         ],
                       ),
                     ),
-
                     //*************** Next Float Button************//
                     FlatButton(
                       onPressed: () {
@@ -123,11 +123,11 @@ class _HomeState extends State<SplashScreen> {
                             duration: Duration(milliseconds: 500),
                             curve: Curves.linear);
                       },
-                      splashColor: Colors.blue[50],
+                      splashColor:  Color(0xFF4080D6),
                       child: Text(
                         "NEXT",
                         style: TextStyle(
-                            color: Color(0xFF0074E4),
+                            color:  Color(0xFF4080D6),
                             fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -151,12 +151,14 @@ class _HomeState extends State<SplashScreen> {
                 },
                 child: Container(
                   height: Platform.isIOS ? 70 : 60,
-                  color: Colors.blue,
+                  color: Color(0xFF4080D6),
                   alignment: Alignment.center,
                   child: Text(
                     "GET STARTED NOW",
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w600),
+                        color: Colors.white, 
+                        fontWeight: FontWeight.w600
+                    ),
                   ),
                 ),
               ),

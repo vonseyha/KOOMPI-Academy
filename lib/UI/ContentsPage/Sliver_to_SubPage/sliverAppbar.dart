@@ -27,7 +27,8 @@ class PortfolioSliverAppBar extends StatelessWidget {
           ),
           background: Container(
             color: Colors.white,
-            child: Stack(children: [
+            child: Stack(
+            children: [
               Container(
                 alignment: Alignment.center,
                 child: Image.asset("images/coursenotfound.gif"),
@@ -39,10 +40,7 @@ class PortfolioSliverAppBar extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // Navigator.push(context, MaterialPageRoute(
-                        // builder: (_)=>DrawerLayout()));
                         _scaffoldKey.currentState.openEndDrawer();
-                        print("SHow Menu Add Section");
                       },
                       child: Container(
                         padding: const EdgeInsets.all(15),

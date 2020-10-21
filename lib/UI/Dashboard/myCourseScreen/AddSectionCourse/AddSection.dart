@@ -126,7 +126,7 @@ class _AddSectionState extends State<AddSection> {
                       width: 150.0,
                       height: 40.0,
                       child: new RaisedButton(
-                        color: Color(0xFF5dabff),
+                        color:  Color(0xFF4080D6),
                         onPressed: () async {
                             if(_sectionNoController.text.isNotEmpty&&_sectionTitleController.text.isNotEmpty){
                               GraphQLClient _client = graphQLConfiguration.clientToQuery();
