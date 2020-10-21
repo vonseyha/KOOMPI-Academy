@@ -37,6 +37,7 @@ class _PortfolioTutorialDetailPageState
   List<LinkVideo> list = List<LinkVideo>();
   GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
   String video;
+  YoutubePlayerController _controller;
 
   TabController _tabController;
 
@@ -52,10 +53,17 @@ class _PortfolioTutorialDetailPageState
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() => setState(() {}));
     video = "https://youtu.be/8q1_NkDbfzE";
-    // video = "$video";
-    // SchedulerBinding.instance.addPostFrameCallback((_) {
-    //   video = "$video";
-    // });
+    _controller = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(video),
+      flags: YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+        disableDragSeek: false,
+        loop: false,
+        isLive: false,
+        forceHD: false,
+      ),
+    );
     print('Video---------------$video'); //print video
   }
 
@@ -88,17 +96,7 @@ class _PortfolioTutorialDetailPageState
           child: Column(
             children: <Widget>[
               YoutubePlayer(
-                controller: YoutubePlayerController(
-                  initialVideoId: YoutubePlayer.convertUrlToId(video),
-                  flags: YoutubePlayerFlags(
-                    autoPlay: true,
-                    mute: false,
-                    disableDragSeek: false,
-                    loop: false,
-                    isLive: false,
-                    forceHD: false,
-                  ),
-                ),
+                controller: _controller,
                 liveUIColor: Colors.amber,
               ),
               Expanded(
@@ -175,11 +173,9 @@ class _PortfolioTutorialDetailPageState
                           body: Query(
                         options: QueryOptions(
                             documentNode: gql(
-                                queryData.getContentCourse(widget.course_Id)),
-                            variables: {"course_id": "${widget.course_Id}"}),
+                                queryData.getContentCourse(widget.course_Id))),
                         builder: (QueryResult result,
                             {VoidCallback refetch, FetchMore fetchMore}) {
-                          print("++++++++++${widget.course_Id}");
                           if (result.hasException) {
                             return Text(result.exception.toString());
                           }
@@ -229,14 +225,8 @@ class _PortfolioTutorialDetailPageState
                                             setState(() {
                                               video = repositories[index]
                                                   ["points"][a]["video_link"];
-                                              // SchedulerBinding.instance
-                                              //     .addPostFrameCallback((_) {
-                                              //   video = repositories[index]
-                                              //       ["points"][a]["video_link"];
-                                              // });
+                                              _controller.load(video);
                                             });
-                                            print(
-                                                'VideoLink2-----------$video');
                                           },
                                         ),
                                       ),
