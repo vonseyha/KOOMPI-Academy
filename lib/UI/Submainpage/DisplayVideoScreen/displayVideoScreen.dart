@@ -24,10 +24,7 @@ class PortfolioTutorialDetailPage extends StatefulWidget {
       _PortfolioTutorialDetailPageState();
 }
 
-class _PortfolioTutorialDetailPageState
-    extends State<PortfolioTutorialDetailPage>
-    with SingleTickerProviderStateMixin {
-  // YoutubePlayerController youtubePlayerController;
+class _PortfolioTutorialDetailPageState  extends State<PortfolioTutorialDetailPage> with SingleTickerProviderStateMixin {
 
   final List<Tab> myTabs = <Tab>[
     Tab(text: 'Overview'),
@@ -37,12 +34,22 @@ class _PortfolioTutorialDetailPageState
   List<LinkVideo> list = List<LinkVideo>();
   GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
   String video;
+  String videoId;
 
   TabController _tabController;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  YoutubePlayerController _controller;
+  PlayerState _playerState;
+  YoutubeMetaData _videoMetaData;
+  double _volume = 100;
+  bool _muted = false;
+  bool _isPlayerReady = false;
 
   @override
   void dispose() {
     _tabController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -51,13 +58,61 @@ class _PortfolioTutorialDetailPageState
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() => setState(() {}));
-    video = "https://youtu.be/8q1_NkDbfzE";
-    // video = "$video";
-    // SchedulerBinding.instance.addPostFrameCallback((_) {
-    //   video = "$video";
-    // });
-    print('Video---------------$video'); //print video
+      videoId = "aaCx0t9hD7Q";
+
+    //-------------------------------Play Video ---------------------------------------//
+    _controller = YoutubePlayerController(
+                  initialVideoId: videoId,
+                  flags: YoutubePlayerFlags(
+                    autoPlay: true,
+                    mute: false,
+                    disableDragSeek: false,
+                    loop: false,
+                    isLive: false,
+                    forceHD: false,
+                  ),
+                )..addListener(listener);
+    _videoMetaData = const YoutubeMetaData();
+    _playerState = PlayerState.unknown;
   }
+
+  void listener() {
+    if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
+      setState(() {
+        _playerState = _controller.value.playerState;
+        _videoMetaData = _controller.metadata;
+      });
+    }
+  }
+
+  @override
+  void deactivate() {
+    // Pauses video while navigating to next page.
+    _controller.pause();
+    super.deactivate();
+  }
+
+  void _showSnackBar(String message) {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontWeight: FontWeight.w300,
+            fontSize: 16.0,
+          ),
+        ),
+        backgroundColor: Colors.blueAccent,
+        behavior: SnackBarBehavior.floating,
+        elevation: 1.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0),
+        ),
+      ),
+    );
+  }
+
 
   ValueNotifier<GraphQLClient> clientdata = ValueNotifier(
     GraphQLClient(
@@ -73,7 +128,6 @@ class _PortfolioTutorialDetailPageState
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        // backgroundColor: Colors,
         title: new Text(
           'KOOMPI Academy',
           style: new TextStyle(
@@ -88,18 +142,18 @@ class _PortfolioTutorialDetailPageState
           child: Column(
             children: <Widget>[
               YoutubePlayer(
-                controller: YoutubePlayerController(
-                  initialVideoId: YoutubePlayer.convertUrlToId(video),
-                  flags: YoutubePlayerFlags(
-                    autoPlay: true,
-                    mute: false,
-                    disableDragSeek: false,
-                    loop: false,
-                    isLive: false,
-                    forceHD: false,
-                  ),
-                ),
+                controller: _controller,
                 liveUIColor: Colors.amber,
+                showVideoProgressIndicator: true,
+                progressIndicatorColor: Colors.blueAccent,
+                onReady: () {
+                    _isPlayerReady = true;
+                  },
+                  onEnded: (data) {
+                    _controller
+                        .load(video);
+                    _showSnackBar('Next Video Started!');
+                  },
               ),
               Expanded(
                 child: _buildDesc(context),
@@ -177,9 +231,7 @@ class _PortfolioTutorialDetailPageState
                             documentNode: gql(
                                 queryData.getContentCourse(widget.course_Id)),
                             variables: {"course_id": "${widget.course_Id}"}),
-                        builder: (QueryResult result,
-                            {VoidCallback refetch, FetchMore fetchMore}) {
-                          print("++++++++++${widget.course_Id}");
+                        builder: (QueryResult result,  {VoidCallback refetch, FetchMore fetchMore}) {
                           if (result.hasException) {
                             return Text(result.exception.toString());
                           }
@@ -189,7 +241,6 @@ class _PortfolioTutorialDetailPageState
                                   color: Colors.blueGrey, size: 40),
                             );
                           }
-                          print('VideoInList----------------------$video');
                           List repositories = result.data['sections'];
                           return ListView.builder(
                             itemCount: repositories.length,
@@ -201,15 +252,8 @@ class _PortfolioTutorialDetailPageState
                                   style: TextStyle(fontSize: 17),
                                 ),
                                 children: <Widget>[
-                                  if (result.data['sections'][index]
-                                      .containsKey("points"))
-                                    for (var a = 0;
-                                        a <
-                                            result
-                                                .data['sections'][index]
-                                                    ["points"]
-                                                .length;
-                                        a++)
+                                  if (result.data['sections'][index]  .containsKey("points"))
+                                    for (var a = 0;  a < result.data['sections'][index]["points"] .length; a++)
                                       Padding(
                                         padding: const EdgeInsets.all(10.0),
                                         child: GestureDetector(
@@ -224,19 +268,10 @@ class _PortfolioTutorialDetailPageState
                                             ),
                                           ),
                                           onTap: () {
-                                            print(
-                                                "VideoLink------------${repositories[index]["points"][a]["video_link"]}");
                                             setState(() {
-                                              video = repositories[index]
-                                                  ["points"][a]["video_link"];
-                                              // SchedulerBinding.instance
-                                              //     .addPostFrameCallback((_) {
-                                              //   video = repositories[index]
-                                              //       ["points"][a]["video_link"];
-                                              // });
+                                              videoId = YoutubePlayer.convertUrlToId(repositories[index]["points"][a]["video_link"]);
+                                              _controller.load(videoId);
                                             });
-                                            print(
-                                                'VideoLink2-----------$video');
                                           },
                                         ),
                                       ),
