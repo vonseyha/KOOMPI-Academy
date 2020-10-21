@@ -24,8 +24,9 @@ class PortfolioTutorialDetailPage extends StatefulWidget {
       _PortfolioTutorialDetailPageState();
 }
 
-class _PortfolioTutorialDetailPageState  extends State<PortfolioTutorialDetailPage> with SingleTickerProviderStateMixin {
-
+class _PortfolioTutorialDetailPageState
+    extends State<PortfolioTutorialDetailPage>
+    with SingleTickerProviderStateMixin {
   final List<Tab> myTabs = <Tab>[
     Tab(text: 'Overview'),
     Tab(text: 'Content'),
@@ -58,20 +59,20 @@ class _PortfolioTutorialDetailPageState  extends State<PortfolioTutorialDetailPa
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() => setState(() {}));
-      videoId = "aaCx0t9hD7Q";
+    videoId = "aaCx0t9hD7Q";
 
     //-------------------------------Play Video ---------------------------------------//
     _controller = YoutubePlayerController(
-                  initialVideoId: videoId,
-                  flags: YoutubePlayerFlags(
-                    autoPlay: true,
-                    mute: false,
-                    disableDragSeek: false,
-                    loop: false,
-                    isLive: false,
-                    forceHD: false,
-                  ),
-                )..addListener(listener);
+      initialVideoId: videoId,
+      flags: YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+        disableDragSeek: false,
+        loop: false,
+        isLive: false,
+        forceHD: false,
+      ),
+    )..addListener(listener);
     _videoMetaData = const YoutubeMetaData();
     _playerState = PlayerState.unknown;
   }
@@ -113,7 +114,6 @@ class _PortfolioTutorialDetailPageState  extends State<PortfolioTutorialDetailPa
     );
   }
 
-
   ValueNotifier<GraphQLClient> clientdata = ValueNotifier(
     GraphQLClient(
       cache: InMemoryCache(),
@@ -147,13 +147,12 @@ class _PortfolioTutorialDetailPageState  extends State<PortfolioTutorialDetailPa
                 showVideoProgressIndicator: true,
                 progressIndicatorColor: Colors.blueAccent,
                 onReady: () {
-                    _isPlayerReady = true;
-                  },
-                  onEnded: (data) {
-                    _controller
-                        .load(video);
-                    _showSnackBar('Next Video Started!');
-                  },
+                  _isPlayerReady = true;
+                },
+                onEnded: (data) {
+                  _controller.load(video);
+                  _showSnackBar('Next Video Started!');
+                },
               ),
               Expanded(
                 child: _buildDesc(context),
@@ -231,7 +230,8 @@ class _PortfolioTutorialDetailPageState  extends State<PortfolioTutorialDetailPa
                             documentNode: gql(
                                 queryData.getContentCourse(widget.course_Id)),
                             variables: {"course_id": "${widget.course_Id}"}),
-                        builder: (QueryResult result,  {VoidCallback refetch, FetchMore fetchMore}) {
+                        builder: (QueryResult result,
+                            {VoidCallback refetch, FetchMore fetchMore}) {
                           if (result.hasException) {
                             return Text(result.exception.toString());
                           }
@@ -252,8 +252,15 @@ class _PortfolioTutorialDetailPageState  extends State<PortfolioTutorialDetailPa
                                   style: TextStyle(fontSize: 17),
                                 ),
                                 children: <Widget>[
-                                  if (result.data['sections'][index]  .containsKey("points"))
-                                    for (var a = 0;  a < result.data['sections'][index]["points"] .length; a++)
+                                  if (result.data['sections'][index]
+                                      .containsKey("points"))
+                                    for (var a = 0;
+                                        a <
+                                            result
+                                                .data['sections'][index]
+                                                    ["points"]
+                                                .length;
+                                        a++)
                                       Padding(
                                         padding: const EdgeInsets.all(10.0),
                                         child: GestureDetector(
@@ -269,7 +276,11 @@ class _PortfolioTutorialDetailPageState  extends State<PortfolioTutorialDetailPa
                                           ),
                                           onTap: () {
                                             setState(() {
-                                              videoId = YoutubePlayer.convertUrlToId(repositories[index]["points"][a]["video_link"]);
+                                              videoId =
+                                                  YoutubePlayer.convertUrlToId(
+                                                      repositories[index]
+                                                              ["points"][a]
+                                                          ["video_link"]);
                                               _controller.load(videoId);
                                             });
                                           },
