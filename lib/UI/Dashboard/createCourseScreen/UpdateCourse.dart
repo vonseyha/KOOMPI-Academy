@@ -10,6 +10,7 @@ import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'getProperty.dart';
 
 class UpdateCourse extends StatefulWidget {
   final String id;
@@ -18,7 +19,7 @@ class UpdateCourse extends StatefulWidget {
   final int price;
   final String pravcy;
   final List category;
-  final Future<File> thumbnail;
+  final String thumbnail;
   final String description;
   final String course_id;
   final Function onClickUpdate;
@@ -85,6 +86,11 @@ class _UpdateCourseState extends State<UpdateCourse> {
     _courseTitleController.text = widget.title;
     _descriptionController.text = widget.description;
     _categoryName = widget.category[0];
+    if(_image == null){
+      setState(() {
+        imageUrl = widget.thumbnail;
+      });
+    }
   }
 
   String typenameDataIdFromObject(Object object) {
@@ -153,7 +159,8 @@ class _UpdateCourseState extends State<UpdateCourse> {
       width: 130.0,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("images/empty.png"),
+          image: NetworkImage(widget.thumbnail),
+          fit:BoxFit.cover 
         ),
         border: Border.all(width: 1, color: Colors.grey),
         borderRadius: BorderRadius.circular(10),
@@ -247,14 +254,14 @@ class _UpdateCourseState extends State<UpdateCourse> {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image = image;
-      print(_image);
+      decodeFile(_image);
     });
-    print("File Path ${_image}");
-    // decodeFile(_image);
   }
 
   Future<String> decodeFile(File _images) async {
-    print("File Path ${_images}");
+    String str = _images.toString();
+     var arr = str.split('/');
+     String imageName = arr[arr.length-1];
     List<int> compressImage = await FlutterImageCompress.compressWithFile(
       _images.path,
       minHeight: 1300,
@@ -264,21 +271,22 @@ class _UpdateCourseState extends State<UpdateCourse> {
     var multipartFile = new http.MultipartFile.fromBytes(
       'file',
       compressImage,
-      filename: 'image_picker.jpg',
+      filename:imageName,
       contentType: MediaType.parse('image/jpeg'),
     );
     /* Make request */
     var request = new http.MultipartRequest(
-        'POST', Uri.parse('https://learnbackend.koompi.com/uploads'));
+        'POST', Uri.parse('http://192.168.1.145:6001/image-upload'));
     request.files.add(multipartFile);
     /* Start send to server */
     http.StreamedResponse response = await request.send();
     /* Getting response */
     response.stream.transform(utf8.decoder).listen((data) {
-      print("----------------------------Image url $data");
-      setState(() {
-        imageUrl = data;
-      });
+      Map valueMap = json.decode(data);
+          var mWelcome =  CourseImage.fromJson(valueMap);
+          setState(() {
+            imageUrl =  "http://192.168.1.145:6001/public/uploads/${mWelcome.fileName}";
+          });
     });
     return imageUrl;
   }

@@ -29,6 +29,7 @@ class CreateCourse extends StatefulWidget {
 class _CreateCourseState extends State<CreateCourse> {
 
   List<Map<String, dynamic>> _myJsons = [ ];
+
   void fillList() async {
     QueryGraphQL queryGraphQL = QueryGraphQL();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
@@ -85,7 +86,6 @@ class _CreateCourseState extends State<CreateCourse> {
             borderRadius: new BorderRadius.circular(5.0),
             borderSide: new BorderSide(),
           ),
-          //fillColor: Colors.green
         ),
       ),
     );
@@ -146,8 +146,7 @@ class _CreateCourseState extends State<CreateCourse> {
               builder: (FormFieldState<String> state) {
                 return InputDecorator(
                   decoration: InputDecoration(
-                      errorStyle:
-                          TextStyle(color: Colors.redAccent, fontSize: 16.0),
+                      errorStyle:TextStyle(color: Colors.redAccent, fontSize: 16.0),
                       labelText: "Select Status",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0))),
@@ -175,7 +174,6 @@ class _CreateCourseState extends State<CreateCourse> {
         SizedBox(width: 5),
         Expanded(
             flex: 4,
-            // width: MediaQuery.of(context).size.width / 1.6,
             child: FormField<String>(
               builder: (FormFieldState<String> state) {
                 return InputDecorator(
@@ -220,22 +218,15 @@ class _CreateCourseState extends State<CreateCourse> {
   var image = await ImagePicker.pickImage(source: ImageSource.gallery);
   setState(() {
     _image = image;
-    print(_image );
     decodeFile(_image);
   });
-  print("File Path ${_image}");
-  
+
 }
 
   Future<String>  decodeFile(File _images)async{
-    print("File Path ${_images}");
     String str = _images.toString();
      var arr = str.split('/');
-
      String imageName = arr[arr.length-1];
-    print("-----------------------------${imageName}"); 
-
-
 
       List<int> compressImage = await FlutterImageCompress.compressWithFile(
       _images.path,
@@ -258,11 +249,9 @@ class _CreateCourseState extends State<CreateCourse> {
         http.StreamedResponse response = await request.send();
         /* Getting response */
         response.stream.transform(utf8.decoder).listen((data) {
-          print("----------------------------Image url ${data} ");
           // var json = data;
           Map valueMap = json.decode(data);
           var mWelcome =  CourseImage.fromJson(valueMap);
-          print("======================${mWelcome.fileName}");
           setState(() {
             imageUrl =  "http://192.168.1.145:6001/public/uploads/${mWelcome.fileName}";
           });
@@ -386,7 +375,7 @@ class _CreateCourseState extends State<CreateCourse> {
                                               return result;
                                             },
                                           documentNode: gql(addMutation.addCourse(
-                                            "5f432977da0863337654d38c",
+                                            widget.owner_id,
                                             _courseTitleController.text,
                                             _statusName,
                                             0,

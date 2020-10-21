@@ -31,10 +31,7 @@ Widget TopBarDesign(String fullname) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(fullname, style:TextStyle(fontSize: 17,fontWeight: FontWeight.w500)),
-                  Text("Welcome to your course!",
-                      style: TextStyle(
-                          color: Colors.grey[100], fontSize: 15, height: 1.5)),
+                  Text(fullname, style:TextStyle(fontSize: 17,fontWeight: FontWeight.bold)),
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: Text(
@@ -43,7 +40,7 @@ Widget TopBarDesign(String fullname) {
                         fontSize: 28.0,
                         fontFamily: 'Sens-serif',
                         color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),

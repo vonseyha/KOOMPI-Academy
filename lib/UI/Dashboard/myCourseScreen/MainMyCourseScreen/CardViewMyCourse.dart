@@ -218,6 +218,7 @@ ScrollController scrollController = new ScrollController();
                                   privacy: listPerson[index].getPrivacy(),
                                   category: listPerson[index].getCategories(),
                                   description: listPerson[index].getDescription(),
+                                  thumbnail: listPerson[index].getThumbnail(),
                                   refetchCourse: fillList,
                                   onDeleteClick: onDeleteClick,
                                   onUpdateClick: onClickUpdateCourse,

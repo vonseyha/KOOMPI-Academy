@@ -16,7 +16,7 @@ class ShowPupPopMenu extends StatefulWidget {
   final int index;
   final String privacy;
   final List category;
-  final Future<File> thumbnail;
+  final String thumbnail;
   final String description;
   final Function refetchCourse;
   final Function onDeleteClick;
