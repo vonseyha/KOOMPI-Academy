@@ -7,6 +7,13 @@ import 'package:koompi_academy_project/UI/Home/homedisplay.dart';
 import 'package:koompi_academy_project/UI/SignUP/signupscreen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:koompi_academy_project/UI/Widget/Dialog/reuse_dialog_displayforgot_pass.dart';
+import 'package:koompi_academy_project/UI/Widget/Form/reuse_materialButton.dart';
+import 'package:koompi_academy_project/UI/Widget/Form/reuse_remember_checkbox.dart';
+import 'package:koompi_academy_project/UI/Widget/Form/reuse_signBtn.dart';
+import 'package:koompi_academy_project/UI/Widget/Form/reuse_textform.dart';
+import 'package:koompi_academy_project/UI/Widget/Form/reuse_textform_fill.dart';
+import 'package:koompi_academy_project/UI/Widget/Form/reuse_toastMs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'JwtDecode.dart';
 
@@ -16,10 +23,10 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
+  TextStyle style =
+      TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
 
   String _email;
   String _password;
@@ -28,7 +35,7 @@ class _LoginState extends State<Login> {
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
   bool _passwordVisible = true;
-  
+
   //*************** Login Connect to back-end************//
   String alertText;
   String msg;
@@ -36,7 +43,9 @@ class _LoginState extends State<Login> {
   Future<String> login(String email, String password, context) async {
     String token;
     String role;
-    var response = await http.post("https://learnbackend.koompi.com/login", body: {//http://192.168.1.145:6001/login
+    var response =
+        await http.post("https://learnbackend.koompi.com/login", body: {
+      //http://192.168.1.145:6001/login
       'email': email,
       'password': password,
     });
@@ -45,17 +54,18 @@ class _LoginState extends State<Login> {
     if (response.statusCode == 200) {
       SharedPreferences isToken = await SharedPreferences.getInstance();
       var responseJson = json.decode(response.body);
-       final data = jsonDecode(response.body);
+      final data = jsonDecode(response.body);
       token = responseJson['token'];
       role = responseJson['role'];
       print(role.toString());
       print(response.body);
       isToken.setString('saved_email', email);
       if (token != null) {
-        isToken.setString('token', token);//Set Key to checkUser
-        JwtDecode.tryParseJwt(token,context);
+        isToken.setString('token', token); //Set Key to checkUser
+        JwtDecode.tryParseJwt(token, context);
         msg = "Login Successful";
-        loginToast(msg);
+        //  loginToast(msg);
+        ReuseToastMessage.toastMessage(msg, Color(0xFF4080D6), Colors.white);
         _emailController.clear();
         _passController.clear();
       } else {
@@ -68,29 +78,10 @@ class _LoginState extends State<Login> {
     } else {
       final data = jsonDecode(response.body);
       msg = data['message'];
-      loginToastFail(msg);
+      //loginToastFail(msg);
+      ReuseToastMessage.toastMessage(msg, Colors.red, Colors.white);
     }
     return alertText;
-  }
-
-  loginToastFail(String toast) {
-    return Fluttertoast.showToast(
-        msg: toast,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIos: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white);
-  }
-
-  loginToast(String toast) {
-    return Fluttertoast.showToast(
-        msg: toast,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIos: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white);
   }
 
   //*************** Forgot Password Connect to back-end************//
@@ -103,48 +94,21 @@ class _LoginState extends State<Login> {
     print(email.toString());
   }
 
-  //*************** Sign Up Button************//
-  Widget _buildSignupBtn() {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Signup()));
-        print('Register Button Pressed');
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            child: new Text(
-              "Don't have ann account?",
-              style: new TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 14.0,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          Container(
-            child: new Text(
-              "\tSign Up",
-              style: new TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 14.0,
-                color: Colors.amber,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   //*************** Forgot  Password Button************//
   _forgotPass() {
     return GestureDetector(
       onTap: () {
-        _displayDialog();
+        displayDialogForgotPass(
+            context,
+            _resetemail,
+            () => () {
+                  if (_formKey.currentState.validate()) {
+                    _formKey.currentState.save();
+                    forgotpassword(_resetemail);
+                    print(_resetemail);
+                  }
+                  Navigator.of(context).pop();
+                });
         print("You are forgot password");
       },
       child: Row(
@@ -165,184 +129,9 @@ class _LoginState extends State<Login> {
     );
   }
 
-  //*************** Display Dailog Forgot Password Button************//
-  _displayDialog() async {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            ),
-            content: Container(
-              height: 80.0,
-              width: 310.0,
-              child: Column(
-                children: <Widget>[
-                  Container(
-                      child: new Text(
-                    "FORGOT PASSWORD",
-                    style: new TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'sans-serif',
-                      color: Colors.indigo,
-                    ),
-                  )),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        hintText: "Email",
-                        contentPadding: EdgeInsets.all(15.0),
-                        border: InputBorder.none,
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (val) {
-                        if (val.length == 0)
-                          return "Please enter email";
-                        else if (!val.contains("@"))
-                          return "Please enter valid email";
-                        else
-                          return null;
-                      },
-                      onSaved: (val) => _resetemail = val,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              new FlatButton(
-                child: new Text(
-                  'Cancel',
-                  style: new TextStyle(
-                    fontSize: 13.0,
-                    color: Colors.white,
-                    fontFamily: 'sans-serif',
-                  ),
-                ),
-                color: Colors.blue,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              new FlatButton(
-                child: new Text(
-                  'Submit',
-                  style: new TextStyle(
-                    fontSize: 13.0,
-                    color: Colors.white,
-                    fontFamily: 'sans-serif',
-                  ),
-                ),
-                color: Colors.amber,
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    _formKey.currentState.save();
-                    forgotpassword(_resetemail);
-                    print(_resetemail);
-                  }
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
-  }
-
-  //*************** Login Button************//
-  _loginButon() {
-    return GestureDetector(
-      child: Material(
-        elevation: 5.0,
-        borderRadius: BorderRadius.circular(30.0),
-        color: Colors.lightBlue,
-        child: MaterialButton(
-          splashColor: Colors.lightBlue,
-          onPressed: () {
-            if (_formKey.currentState.validate()) {
-              _formKey.currentState.save();
-              login(_email, _password, context);
-            }
-          },
-          child: Text("LOGIN",
-              textAlign: TextAlign.center,
-              style: style.copyWith(
-                  color: Colors.white, fontWeight: FontWeight.bold)),
-        ),
-      ),
-    );
-  }
-
-  //*************** Email Fill Form************//
-  _emailForm() {
-    return Container(
-        child: TextFormField(
-      style: style,
-      controller: _emailController,
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Email",
-          prefixIcon: Icon(Icons.alternate_email, color: Colors.white70),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          )),
-      keyboardType: TextInputType.emailAddress,
-      validator: (val) {
-        if (val.length == 0)
-          return "Please enter email";
-        else if (!val.contains("@"))
-          return "Please enter valid email";
-        else
-          return null;
-      },
-      onSaved: (val) => _email = val,
-    ));
-  }
-
-  //*************** Password Fill Form************//
-  _passwordForm() {
-    return Container(
-        child: TextFormField(
-      obscureText: _passwordVisible,
-      controller: _passController,
-      style: style,
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Password",
-          prefixIcon: Icon(Icons.lock, color: Colors.white70),
-          suffixIcon: GestureDetector(
-            onTap: () {
-              setState(() {
-                _passwordVisible ^= true;
-              });
-            },
-            child: Icon(
-              _passwordVisible ? Icons.visibility_off : Icons.visibility,
-            ),
-          ),
-          isDense: true,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          )),
-      keyboardType: TextInputType.emailAddress,
-      validator: (val) {
-        if (val.length == 0)
-          return "Please enter password";
-        else if (val.length <= 5)
-          return "Your password should be more then 6 char long";
-        else
-          return null;
-      },
-      onSaved: (val) => _password = val,
-    ));
-  }
-
   //*************** Remember check box************//
-bool get rememberMe => _isRembemerMe;
-bool _isRembemerMe = false;
+  bool get rememberMe => _isRembemerMe;
+  bool _isRembemerMe = false;
 
   Widget remberMeCheckBox() {
     return CheckboxListTile(
@@ -358,7 +147,7 @@ bool _isRembemerMe = false;
     );
   }
 
-   void handleRememberMe(bool value) {
+  void handleRememberMe(bool value) {
     print("Handle Rember Me");
     _isRembemerMe = value;
     SharedPreferences.getInstance().then(
@@ -368,7 +157,7 @@ bool _isRembemerMe = false;
     );
     setState(() {});
   }
-  
+
   void _loadUserEmail() async {
     print("Load Email");
     try {
@@ -387,7 +176,7 @@ bool _isRembemerMe = false;
   void initState() {
     // TODO: implement initState
     super.initState();
-     _loadUserEmail();
+    _loadUserEmail();
   }
 
   @override
@@ -428,7 +217,22 @@ bool _isRembemerMe = false;
                       primaryColorDark: Colors.white70,
                     ),
                     //******Call Widget Email Full Form ******//
-                    child: _emailForm(),
+                    child: ResuseFormFieldEmail(
+                      style: style,
+                      controller: _emailController,
+                      hintText: 'Email',
+                      prefixIcon:
+                          Icon(Icons.alternate_email, color: Colors.white70),
+                      validator: (val) {
+                        if (val.length == 0)
+                          return "Please enter email";
+                        else if (!val.contains("@"))
+                          return "Please enter valid email";
+                        else
+                          return null;
+                      },
+                      onsaved: (val) => _email = val,
+                    ),
                   )),
                   SizedBox(height: 10.0),
                   Container(
@@ -438,7 +242,35 @@ bool _isRembemerMe = false;
                       primaryColorDark: Colors.white70,
                     ),
                     //******Call Widget Password Full Form ******//
-                    child: _passwordForm(),
+                    child: ResuseFormFields(
+                      obscureText: _passwordVisible,
+                      controller: _passController,
+                      style: style,
+                      hintText: "Password",
+                      prefixIcon:
+                          Icon(Icons.lock_outline, color: Colors.white70),
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _passwordVisible ^= true;
+                          });
+                        },
+                        child: Icon(
+                          _passwordVisible
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                      ),
+                      validator: (val) {
+                        if (val.length == 0)
+                          return "Please enter password";
+                        else if (val.length <= 5)
+                          return "Your password should be more then 6 char long";
+                        else
+                          return null;
+                      },
+                      onsaved: (val) => _password = val,
+                    ),
                   )),
                   SizedBox(
                     height: 5.0,
@@ -448,7 +280,24 @@ bool _isRembemerMe = false;
                     height: 05.0,
                   ),
                   //******Call Widget Login Button ******//
-                  _loginButon(),
+                  ReuseMeterialButton(
+                    evaluation: 0.5,
+                    color: Color(0xFF4080D6),
+                    child: MaterialButton(
+                      splashColor: null,
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                          login(_email, _password, context);
+                        }
+                      },
+                      child: Text("LOGIN",
+                          textAlign: TextAlign.center,
+                          style: style.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ),
                   SizedBox(
                     height: 15.0,
                   ),
@@ -464,7 +313,13 @@ bool _isRembemerMe = false;
                             children: <Widget>[
                               Container(
                                 //******Call Widget Sign up  Button ******//
-                                child: _buildSignupBtn(),
+                                child: SignupBtn.buildSignupBtn(
+                                    "Don't have an account?", "Sign Up", () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Signup()));
+                                }),
                               )
                             ],
                           ),
