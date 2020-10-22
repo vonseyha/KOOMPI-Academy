@@ -55,8 +55,6 @@ class _ShowPupPopMenuState extends State<ShowPupPopMenu> {
       child: PopupMenuButton<MyPupopMenu>(
         onSelected: (MyPupopMenu result) {
           if (result == MyPupopMenu.delete) {
-           // widget.onDeleteClick(widget.id, widget.index);
-            print('delete');
             displayDeleteCourse(context, widget.id,widget.onDeleteClick,widget.index);
           } else if (result == MyPupopMenu.edit) {
             Navigator.push(

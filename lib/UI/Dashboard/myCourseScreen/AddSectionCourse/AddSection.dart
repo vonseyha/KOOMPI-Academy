@@ -137,7 +137,6 @@ class _AddSectionState extends State<AddSection> {
                                                _sectionNoController.clear();
                                                 _sectionTitleController.clear();
                                               alertToast("Add Section  Sucessfuly!");
-                                              Navigator.pop(context);
                                             } else {
                                               alertToast("Error!!!");
                                             }

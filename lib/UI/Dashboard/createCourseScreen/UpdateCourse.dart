@@ -10,6 +10,8 @@ import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:koompi_academy_project/UI/Widget/Form/reuse_textform_feild.dart';
+import 'package:koompi_academy_project/UI/Widget/Form/reuse_toastMs.dart';
 import 'getProperty.dart';
 
 class UpdateCourse extends StatefulWidget {
@@ -84,12 +86,14 @@ class _UpdateCourseState extends State<UpdateCourse> {
     super.initState();
     fillList();
     _courseTitleController.text = widget.title;
-    _descriptionController.text = widget.description;
     _categoryName = widget.category[0];
-    if(_image == null){
+    if (_image == null) {
       setState(() {
         imageUrl = widget.thumbnail;
       });
+    }
+    for (var i = 0; i < widget.description.length; i++) {
+      _descriptionController.text = widget.description.replaceAll('<p>', '').replaceAll('</p>', '');
     }
   }
 
@@ -102,56 +106,6 @@ class _UpdateCourseState extends State<UpdateCourse> {
     return null;
   }
 
-  //*****************Course Title Field Form*****************/
-  courseTitleField(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 1.05,
-      child: new TextFormField(
-        controller: _courseTitleController,
-        decoration: new InputDecoration(
-          labelText: "Course Title",
-          fillColor: Colors.white,
-          border: new OutlineInputBorder(
-            borderRadius: new BorderRadius.circular(5.0),
-            borderSide: new BorderSide(),
-          ),
-        ),
-      ),
-    );
-  }
-
-//**************Course Description Field Form*************/
-  courseDescription(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 1.05,
-      child: new TextFormField(
-        controller: _descriptionController,
-        keyboardType: TextInputType.number,
-        decoration: new InputDecoration(
-          labelText: "Course Description",
-          fillColor: Colors.white,
-          border: new OutlineInputBorder(
-            borderRadius: new BorderRadius.circular(5.0),
-            borderSide: new BorderSide(),
-          ),
-          //fillColor: Colors.green
-        ),
-        maxLength: 600,
-        maxLines: 3,
-      ),
-    );
-  }
-
-  loginToastFail(String toast) {
-    return Fluttertoast.showToast(
-        msg: toast,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIos: 1,
-        backgroundColor: Colors.blueAccent,
-        textColor: Colors.white);
-  }
-
 //********Display Image Static and from Gellery************/
   Widget ImageEmpty() {
     return Container(
@@ -159,9 +113,7 @@ class _UpdateCourseState extends State<UpdateCourse> {
       width: 130.0,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: NetworkImage(widget.thumbnail),
-          fit:BoxFit.cover 
-        ),
+            image: NetworkImage(widget.thumbnail), fit: BoxFit.cover),
         border: Border.all(width: 1, color: Colors.grey),
         borderRadius: BorderRadius.circular(10),
       ),
@@ -260,8 +212,8 @@ class _UpdateCourseState extends State<UpdateCourse> {
 
   Future<String> decodeFile(File _images) async {
     String str = _images.toString();
-     var arr = str.split('/');
-     String imageName = arr[arr.length-1];
+    var arr = str.split('/');
+    String imageName = arr[arr.length - 1];
     List<int> compressImage = await FlutterImageCompress.compressWithFile(
       _images.path,
       minHeight: 1300,
@@ -271,7 +223,7 @@ class _UpdateCourseState extends State<UpdateCourse> {
     var multipartFile = new http.MultipartFile.fromBytes(
       'file',
       compressImage,
-      filename:imageName,
+      filename: imageName,
       contentType: MediaType.parse('image/jpeg'),
     );
     /* Make request */
@@ -283,10 +235,11 @@ class _UpdateCourseState extends State<UpdateCourse> {
     /* Getting response */
     response.stream.transform(utf8.decoder).listen((data) {
       Map valueMap = json.decode(data);
-          var mWelcome =  CourseImage.fromJson(valueMap);
-          setState(() {
-            imageUrl =  "http://192.168.1.145:6001/public/uploads/${mWelcome.fileName}";
-          });
+      var mWelcome = CourseImage.fromJson(valueMap);
+      setState(() {
+        imageUrl =
+            "http://192.168.1.145:6001/public/uploads/${mWelcome.fileName}";
+      });
     });
     return imageUrl;
   }
@@ -361,12 +314,26 @@ class _UpdateCourseState extends State<UpdateCourse> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    courseTitleField(context),
+                    ReuseTextFormField(
+                      width: MediaQuery.of(context).size.width / 1.05,
+                      controller: _courseTitleController,
+                      labelText: "Course Title",
+                      color: Colors.white,
+                      maxLine: null,
+                      maxLength: null,
+                    ),
                     sizeHight(),
                     SizedBox(height: 8.0),
                     selectStatusCategory(),
                     sizeHight(),
-                    courseDescription(context),
+                    ReuseTextFormField(
+                      width: MediaQuery.of(context).size.width / 1.05,
+                      controller: _descriptionController,
+                      labelText: "Course Description",
+                      color: Colors.white,
+                      maxLine: 5,
+                      maxLength: 700,
+                    ),
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 5.0),
@@ -390,11 +357,17 @@ class _UpdateCourseState extends State<UpdateCourse> {
                                         _statusName = null;
                                         _categoryName = null;
                                         _descriptionController.clear();
-                                        loginToastFail(result .data['update_course']['message']);
+                                        ReuseToastMessage.toastMessage(
+                                            result.data['update_course']['message'],
+                                            Color(0xFF4080D6),
+                                            Colors.white);
                                         widget.onClickUpdate();
                                         Navigator.pop(context);
                                       } else {
-                                        loginToastFail("Update Error!!!");
+                                        ReuseToastMessage.toastMessage(
+                                            "Update Error!!!",
+                                            Colors.red,
+                                            Colors.white);
                                       }
                                       return result;
                                     },
@@ -411,13 +384,16 @@ class _UpdateCourseState extends State<UpdateCourse> {
                                   ),
                                 );
                               } else {
-                                return loginToastFail("Please fill form!");
+                                return ReuseToastMessage.toastMessage(
+                                    "Please fill form!",
+                                    Color(0xFF4080D6),
+                                    Colors.white);
                               }
                             },
                             child: new Text(
                               "Update Course",
-                              style:
-                                  TextStyle(fontSize: 15.0, color: Colors.white),
+                              style: TextStyle(
+                                  fontSize: 15.0, color: Colors.white),
                             ),
                           ),
                         ),

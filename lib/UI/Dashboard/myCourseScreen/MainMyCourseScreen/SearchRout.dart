@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
+import 'package:koompi_academy_project/Model/CourseModel.dart';
 import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';
 
 import 'ShowPupPopMenu.dart';
+import 'functionbuild.dart';
 
 class SearchCourse extends StatefulWidget {
   final String keySearch;
@@ -15,6 +17,7 @@ class SearchCourse extends StatefulWidget {
 }
 
 class _SearchCourseState extends State<SearchCourse> {
+
   ValueNotifier<GraphQLClient> client = ValueNotifier(
     GraphQLClient(
       cache: InMemoryCache(),
@@ -23,9 +26,78 @@ class _SearchCourseState extends State<SearchCourse> {
   );
   TextEditingController editingSearchController = TextEditingController();
   QueryGraphQL queryGraphQL = QueryGraphQL();
+    bool _loadingCourse = true;
+
+  List deleteCourse;
+  void onDeleteClick(int index) {
+    setState(() {
+      deleteCourse.removeAt(index);
+      print('index $index');
+    });
+  }
+
+  void onClickUpdateCourse() {
+      setState(() {
+      });
+    }
+
+    void fillList() async {
+    QueryGraphQL queryGraphQL = QueryGraphQL();
+    GraphQLClient _client = graphQLConfiguration.clientToQuery();
+    QueryResult result = await _client.query(
+      QueryOptions(
+        documentNode: gql(queryGraphQL.getCourseByOwner("5d52486a1adfbd764bd951f8")),
+      ),
+    );
+    if (!result.hasException) {
+      setState(() {
+        for (var i = 0; i < result.data["courses_by_owner"].length; i++) {
+          listPerson.add(
+            Course(
+              result.data["courses_by_owner"][i]["id"],
+              result.data["courses_by_owner"][i]["org_id"],
+              result.data["courses_by_owner"][i]["title"],
+              result.data["courses_by_owner"][i]["privacy"],
+              result.data["courses_by_owner"][i]["price"],
+              result.data["courses_by_owner"][i]["categories"],
+              result.data["courses_by_owner"][i]["thumbnail"],
+              result.data["courses_by_owner"][i]["description"],
+              result.data["courses_by_owner"][i]["owner_id"],
+              result.data["courses_by_owner"][i]["user"]["fullname"],
+              result.data["courses_by_owner"][i]["views"],
+            ),
+          );
+           _loadingCourse = true;
+        }
+      });
+       _loadingCourse = false;
+    }
+  }
+@override
+  void initState() {
+    fillList();
+    super.initState();
+   }
+
+
 
   @override
   Widget build(BuildContext context) {
+
+    // final searchProducts = query.isEmpty
+    //     ? []
+    //     : data.items
+    //         .where(
+    //           (element) => element.title.toLowerCase().startsWith(
+    //                 query.toLowerCase(),
+    //               ),
+    //         )
+    //         .toList();
+
+    final searchProduct = listPerson.isEmpty 
+          ? listPerson
+          : listPerson.where((element) => element.title.toLowerCase().startsWith(listPerson.toString()));     
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -36,7 +108,6 @@ class _SearchCourseState extends State<SearchCourse> {
               height: 50,
               child: TextField(
                   controller: editingSearchController,
-                  // focusNode: focusNode,
                   style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                   decoration: InputDecoration(
                     enabledBorder: const OutlineInputBorder(
@@ -46,6 +117,7 @@ class _SearchCourseState extends State<SearchCourse> {
                         width: 2,
                       ),
                     ),
+                  
                     focusedBorder: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: Theme.of(context).primaryColor),
@@ -68,198 +140,123 @@ class _SearchCourseState extends State<SearchCourse> {
             ),
           ),
           Expanded(
-            child: GraphQLProvider(
-              client: client,
-              child: Query(
-                options: QueryOptions(
-                  documentNode: gql(
-                      queryGraphQL.searchCourse(editingSearchController.text)),
-                ),
-                builder: (QueryResult result,
-                    {VoidCallback refetch, FetchMore fetchMore}) {
-                  if (result.hasException) {
-                    return Text(result.exception.toString());
-                  }
-                  if (result.loading) {
-                    return Center(child: Image.asset("images/GifLoding.gif"));
-                  }
-                  List repositories = result.data['courses_by_search'];
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: repositories.length == 0
-                            ? Center(
-                                child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("Course Not Found",
-                                      style: TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w800)),
-                                  Image.asset("images/courseempty.gif",
-                                      width: 250, height: 250),
-                                ],
-                              ))
-                            : ListView.builder(
-                                itemCount: repositories.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return GestureDetector(
-                                    onTap: () async {
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) => AddSectionPointCourse(
-                                            // course_id: listPerson[index].getId(),
-                                            // course_title: listPerson[index].getTitle()
-                                            ),
-                                      ));
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10.0, vertical: 2.0),
-                                      child: Card(
-                                        elevation: 2,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        color: Color(0xFFc3c4c5),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              child: ClipRRect(
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(10),
-                                                    topRight:
-                                                        Radius.circular(10)),
-                                                child: Image(
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  height: 170.0,
-                                                  fit: BoxFit.cover,
-                                                  image: NetworkImage(
-                                                      "${repositories[index]['thumbnail']}"),
-                                                  // image:  NetworkImage("${listPerson[index].getThumbnail()}"),
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadiusDirectional
-                                                        .only(
-                                                            bottomEnd:
-                                                                Radius.circular(
-                                                                    10.0),
-                                                            bottomStart:
-                                                                Radius.circular(
-                                                                    10.0)),
-                                                color: Color(0xFFeff1f2),
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Container(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 10.0,
-                                                            left: 20),
-                                                    child: Text(
-                                                      "${repositories[index]['title']}",
-                                                      style: new TextStyle(
-                                                        fontSize: 17.0,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Expanded(
-                                                        flex: 4,
-                                                        child: ListTile(
-                                                          leading: CircleAvatar(
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            radius: 30,
-                                                            child: CircleAvatar(
-                                                              backgroundImage:
-                                                                  NetworkImage(
-                                                                 "${repositories[index]['thumbnail']}"
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          title: Text(
-                                                            "${repositories[index]['user']['fullname']}",
-                                                            style:
-                                                                new TextStyle(
-                                                              fontFamily:
-                                                                  'sans-serif',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontSize: 15.0,
-                                                            ),
-                                                          ),
-                                                          subtitle: Text(
-                                                              '${repositories[index]['views']} views | 1 month ago',
-                                                              style:
-                                                                  new TextStyle(
-                                                                fontSize: 12.0,
-                                                                color: Color(
-                                                                    0xFF4d6890),
-                                                              )),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        flex: 1,
-                                                        child: ShowPupPopMenu(
-                                                          index: index,
-                                                          id: repositories[
-                                                              index]['id'],
-                                                          org_id: repositories[
-                                                              index]['org_id'],
-                                                          title: repositories[
-                                                              index]['title'],
-                                                          price: repositories[
-                                                              index]['price'],
-                                                          privacy: repositories[
-                                                              index]['privacy'],
-                                                          category:
-                                                              repositories[
-                                                                      index]
-                                                                  ['category'],
-                                                          description:
-                                                              repositories[
-                                                                      index][
-                                                                  'description'],
-                                                          // refetchCourse: ,
-                                                          // onDeleteClick: onDeleteClick,
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+            child:  _loadingCourse == true ? Center(child:Image.asset("images/GifLoding.gif")): 
+       ListView.builder(
+      physics: BouncingScrollPhysics(),
+        itemCount: searchProduct.length,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () async {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => AddSectionPointCourse(
+                    course_id: listPerson[index].getId(),
+                    course_title: listPerson[index].getTitle()),
+              ));
+            },
+            child: searchProduct.length == 0 ? Center(child: Text("No Course show")):
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
+              child: Card(
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                color: Color(0xFFc3c4c5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10)),
+                        child: Image(
+                          width: MediaQuery.of(context).size.width,
+                          height: 170.0,
+                          fit: BoxFit.cover,
+                          image: NetworkImage( "${listPerson[index].getThumbnail()}"),
+                          // image:  NetworkImage("${listPerson[index].getThumbnail()}"),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadiusDirectional.only(
+                            bottomEnd: Radius.circular(10.0),
+                            bottomStart: Radius.circular(10.0)),
+                        color: Color(0xFFeff1f2),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.only(top: 10.0, left: 20),
+                            child: Text(
+                              "${listPerson[index].getTitle()}",
+                              style: new TextStyle(
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    radius: 30,
+                                    child: CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                         "${listPerson[index].getThumbnail()}",                                       
                                       ),
                                     ),
-                                  );
-                                },
+                                  ),
+                                  title: Text(
+                                    "${listPerson[index].getFullname()}",
+                                    style: new TextStyle(
+                                      fontFamily: 'sans-serif',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                                  subtitle: Text('${listPerson[index].getView()} views | 1 month ago',
+                                      style: new TextStyle(
+                                        fontSize: 12.0,
+                                        color: Color(0xFF4d6890),
+                                      )),
+                                ),
                               ),
+                              Expanded(
+                                flex: 1,
+                                child: ShowPupPopMenu(
+                                  index: index,
+                                  id: listPerson[index].getId(),
+                                  org_id: listPerson[index].getOrg_id(),
+                                  title: listPerson[index].getTitle(),
+                                  price: listPerson[index].getPrice(),
+                                  privacy: listPerson[index].getPrivacy(),
+                                  category: listPerson[index].getCategories(),
+                                  description: listPerson[index].getDescription(),
+                                  thumbnail: listPerson[index].getThumbnail(),
+                                  refetchCourse: fillList,
+                                  onDeleteClick: onDeleteClick,
+                                  onUpdateClick: onClickUpdateCourse,
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
                       ),
-                    ],
-                  );
-                },
+                    ),
+                  ],
+                ),
               ),
             ),
+          );
+        },
+      ),
           ),
         ],
       ),

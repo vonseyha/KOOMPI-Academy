@@ -13,6 +13,9 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:koompi_academy_project/UI/Dashboard/createCourseScreen/getProperty.dart';
+import 'package:koompi_academy_project/UI/Widget/Form/reuse_textform_feild.dart';
+import 'package:koompi_academy_project/UI/Widget/Form/reuse_toastMs.dart';
+import 'package:koompi_academy_project/UI/auth/reuse_uploadeImage.dart';
 
 class CreateCourse extends StatefulWidget {
   final String owner_id;
@@ -71,54 +74,6 @@ class _CreateCourseState extends State<CreateCourse> {
       return "${object['__typename']}/${object['id']}";
     }
     return null;
-  }
-
-  //*****************Course Title Field Form*****************/
-  courseTitleField(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 1.05,
-      child: new TextFormField(
-        controller: _courseTitleController,
-        decoration: new InputDecoration(
-          labelText: "Course Title",
-          fillColor: Colors.white,
-          border: new OutlineInputBorder(
-            borderRadius: new BorderRadius.circular(5.0),
-            borderSide: new BorderSide(),
-          ),
-        ),
-      ),
-    );
-  }
-//**************Course Description Field Form*************/
-  courseDescription(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 1.05,
-      child: new TextFormField(
-        controller: _descriptionController,
-        decoration: new InputDecoration(
-          labelText: "Course Description",
-          fillColor: Colors.white,
-          border: new OutlineInputBorder(
-            borderRadius: new BorderRadius.circular(5.0),
-            borderSide: new BorderSide(),
-          ),
-        ),
-        maxLength: 300,
-        maxLines: 3,
-      ),
-    );
-  }
-
-  loginToastFail(String toast) {
-    return Fluttertoast.showToast(
-        msg: toast,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIos: 1,
-        backgroundColor: Colors.blueAccent,
-        textColor: Colors.white
-    );
   }
 
 //********Display Image Static and from Gellery************/
@@ -219,10 +174,9 @@ class _CreateCourseState extends State<CreateCourse> {
   setState(() {
     _image = image;
     decodeFile(_image);
+    // ReuseUploadeImage.decodeFile(_image,imageUrl);
   });
-
 }
-
   Future<String>  decodeFile(File _images)async{
     String str = _images.toString();
      var arr = str.split('/');
@@ -234,7 +188,6 @@ class _CreateCourseState extends State<CreateCourse> {
       minWidth: 1000,
       quality: 100,
     );
-    
     var multipartFile = new http.MultipartFile.fromBytes(
       'file',
       compressImage,
@@ -336,12 +289,26 @@ class _CreateCourseState extends State<CreateCourse> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    courseTitleField(context),
+                    ReuseTextFormField(
+                      width: MediaQuery.of(context).size.width / 1.05,
+                      controller: _courseTitleController,
+                      labelText: "Course Title",
+                      color:  Colors.white,
+                      maxLine: null,
+                      maxLength: null,
+                    ),
                     sizeHight(),
                     SizedBox(height: 8.0),
                     selectStatusCategory(),
                     sizeHight(),
-                    courseDescription(context),
+                    ReuseTextFormField(
+                      width: MediaQuery.of(context).size.width / 1.05,
+                      controller: _descriptionController,
+                      labelText: "Course Description",
+                      color:  Colors.white,
+                      maxLine: 5,
+                      maxLength: 700,
+                    ),
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 5.0),
@@ -354,9 +321,9 @@ class _CreateCourseState extends State<CreateCourse> {
                                   if (_courseTitleController.text.isNotEmpty &&
                                       _statusName.isNotEmpty &&
                                       _categoryName.isNotEmpty &&
+                                      imageUrl.isNotEmpty &&
                                       _descriptionController.text.isNotEmpty) {
                                       GraphQLClient _client = graphQLConfiguration.clientToQuery();
-                                       decodeFile(_image);
                                       QueryResult result = await _client.mutate(
                                         MutationOptions(
                                           update: (Cache cache, QueryResult result) {
@@ -366,11 +333,18 @@ class _CreateCourseState extends State<CreateCourse> {
                                                 _categoryName = null;
                                                 imagefile = null;
                                                 _descriptionController.clear();
-                                                print("====================${imageUrl}");
-                                                loginToastFail(result.data['create_course']['message']);
+                                                ReuseToastMessage.toastMessage(
+                                                  result.data['create_course']['message'],
+                                                  Color(0xFF4080D6),
+                                                  Colors.white
+                                                );
                                                 Navigator.pop(context);
                                               } else {
-                                                loginToastFail("Create Error!!!");
+                                                ReuseToastMessage.toastMessage(
+                                                  "Create Error!!!",
+                                                  Colors.red,
+                                                  Colors.white
+                                                );
                                               }
                                               return result;
                                             },
@@ -387,7 +361,11 @@ class _CreateCourseState extends State<CreateCourse> {
                                         ),
                                       );
                                   }else {
-                                     return loginToastFail("Please fill form!");
+                                     return ReuseToastMessage.toastMessage(
+                                       "Please fill form!",
+                                         Color(0xFF4080D6),
+                                         Colors.white
+                                      );
                                   }
                                 },
                                 child: new Text(

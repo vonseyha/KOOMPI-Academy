@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:http/http.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:koompi_academy_project/Model/CourseModel.dart';
 import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';
-import 'package:koompi_academy_project/UI/Login/SharePreference.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'ShowPupPopMenu.dart';
 import 'package:flutter/foundation.dart';
 
 class CardViewMyCourse extends StatefulWidget {
-  final Function refetchCourse;
   final String owner_id;
-  CardViewMyCourse({Key key, this.refetchCourse,this.owner_id}) : super(key: key);
+  CardViewMyCourse({Key key,this.owner_id}) : super(key: key);
 
   @override
   _CardViewMyCourseState createState() => _CardViewMyCourseState();
@@ -26,9 +22,6 @@ class _CardViewMyCourseState extends State<CardViewMyCourse> {
   int _count = 10;
   int _offset = 0;
 ScrollController scrollController = new ScrollController();
-  // MovieLoadMoreStatus loadMoreStatus = MovieLoadMoreStatus.STABLE;
-  // CancelableOperation movieOperation;
-  // int currentPageNumber;
 
   void fillList() async {
     QueryGraphQL queryGraphQL = QueryGraphQL();
@@ -77,39 +70,10 @@ ScrollController scrollController = new ScrollController();
       });
     }
 
-//   bool onNotification(ScrollNotification notification) {
-//   if (notification is ScrollUpdateNotification) {
-//     if (scrollController.position.maxScrollExtent > scrollController.offset &&
-//         scrollController.position.maxScrollExtent - scrollController.offset <=
-//             50) {
-//       if (loadMoreStatus != null &&
-//         loadMoreStatus == MovieLoadMoreStatus.STABLE) {
-//         loadMoreStatus = MovieLoadMoreStatus.LOADING;
-//         movieOperation = CancelableOperation.fromFuture(injector
-//             .movieRepository
-//             .fetchMovies(currentPageNumber + 1)
-//             .then((moviesObject) {
-//           currentPageNumber = moviesObject.page;
-//           loadMoreStatus = MovieLoadMoreStatus.STABLE;
-//           setState(() => listPerson.addAll(moviesObject.movies));
-//         }));
-//       }
-//     }
-//   }
-//   return true;
-// }
-
   @override
   void initState() {
     fillList();
     super.initState();
-    scrollController.addListener(() {
-      double _pixels = scrollController.position.pixels;
-      double _maxScroll = scrollController.position.maxScrollExtent;
-      if (_pixels == _maxScroll) {
-        fillList();
-      }
-    });
    }
 
   @override
@@ -133,8 +97,7 @@ ScrollController scrollController = new ScrollController();
             },
             child: listPerson.length == 0 ? Center(child: Text("No Course show")):
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
               child: Card(
                 elevation: 2,
                 shape: RoundedRectangleBorder(

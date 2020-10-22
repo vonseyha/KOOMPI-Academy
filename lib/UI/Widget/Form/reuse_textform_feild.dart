@@ -19,6 +19,10 @@ class ReuseTextFormField extends StatelessWidget {
         decoration: new InputDecoration(
           labelText: labelText,
           fillColor: color,
+          border: new OutlineInputBorder(
+            borderRadius: new BorderRadius.circular(5.0),
+            borderSide: new BorderSide(),
+          ),
         ),
         maxLines: maxLine,
         maxLength: maxLength,
