@@ -16,7 +16,7 @@ class ShowPupPopMenu extends StatefulWidget {
   final int index;
   final String privacy;
   final List category;
-  final Future<File> thumbnail;
+  final String thumbnail;
   final String description;
   final Function refetchCourse;
   final Function onDeleteClick;
@@ -55,8 +55,6 @@ class _ShowPupPopMenuState extends State<ShowPupPopMenu> {
       child: PopupMenuButton<MyPupopMenu>(
         onSelected: (MyPupopMenu result) {
           if (result == MyPupopMenu.delete) {
-           // widget.onDeleteClick(widget.id, widget.index);
-            print('delete');
             displayDeleteCourse(context, widget.id,widget.onDeleteClick,widget.index);
           } else if (result == MyPupopMenu.edit) {
             Navigator.push(

@@ -146,7 +146,7 @@ displayDeleteSection(BuildContext context, String section_id, Function onDeleteS
 }
 
 //----------------------- Alert Option Point -----------------------//
-displayDeletePoint(BuildContext context, String point_id,Function onDeletePoint, int index) async {
+displayDeletePoint(BuildContext context, String point_id,Function onRefetch) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
   return showDialog(
@@ -222,17 +222,20 @@ displayDeletePoint(BuildContext context, String point_id,Function onDeletePoint,
                             update: (Cache cache, QueryResult result) {
                               if (!result.hasException) {
                                 flutterToastT(result.data['delete_point']['message']);
-                                onDeletePoint(index);
+                                onRefetch();
                                 Navigator.pop(context);
                               } else {
                                 flutterToastT("Update Error!!!");
                               }
                               return result;
                             },
-                            documentNode:
-                                gql(addMutation.deletePoint(point_id)),
+                            documentNode:gql(addMutation.deletePoint(point_id)),
                           ),
+                        
                         );
+                        if(!result.hasException){
+                          print("");
+                        }
                       },
                     ),
                   ],
@@ -245,7 +248,7 @@ displayDeletePoint(BuildContext context, String point_id,Function onDeletePoint,
 }
 
 //----------------------- Alert Option Add Section -----------------------//
-displayAddSection(BuildContext context, String section_id, String section_No,String section_Title , int index,List updateListView) async {
+displayAddSection(BuildContext context, String section_id, String section_No,String section_Title , Function updateListView) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
   _sectionNoController.text = section_No;
@@ -351,7 +354,7 @@ displayAddSection(BuildContext context, String section_id, String section_No,Str
                                 _pointNoController.clear();
                                 _pointTitleController.clear();
                                  flutterToastT(result.data['update_section']['message']);
-                                 updateListView[index];
+                                 updateListView();
                                 Navigator.pop(context);
                                 
                               } else {
@@ -379,8 +382,7 @@ displayAddSection(BuildContext context, String section_id, String section_No,Str
 }
 
 //----------------------- Alert Option Add Point -----------------------//
-displayAddPoint(BuildContext context, String point_id, String point_no,
-    String point_title, String video_link) async {
+displayAddPoint(BuildContext context, String point_id, String point_no, String point_title, String video_link , Function updatePoint) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
   _pointNoController.text = point_no;
@@ -471,8 +473,7 @@ displayAddPoint(BuildContext context, String point_id, String point_no,
                           color: Colors.white,
                         ),
                       ),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(3)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -502,9 +503,9 @@ displayAddPoint(BuildContext context, String point_id, String point_no,
                                     _pointNoController.clear();
                                     _pointTitleController.clear();
                                     _videoLinkController.clear();
+                                    flutterToastT(result.data['update_point']['message']);
+                                    updatePoint();
                                     Navigator.pop(context);
-                                    flutterToastT(
-                                        result.data['update_point']['message']);
                                   } else {
                                     flutterToastF("Update Error!!!");
                                   }

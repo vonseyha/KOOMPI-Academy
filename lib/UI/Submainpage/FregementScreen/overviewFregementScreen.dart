@@ -48,8 +48,7 @@ class _ContentFregementState extends State<ContentFregement> {
                     var desc;
                     var string = repositories[index]['description'];
                     for (var i = 0; i < string.length; i++) {
-                      desc =
-                          string.replaceAll('<p>', '').replaceAll('</p>', '');
+                      desc =  string.replaceAll('<p>', '').replaceAll('</p>', '');
                     }
 
                     return Column(
