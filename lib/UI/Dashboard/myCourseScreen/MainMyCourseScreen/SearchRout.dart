@@ -73,30 +73,26 @@ class _SearchCourseState extends State<SearchCourse> {
        _loadingCourse = false;
     }
   }
+
 @override
   void initState() {
     fillList();
     super.initState();
    }
 
-
-
   @override
   Widget build(BuildContext context) {
 
-    // final searchProducts = query.isEmpty
-    //     ? []
-    //     : data.items
-    //         .where(
-    //           (element) => element.title.toLowerCase().startsWith(
-    //                 query.toLowerCase(),
-    //               ),
-    //         )
-    //         .toList();
-
-    final searchProduct = listPerson.isEmpty 
-          ? listPerson
-          : listPerson.where((element) => element.title.toLowerCase().startsWith(listPerson.toString()));     
+    final searchProducts = editingSearchController.text.isEmpty
+        ? listPerson
+        : listPerson
+            .where(
+              (element) => element.getTitle().toString()
+                    .toLowerCase().startsWith(
+                    editingSearchController.text.toLowerCase(),
+                  ),
+            )
+            .toList();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -140,10 +136,10 @@ class _SearchCourseState extends State<SearchCourse> {
             ),
           ),
           Expanded(
-            child:  _loadingCourse == true ? Center(child:Image.asset("images/GifLoding.gif")): 
+            child:  _loadingCourse == true ? Center(child:Image.asset("images/gif.gif",width: 120,)): 
        ListView.builder(
       physics: BouncingScrollPhysics(),
-        itemCount: searchProduct.length,
+        itemCount: searchProducts.length,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () async {
@@ -153,7 +149,7 @@ class _SearchCourseState extends State<SearchCourse> {
                     course_title: listPerson[index].getTitle()),
               ));
             },
-            child: searchProduct.length == 0 ? Center(child: Text("No Course show")):
+            child: searchProducts.length == 0 ? Center(child: Text("No Course show")):
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
               child: Card(

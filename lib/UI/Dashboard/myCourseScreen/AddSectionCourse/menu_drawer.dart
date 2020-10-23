@@ -59,14 +59,6 @@ class _EndDrawerState extends State<EndDrawer> {
         ],
       );
 
-  ValueNotifier<GraphQLClient> client = ValueNotifier(
-    GraphQLClient(
-      cache: InMemoryCache(),
-      link: HttpLink(uri: 'http://192.168.1.145:6001/private/api'),
-    ),
-  );
-
-  QueryGraphQL queryGraphQL = QueryGraphQL();
 
   void onDeleteSection(int index) {
     setState(() {
@@ -74,8 +66,8 @@ class _EndDrawerState extends State<EndDrawer> {
     });
   }
 
-  List deletePoint;
-  void onDeletePoint(int index1) {
+  
+  void onDeletePoint(List deletePoint, int index1) {
     setState(() {
       deletePoint.removeAt(index1);
     });
@@ -86,6 +78,7 @@ class _EndDrawerState extends State<EndDrawer> {
     fillList();
   }
 
+ bool loadingSections = true;
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   List getSection = List();
   void fillList() async {
@@ -101,8 +94,9 @@ class _EndDrawerState extends State<EndDrawer> {
           setState(() {
             getSection.add(result.data['sections'][i]);
           });
-          
+            loadingSections = true;
         }
+         loadingSections = false;
     }
   }
 
@@ -116,84 +110,86 @@ class _EndDrawerState extends State<EndDrawer> {
   Widget build(BuildContext context) {
     return Drawer(
       child: Expanded(
-        child: ListView.builder(
+        child: loadingSections == true
+          ? Center(child: Image.asset("images/gif.gif",width: 100,))
+          :  ListView.builder(
           itemCount: getSection.length,
           itemBuilder: (BuildContext context, int index) {
-            return Column(
-              children: [
-                ExpansionTile(
-                  leading: _simplePopup(
-                    getSection[index]["id"],
-                    getSection[index]["no"],
-                    getSection[index]["title"],
-                    onDeleteSection,
-                    index,
-                    updateListView,
-                  ),
-                  title: Text( " ${getSection[index]["no"]}.\t${getSection[index]["title"]}",
-                    maxLines: 2,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  children: <Widget>[
-                    if (getSection[index].containsKey("points"))
-                      for (var a = 0 ; a <  getSection[index]["points"].length ; a++)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                    " ${getSection[index]["points"][a]["no"]}.\t${getSection[index]["points"][a]["title"]}",
-                                    maxLines: 3,
-                                    style: TextStyle(fontSize: 14)),
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 30,
-                                    child: IconButton(
-                                      onPressed: () {
-                                        displayAddPoint(
-                                          context,
-                                          getSection[index]["points"][a]["id"],
-                                          getSection[index]["points"][a]["no"],
-                                          getSection[index]["points"][a]["title"],
-                                          getSection[index]["points"][a]  ["video_link"],
-                                          updateListView,
-                                        );
-                                      },
-                                      icon: Icon(Icons.edit,
-                                          size: 15, color: Colors.grey),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 15.0,
-                                    child: IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          deletePoint = getSection[index]['points'];
-                                        });
-                                        displayDeletePoint(
+            print(getSection.length);
+             print(index);
+            return Expanded(
+              child: Column(
+                children: [
+                   ExpansionTile(
+                    leading: _simplePopup(
+                      getSection[index]["id"],
+                      getSection[index]["no"],
+                      getSection[index]["title"],
+                      onDeleteSection,
+                      index,
+                      updateListView,
+                    ),
+                    title: Text( " ${getSection[index]["no"]}.\t${getSection[index]["title"]}",
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    children: <Widget>[
+                      if (getSection[index].containsKey("points"))
+                        for (int a = 0 ; a <  getSection[index]["points"].length ; a++)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                      " ${getSection[index]["points"][a]["no"]}.\t${getSection[index]["points"][a]["title"]}",
+                                      maxLines: 3,
+                                      style: TextStyle(fontSize: 14)),
+                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 30,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          displayAddPoint(
                                             context,
                                             getSection[index]["points"][a]["id"],
-                                            onDeletePoint,
-                                            a,
+                                            getSection[index]["points"][a]["no"],
+                                            getSection[index]["points"][a]["title"],
+                                            getSection[index]["points"][a]  ["video_link"],
+                                            updateListView,
                                           );
-                                      },
-                                      icon: Icon(Icons.delete,
-                                          size: 15, color: Colors.grey),
+                                        },
+                                        icon: Icon(Icons.edit,
+                                            size: 15, color: Colors.grey),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              )
-                            ],
+                                    Container(
+                                      width: 15.0,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          displayDeletePoint(
+                                              context,
+                                              getSection[index]["points"][a]["id"],
+                                              updateListView,
+                                            );
+                                        },
+                                        icon: Icon(Icons.delete,
+                                            size: 15, color: Colors.grey),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             );
           },
         ),

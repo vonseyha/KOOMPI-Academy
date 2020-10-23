@@ -146,7 +146,7 @@ displayDeleteSection(BuildContext context, String section_id, Function onDeleteS
 }
 
 //----------------------- Alert Option Point -----------------------//
-displayDeletePoint(BuildContext context, String point_id,Function onDeletePoint, int index) async {
+displayDeletePoint(BuildContext context, String point_id,Function onRefetch) async {
   var H = MediaQuery.of(context).size.height;
   var W = MediaQuery.of(context).size.width;
   return showDialog(
@@ -222,7 +222,7 @@ displayDeletePoint(BuildContext context, String point_id,Function onDeletePoint,
                             update: (Cache cache, QueryResult result) {
                               if (!result.hasException) {
                                 flutterToastT(result.data['delete_point']['message']);
-                                onDeletePoint(index);
+                                onRefetch();
                                 Navigator.pop(context);
                               } else {
                                 flutterToastT("Update Error!!!");
