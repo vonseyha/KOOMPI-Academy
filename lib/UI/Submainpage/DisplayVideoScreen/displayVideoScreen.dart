@@ -34,8 +34,38 @@ class _PortfolioTutorialDetailPageState
 
   List<LinkVideo> list = List<LinkVideo>();
   GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
-  String video;
-  String videoId;
+
+  // void filllist() async {
+  //   QueryData queryData = QueryData();
+  //   GraphQLClient client = graphqlVideoConf.clientToQuery();
+  //   QueryResult result = await client.query(QueryOptions(
+  //       documentNode: gql(queryData.getInitVideo(widget.course_Id))));
+  //   if (!result.hasException) {
+  //     for (var i = 0; i < result.data['sections'].length; i++) {
+  //       if (result.data['sections'].containKeys('points')) {
+  //         list.add(LinkVideo(
+  //           result.data['sections'][i]['points']['video_link'],
+  //         ));
+  //         setState(() {
+  //           videoId = result.data['sections'][i]['points']['video_link'];
+  //         });
+  //         print(
+  //             '++++++++++++++++++++++++++++++++++${result.data['sections'][i]['points']['video_link']}');
+  //       }
+  //     }
+  //   }
+  // }
+
+  ///////////////
+  String videoId = "aaCx0t9hD7Q";
+  // create variable to compare with result
+
+  //use method to set its state
+  // void link(){
+  //   setState(() {
+  //     videoId = //id from result
+  //   });
+  // }
 
   TabController _tabController;
 
@@ -59,9 +89,10 @@ class _PortfolioTutorialDetailPageState
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() => setState(() {}));
-    videoId = "aaCx0t9hD7Q";
 
     //-------------------------------Play Video ---------------------------------------//
+    //call it function
+    // filllist();
     _controller = YoutubePlayerController(
       initialVideoId: videoId,
       flags: YoutubePlayerFlags(
@@ -150,7 +181,7 @@ class _PortfolioTutorialDetailPageState
                   _isPlayerReady = true;
                 },
                 onEnded: (data) {
-                  _controller.load(video);
+                  _controller.load(videoId);
                   _showSnackBar('Next Video Started!');
                 },
               ),

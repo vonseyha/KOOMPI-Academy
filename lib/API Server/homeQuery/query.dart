@@ -52,11 +52,9 @@ class QueryData {
        """;
   }
 
-
   // ------------------------------------ Query fetch data of contents of course ------------------------------------------//
-  String getContentCourse(String courseID){
-    return 
-    """
+  String getContentCourse(String courseID) {
+    return """
       query{
       sections(course_id:"$courseID"){
         id
@@ -74,10 +72,21 @@ class QueryData {
     """;
   }
 
+  String getInitVideo(String courseID) {
+    return """
+      query{
+      sections(course_id:"$courseID"){
+        points{
+          video_link
+        }
+      }
+    }
+    """;
+  }
+
   // ------------------------------------ Query fetch data of overview of course ------------------------------------------//
-  String getOverviewCourse(String courseTitle){
-    return 
-    """
+  String getOverviewCourse(String courseTitle) {
+    return """
     query{
       courses_by_search(search:"$courseTitle"){
         id
@@ -85,12 +94,11 @@ class QueryData {
       }
     }
     """;
-
   }
+
 // ------------------------------------ Query fetch course by categories ------------------------------------------//
-  String getCourseByCategories(String categoryName){
-    return 
-    """
+  String getCourseByCategories(String categoryName) {
+    return """
     query{
       courses_by_category(query:"$categoryName"){
             id
@@ -106,8 +114,4 @@ class QueryData {
     }
     """;
   }
-  
 }
-
-
-
