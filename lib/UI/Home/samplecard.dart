@@ -73,7 +73,6 @@ class _SampleGridState extends State<SampleGrid> {
                       course_Id: list[index].getId(),
                       course_Title: list[index].getTitle(),
                     )));
-            print('it will display the video');
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),

@@ -23,7 +23,6 @@ class _FregementContentState extends State<FregementContent> {
 
   @override
   Widget build(BuildContext context) {
-    var datawh = MediaQuery.of(context);
     return GraphQLProvider(
       client: clientdata,
       child: Scaffold(
@@ -69,8 +68,6 @@ class _FregementContentState extends State<FregementContent> {
                             ),
                           ),
                           onTap: () async {
-                            print(
-                                " ${repositories[index]["points"][a]["video_link"]}");
                             SharedPreferences isToken =
                                 await SharedPreferences.getInstance();
                             isToken.setString("video_link",

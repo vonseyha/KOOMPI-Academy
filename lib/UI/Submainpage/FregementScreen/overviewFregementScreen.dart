@@ -39,7 +39,7 @@ class _ContentFregementState extends State<ContentFregement> {
                         SpinKitFadingCircle(color: Colors.blueGrey, size: 40),
                   );
                 }
-                print("-----------------------${widget.courseTitle}");
+
                 var dataw = MediaQuery.of(context);
                 List repositories = result.data['courses_by_search'];
                 return ListView.builder(
@@ -51,7 +51,7 @@ class _ContentFregementState extends State<ContentFregement> {
                       desc =
                           string.replaceAll('<p>', '').replaceAll('</p>', '');
                     }
-                    print('++++++++++++++++++++$desc');
+
                     return Column(
                       children: <Widget>[
                         Container(
