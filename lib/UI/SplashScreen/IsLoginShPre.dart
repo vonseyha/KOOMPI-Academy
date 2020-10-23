@@ -16,5 +16,4 @@ class SharePrefer{
     String option = sharedPreferences.getString('seen');
     return option;
   }
-
 }

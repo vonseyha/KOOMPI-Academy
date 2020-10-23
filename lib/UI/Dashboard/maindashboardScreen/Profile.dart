@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/UI/Home/bottom_sheet_shape.dart';
+import 'package:koompi_academy_project/UI/SplashScreen/IsLoginShPre.dart';
+import 'package:koompi_academy_project/UI/SplashScreen/splashscreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -8,9 +12,55 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+ 
   TextStyle _style() {
     return TextStyle(fontWeight: FontWeight.bold);
   }
+  
+
+  @override
+  void initState() {
+    super.initState();
+    SharePrefer.isLogin().then((value) =>{
+      if(value != null){
+        jwtDecode(value),
+      }
+    });
+  }
+
+  String id;
+  String fullname;
+  String email;
+  String role;
+
+ Future<String> jwtDecode(String token){
+     if (token == null) return null;
+        final parts = token.split('.');
+        if (parts.length != 3) {
+          return null;
+        }
+        final payload = parts[1];
+        var normalized = base64Url.normalize(payload);
+        var resp = utf8.decode(base64Url.decode(normalized));
+        final payloadMap = json.decode(resp);
+        if (payloadMap is! Map<String, dynamic>) {
+          return null;
+        }
+        setState(() {
+          id = payloadMap['id']; 
+          fullname = payloadMap['fullname'];
+          email = payloadMap['email'];
+          role = payloadMap['role']; 
+        });
+  }
+
+  Future<void > signOut() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('seen');
+    prefs.remove('token');
+    prefs.remove('role');
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +92,14 @@ class _ProfileState extends State<Profile> {
                           ),
                           SizedBox(height: 4.0),
                           Text(
-                            "Tang Eamseng",
+                            fullname,
                             style: TextStyle(
-                              fontSize: 21.0,
+                              fontSize: 18.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            "Teacher",
+                            role,
                             style: TextStyle(
                               fontSize: 12.0,
                               color: Colors.grey[700],
@@ -123,9 +173,9 @@ class _ProfileState extends State<Profile> {
                         Text("Fullname:", style: TextStyle(fontSize: 15)),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text("Von Seyha",
+                          child: Text(fullname,
                               style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w600)),
+                                  fontSize: 16, fontWeight: FontWeight.w600)),
                         ),
                       ],
                     )),
@@ -136,9 +186,9 @@ class _ProfileState extends State<Profile> {
                         Text("Email:", style: TextStyle(fontSize: 15)),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text("seyhavon22@gmail.com",
+                          child: Text(email,
                               style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w600)),
+                                  fontSize: 16, fontWeight: FontWeight.w600)),
                         ),
                       ],
                     )),
@@ -289,7 +339,8 @@ class _ProfileState extends State<Profile> {
                     Expanded(
                       child: MaterialButton(
                         onPressed: () {
-                          print("Logouted");
+                          signOut();
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SplashScreen()));
                         },
                         color: Theme.of(context).scaffoldBackgroundColor,
                         child: Text(
