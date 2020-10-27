@@ -1,15 +1,12 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:koompi_academy_project/UI/Dashboard/maindashboardScreen/dashboardScreen.dart';
-import 'package:koompi_academy_project/UI/Home/homedisplay.dart';
 import 'package:koompi_academy_project/UI/Login/JwtDecode.dart';
 import 'package:koompi_academy_project/UI/Login/loginscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'IsLoginShPre.dart';
 import 'data.dart';
 import 'funtion-build.dart';
-import 'package:koompi_academy_project/UI/Login/SharePreference.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -136,7 +133,6 @@ class _HomeState extends State<SplashScreen> {
               )
             : InkWell(
                 onTap: () {
-                  print("Get Started Now");
                   SharePrefer.isLogin().then((value) {
                     if (value != null) {
                       JwtDecode.tryParseJwt(value,context);

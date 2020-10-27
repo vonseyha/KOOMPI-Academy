@@ -1,11 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:koompi_academy_project/API%20Server/grapqlMutation/api.dart';
-import 'package:koompi_academy_project/Model/CourseModel.dart';
 import 'package:koompi_academy_project/UI/Dashboard/createCourseScreen/UpdateCourse.dart';
-import 'package:koompi_academy_project/UI/Home/property.dart';
 import 'functionbuild.dart';
 
 class ShowPupPopMenu extends StatefulWidget {

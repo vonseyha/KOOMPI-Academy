@@ -49,10 +49,7 @@ class _addUserState extends State<addUser> {
             document: CREATE_USER,
             update: (Cache cache, QueryResult result) {
               if (!result.hasException) {
-                ReuseToastMessage.toastMessage(
-                    "Register Sucessfuly.", Color(0xFF4080D6), Colors.white);
-                print(
-                    "Your name: $_username and Your email: $_email and Password: $_password");
+                ReuseToastMessage.toastMessage( "Register Sucessfuly.", Color(0xFF4080D6), Colors.white);
                 _usernaController.clear();
                 _emailController.clear();
                 _passController.clear();

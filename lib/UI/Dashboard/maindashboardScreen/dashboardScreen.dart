@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
-import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
-import 'package:koompi_academy_project/Model/CourseModel.dart';
-import 'package:koompi_academy_project/UI/Home/profile.dart';
 import '../../../constants.dart';
 import 'Profile.dart';
 import 'StatisticDashboard.dart';

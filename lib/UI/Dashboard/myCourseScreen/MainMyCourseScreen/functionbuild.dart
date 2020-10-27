@@ -4,7 +4,6 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
 import 'package:koompi_academy_project/Model/CourseModel.dart';
-import 'myCourse.dart';
 
 GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
 QueryMutation addMutation = QueryMutation();

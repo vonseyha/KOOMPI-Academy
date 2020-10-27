@@ -114,4 +114,24 @@ class QueryData {
     }
     """;
   }
+
+  // -------------------------------------- Query fetch course by search ---------------------------------------------//
+  String getCourseBySearch(String query){
+    return 
+    """
+      query{
+        courses_by_search(search:""){
+          id
+          title
+          feature_image
+          views
+          user{
+            fullname
+            avatar
+          }
+        }
+      }
+    """;
+  }
+
 }

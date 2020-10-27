@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/UI/Dashboard/maindashboardScreen/Profile.dart';
-import 'package:koompi_academy_project/UI/Home/profile.dart';
 import 'package:koompi_academy_project/UI/Home/property.dart';
 
 class DrawerScreen extends StatefulWidget {
