@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:koompi_academy_project/UI/SplashScreen/splashscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Dashboard/maindashboardScreen/dashboardScreen.dart';
 import 'Login/JwtDecode.dart';
 import 'Login/loginscreen.dart';
-import 'SplashScreen/IsLoginShPre.dart';
-
 class Splash extends StatefulWidget {
   @override
   _SplashState createState() => _SplashState();
@@ -32,7 +29,6 @@ class _SplashState extends State<Splash> {
     Timer(Duration(seconds: 3), () {
       _isSeen().then((value) {
         if (value == "true") {
-          // print(' seen');
           _isToken().then((value) {
             if (value != null) {
               JwtDecode.tryParseJwt(value, context);

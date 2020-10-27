@@ -1,15 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:koompi_academy_project/UI/Dashboard/maindashboardScreen/dashboardScreen.dart';
-import 'package:koompi_academy_project/UI/Home/homedisplay.dart';
 import 'package:koompi_academy_project/UI/SignUP/signupscreen.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:koompi_academy_project/UI/Widget/Dialog/reuse_dialog_displayforgot_pass.dart';
 import 'package:koompi_academy_project/UI/Widget/Form/reuse_materialButton.dart';
-import 'package:koompi_academy_project/UI/Widget/Form/reuse_remember_checkbox.dart';
 import 'package:koompi_academy_project/UI/Widget/Form/reuse_signBtn.dart';
 import 'package:koompi_academy_project/UI/Widget/Form/reuse_textform.dart';
 import 'package:koompi_academy_project/UI/Widget/Form/reuse_textform_fill.dart';
@@ -25,8 +20,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextStyle style =
-      TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
+  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0, color: Colors.white);
 
   String _email;
   String _password;
@@ -42,7 +36,6 @@ class _LoginState extends State<Login> {
 
   Future<String> login(String email, String password, context) async {
     String token;
-    String role;
     var response =
         await http.post("https://learnbackend.koompi.com/login", body: {
       //http://192.168.1.145:6001/login
@@ -54,17 +47,12 @@ class _LoginState extends State<Login> {
     if (response.statusCode == 200) {
       SharedPreferences isToken = await SharedPreferences.getInstance();
       var responseJson = json.decode(response.body);
-      final data = jsonDecode(response.body);
       token = responseJson['token'];
-      role = responseJson['role'];
-      print(role.toString());
-      print(response.body);
       isToken.setString('saved_email', email);
       if (token != null) {
         isToken.setString('token', token); //Set Key to checkUser
         JwtDecode.tryParseJwt(token, context);
         msg = "Login Successful";
-        //  loginToast(msg);
         ReuseToastMessage.toastMessage(msg, Color(0xFF4080D6), Colors.white);
         _emailController.clear();
         _passController.clear();
@@ -78,7 +66,6 @@ class _LoginState extends State<Login> {
     } else {
       final data = jsonDecode(response.body);
       msg = data['message'];
-      //loginToastFail(msg);
       ReuseToastMessage.toastMessage(msg, Colors.red, Colors.white);
     }
     return alertText;
@@ -159,7 +146,6 @@ class _LoginState extends State<Login> {
   }
 
   void _loadUserEmail() async {
-    print("Load Email");
     try {
       SharedPreferences _prefs = await SharedPreferences.getInstance();
       _email = _prefs.getString("saved_email") ?? "";

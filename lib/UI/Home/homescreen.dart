@@ -92,7 +92,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       )
                     : null,
-
             title: Image(
               image: AssetImage('images/koompi_academy_black.png'),
               width: 170,
@@ -176,12 +175,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 : null,
           ),
           body: Padding(
-            padding: const EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 8),
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.12,
+                    height: MediaQuery.of(context).size.height * 0.15,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: categories.length,

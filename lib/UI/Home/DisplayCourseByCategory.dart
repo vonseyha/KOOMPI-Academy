@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/query.dart';
 import 'package:koompi_academy_project/UI/Submainpage/DisplayVideoScreen/displayVideoScreen.dart';
 import 'package:intl/intl.dart';
 import '../../constants.dart';
-import 'detailcategory.dart';
-import 'property.dart';
 
 class DisplayCourseByCategories extends StatefulWidget {
   final String name;
@@ -88,14 +84,6 @@ class _DisplayCourseByCategoriesState extends State<DisplayCourseByCategories> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text(
-                "${toBeginningOfSentenceCase(widget.name)} Courses",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600),
-              ),
-            ),
             Expanded(
               child: GraphQLProvider(
                 client: clientdata,
@@ -110,8 +98,7 @@ class _DisplayCourseByCategoriesState extends State<DisplayCourseByCategories> {
                     }
                     if (result.loading) {
                       return Center(
-                        child: SpinKitFadingCircle(
-                            color: Colors.blueGrey, size: 50),
+                        child: Center(child: Image.asset("images/gif.gif",width: 120,)),
                       );
                     }
                     List repositories = result.data['courses_by_category'];

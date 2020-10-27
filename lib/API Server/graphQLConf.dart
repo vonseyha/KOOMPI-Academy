@@ -18,7 +18,7 @@ class GraphQLConfiguration {
       // uri: "http://127.0.0.1:6001/private/api",
       // uri: "http://10.0.2.2:6001/private/api",
        // uri: "http://192.168.1.26:6001/private/api",
-       //'http://192.168.1.144:6001/private/api'  for koompi attacks
+       //'http://192.168.1.145:6001/private/api'  for koompi attacks
        //http://192.168.43.210:6001/private/api for my phone 
 
   ValueNotifier<GraphQLClient> linkclient = ValueNotifier(

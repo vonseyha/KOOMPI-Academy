@@ -74,40 +74,37 @@ class _SearchCourseState extends State<SearchCourse> {
     }
   }
 
-  
-
   void filterSearchResults(String query) {
-  List<Course> dummySearchList = List<Course>();
-  dummySearchList.addAll(listPerson);
-  if(query.isNotEmpty) {
-    List<Course> dummyListData = List<Course>();
-    dummySearchList.forEach((item) {
-      if(item.getTitle().contains(query)) {
-        dummyListData.add(item);
-      }
-    });
-    setState(() {
-      listPerson.clear();
-      listPerson.addAll(dummyListData);
-    });
-    return;
-  } else {
-    setState(() {
-      listPerson.clear();
-     fillList();
-    });
+    List<Course> dummySearchList = List<Course>();
+    dummySearchList.addAll(listPerson);
+    if (query.isNotEmpty) {
+      List<Course> dummyListData = List<Course>();
+      dummySearchList.forEach((item) {
+        if (item.getTitle().contains(query)) {
+          dummyListData.add(item);
+        }
+      });
+      setState(() {
+        listPerson.clear();
+        listPerson.addAll(dummyListData);
+      });
+      return;
+    } else {
+      setState(() {
+        listPerson.clear();
+        fillList();
+      });
+    }
   }
-}
 
   @override
   void initState() {
     fillList();
     super.initState();
   }
-  
 
   @override
-  Widget build(BuildContext context) {  
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -261,14 +258,23 @@ class _SearchCourseState extends State<SearchCourse> {
                                                   flex: 1,
                                                   child: ShowPupPopMenu(
                                                     index: index,
-                                                    id: listPerson[index] .getId(),
-                                                    org_id: listPerson[index].getOrg_id(),
-                                                    title: listPerson[index].getTitle(),
-                                                    price: listPerson[index] .getPrice(),
-                                                    privacy: listPerson[index].getPrivacy(),
-                                                    category: listPerson[index].getCategories(),
-                                                    description: listPerson[index].getDescription(),
-                                                    thumbnail: listPerson[index].getThumbnail(),
+                                                    id: listPerson[index]
+                                                        .getId(),
+                                                    org_id: listPerson[index]
+                                                        .getOrg_id(),
+                                                    title: listPerson[index]
+                                                        .getTitle(),
+                                                    price: listPerson[index]
+                                                        .getPrice(),
+                                                    privacy: listPerson[index]
+                                                        .getPrivacy(),
+                                                    category: listPerson[index]
+                                                        .getCategories(),
+                                                    description:
+                                                        listPerson[index]
+                                                            .getDescription(),
+                                                    thumbnail: listPerson[index]
+                                                        .getThumbnail(),
                                                     refetchCourse: fillList,
                                                     onDeleteClick:
                                                         onDeleteClick,

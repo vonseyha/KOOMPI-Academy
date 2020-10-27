@@ -1,12 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:koompi_academy_project/Model/CourseModel.dart';
-import 'package:koompi_academy_project/Model/SectionModel.dart';
-import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/MainMyCourseScreen/functionbuild.dart';
-import 'package:koompi_academy_project/UI/Submainpage/CommentPage/commentScreen.dart';
 import 'functionbuild.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 

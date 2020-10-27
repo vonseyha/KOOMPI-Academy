@@ -1,4 +1,4 @@
-import 'package:chewie/chewie.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';

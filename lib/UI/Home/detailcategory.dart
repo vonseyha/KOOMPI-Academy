@@ -104,7 +104,6 @@ class _DetailCardState extends State<DetailCard> {
                     builder: (context) => PortfolioTutorialDetailPage(
                         course_Id: list[index].getId())));
                 // _buildRippleEffectNavigation(context,list[index].getId());
-                print("Click To Viceo Play");
               },
               child: Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 10),

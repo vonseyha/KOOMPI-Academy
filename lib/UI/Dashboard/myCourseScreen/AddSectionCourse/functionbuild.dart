@@ -3,8 +3,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/graphQLConf.dart';
 import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart';
-import 'addSectionPointCourse.dart';
-import 'menu_drawer.dart';
 
 //----------------------- Declare Graphql -----------------------//
 GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
