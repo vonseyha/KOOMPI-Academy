@@ -36,7 +36,7 @@ class _SubCagateoryState extends State<SubCagateory> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     Navigator.pop(context);
                   },
                   child: Container(
@@ -59,25 +59,26 @@ class _SubCagateoryState extends State<SubCagateory> {
             SizedBox(height: 10),
             Container(
               height: MediaQuery.of(context).size.height / 4,
-                 child:Row(
-                   children: [
-                     Expanded(
-                       child:Image.asset("images/img3.png"), 
-                     ),
-                     Padding(
-                       padding: const EdgeInsets.only(top: 20.0),
-                       child: Expanded(
-                         child: Column(
-                           crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text("Hey Alex,", style: kHeadingextStyle),
-                              Text("New course for you ", style: kSubheadingextStyle),
-                            ],
-                         ),
-                       ),
-                     ),
-                   ],
-                 ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Image.asset("images/img3.png"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text("Hey there,", style: kHeadingextStyle),
+                          Text("New course for you ",
+                              style: kSubheadingextStyle),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             Container(
               child: Row(
@@ -92,7 +93,7 @@ class _SubCagateoryState extends State<SubCagateory> {
                           color: Colors.grey.withOpacity(0.1),
                           spreadRadius: 4,
                           blurRadius: 5,
-                          offset: Offset(0, 2), 
+                          offset: Offset(0, 2),
                         ),
                       ],
                     ),
@@ -126,7 +127,7 @@ class _SubCagateoryState extends State<SubCagateory> {
                           color: Colors.grey.withOpacity(0.1),
                           spreadRadius: 4,
                           blurRadius: 5,
-                          offset: Offset(0, 2), 
+                          offset: Offset(0, 2),
                         ),
                       ],
                     ),
@@ -175,10 +176,13 @@ class _SubCagateoryState extends State<SubCagateory> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: GestureDetector(
-                         onTap: () {
-                            Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => DetailCard(name:"Cambodia Club")));
-                          },
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      DetailCard(name: "Cambodia Club")));
+                        },
                         child: Expanded(
                           child: Column(
                             children: [
@@ -198,9 +202,9 @@ class _SubCagateoryState extends State<SubCagateory> {
                                 child: Text(
                                   "Cambodia Club",
                                   style: TextStyle(
-                                      fontSize: 17.0, 
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
                             ],

@@ -74,7 +74,7 @@ class _DisplayCourseByCategoriesState extends State<DisplayCourseByCategories> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text("Hey Alex,", style: kHeadingextStyle),
+                          Text("Hey there,", style: kHeadingextStyle),
                           Text("New course for you ",
                               style: kSubheadingextStyle),
                         ],
@@ -98,7 +98,11 @@ class _DisplayCourseByCategoriesState extends State<DisplayCourseByCategories> {
                     }
                     if (result.loading) {
                       return Center(
-                        child: Center(child: Image.asset("images/gif.gif",width: 120,)),
+                        child: Center(
+                            child: Image.asset(
+                          "images/gif.gif",
+                          width: 120,
+                        )),
                       );
                     }
                     List repositories = result.data['courses_by_category'];

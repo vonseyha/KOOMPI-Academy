@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:koompi_academy_project/API%20Server/homeQuery/datas.dart';
@@ -34,9 +34,7 @@ class _PortfolioTutorialDetailPageState
 
   List<LinkVideo> list = List<LinkVideo>();
   GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
-    String videoId ;
    String videoId_link;
-
   Future<String>filllist() async {
     QueryData queryData = QueryData();
     GraphQLClient client = graphqlVideoConf.clientToQuery();
@@ -59,7 +57,37 @@ class _PortfolioTutorialDetailPageState
     }
     return videoId;
   }
+  // void filllist() async {
+  //   QueryData queryData = QueryData();
+  //   GraphQLClient client = graphqlVideoConf.clientToQuery();
+  //   QueryResult result = await client.query(QueryOptions(
+  //       documentNode: gql(queryData.getInitVideo(widget.course_Id))));
+  //   if (!result.hasException) {
+  //     for (var i = 0; i < result.data['sections'].length; i++) {
+  //       if (result.data['sections'].containKeys('points')) {
+  //         list.add(LinkVideo(
+  //           result.data['sections'][i]['points']['video_link'],
+  //         ));
+  //         setState(() {
+  //           videoId = result.data['sections'][i]['points']['video_link'];
+  //         });
+  //         print(
+  //             '++++++++++++++++++++++++++++++++++${result.data['sections'][i]['points']['video_link']}');
+  //       }
+  //     }
+  //   }
+  // }
 
+  ///////////////
+  String videoId = "8q1_NkDbfzE";
+  // create variable to compare with result
+
+  //use method to set its state
+  // void link(){
+  //   setState(() {
+  //     videoId = //id from result
+  //   });
+  // }
   TabController _tabController;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -150,53 +178,61 @@ class _PortfolioTutorialDetailPageState
   @override
   Widget build(BuildContext context) {
     var datawh = MediaQuery.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: new Text(
-          'KOOMPI Academy',
-          style: new TextStyle(
-            fontFamily: 'sans-serif',
-            fontWeight: FontWeight.w500,
-            // color: Colors.black
-          ),
-        ),
-      ),
-      body: Container(
-          height: datawh.size.height,
-          child: Column(
-            children: <Widget>[
-              YoutubePlayer(
-                controller: _controller,
-                liveUIColor: Colors.amber,
-                showVideoProgressIndicator: true,
-                progressIndicatorColor: Colors.blueAccent,
-                onReady: () {
-                  _isPlayerReady = true;
-                },
-                onEnded: (data) {
-                  _controller.load(videoId);
-                  _showSnackBar('Next Video Started!');
-                },
-              ),
-              Expanded(
-                child: _buildDesc(context),
-              )
-            ],
-          )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            PageTransition(
-              type: PageTransitionType.leftToRight,
-              child: FregementAnswer(),
-            ),
-          );
+    return YoutubePlayerBuilder(
+      onExitFullScreen: () {
+        SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+      },
+      player: YoutubePlayer(
+        controller: _controller,
+        liveUIColor: Colors.amber,
+        showVideoProgressIndicator: true,
+        progressIndicatorColor: Colors.blueAccent,
+        onReady: () {
+          _isPlayerReady = true;
         },
-        backgroundColor: Colors.blueAccent,
-        child: Icon(Icons.question_answer),
+        onEnded: (data) {
+          _controller.load(videoId);
+          _showSnackBar('Next Video Started!');
+        },
       ),
+      builder: (context, player) {
+        return Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: new Text(
+              'KOOMPI Academy',
+              style: new TextStyle(
+                fontFamily: 'sans-serif',
+                fontWeight: FontWeight.w500,
+                // color: Colors.black
+              ),
+            ),
+          ),
+          body: Container(
+              height: datawh.size.height,
+              child: Column(
+                children: <Widget>[
+                  player,
+                  Expanded(
+                    child: _buildDesc(context),
+                  )
+                ],
+              )),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.leftToRight,
+                  child: FregementAnswer(),
+                ),
+              );
+            },
+            backgroundColor: Colors.blueAccent,
+            child: Icon(Icons.question_answer),
+          ),
+        );
+      },
     );
   }
 

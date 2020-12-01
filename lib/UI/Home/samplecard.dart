@@ -51,9 +51,9 @@ class _SampleGridState extends State<SampleGrid> {
             isCheck = res;
           }
         });
-         _loadingCourse = true;
+        _loadingCourse = true;
       }
-       _loadingCourse = false;
+      _loadingCourse = false;
     }
   }
 
@@ -66,112 +66,121 @@ class _SampleGridState extends State<SampleGrid> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-          child: _loadingCourse == true ?  Center(child: Image.asset("images/gif.gif",width: 120,))
-          :ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PortfolioTutorialDetailPage(
-                        course_Id: list[index].getId(),
-                        course_Title: list[index].getTitle(),
-                      )));
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-              child: Card(
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                color: Color(0xFFc3c4c5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10)),
-                        child: Image(
-                          width: MediaQuery.of(context).size.width,
-                          height: 170.0,
-                          fit: BoxFit.cover,
-                          image: isCheck
-                              ? SvgPicture.network("${list[index].getImage()}")
-                              : NetworkImage("${list[index].getImage()}"),
-                          // isCheck
-                          // ? NetworkImage("${list[index].getImage()}")
-                          // : SvgPicture.network("${list[index].getImage()}"),
-                          // isCheck
-                          // ? NetworkImage("${list[index].getImage()}")
-                          // : null,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadiusDirectional.only(
-                            bottomEnd: Radius.circular(10.0),
-                            bottomStart: Radius.circular(10.0)),
-                        color: Color(0xFFeff1f2),
-                      ),
+      child: _loadingCourse == true
+          ? Container(
+              alignment: Alignment.topCenter,
+              child: Image.asset(
+                "images/gif.gif",
+                width: 100,
+              ))
+          : ListView.builder(
+              itemCount: list.length,
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => PortfolioTutorialDetailPage(
+                              course_Id: list[index].getId(),
+                              course_Title: list[index].getTitle(),
+                            )));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 5.0, vertical: 5.0),
+                    child: Card(
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      color: Color(0xFFc3c4c5),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
+                        children: [
                           Container(
-                            padding: const EdgeInsets.only(top: 10.0, left: 20),
-                            child: Text(
-                              "${list[index].getTitle()}",
-                              style: new TextStyle(
-                                fontSize: 17.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10)),
+                              child: Image(
+                                width: MediaQuery.of(context).size.width,
+                                height: 170.0,
+                                fit: BoxFit.cover,
+                                image: isCheck
+                                    ? SvgPicture.network(
+                                        "${list[index].getImage()}")
+                                    : NetworkImage("${list[index].getImage()}"),
+                                // isCheck
+                                // ? NetworkImage("${list[index].getImage()}")
+                                // : SvgPicture.network("${list[index].getImage()}"),
+                                // isCheck
+                                // ? NetworkImage("${list[index].getImage()}")
+                                // : null,
                               ),
                             ),
                           ),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    radius: 30,
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.white,
-                                      backgroundImage: NetworkImage(
-                                          "https://avatars0.githubusercontent.com/u/41331389?s=280&v=4"),
-                                    ),
-                                  ),
-                                  title: Text(
-                                    "${list[index].getFullname()}",
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadiusDirectional.only(
+                                  bottomEnd: Radius.circular(10.0),
+                                  bottomStart: Radius.circular(10.0)),
+                              color: Color(0xFFeff1f2),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                      top: 10.0, left: 20),
+                                  child: Text(
+                                    "${list[index].getTitle()}",
                                     style: new TextStyle(
-                                      fontFamily: 'sans-serif',
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 15.0,
+                                      fontSize: 17.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
                                     ),
                                   ),
-                                  subtitle: Text(
-                                      '${list[index].getView()} views | 1 month ago',
-                                      style: new TextStyle(
-                                        fontSize: 12.0,
-                                        color: Color(0xFF4d6890),
-                                      )),
                                 ),
-                              ),
-                            ],
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 4,
+                                      child: ListTile(
+                                        leading: CircleAvatar(
+                                          backgroundColor: Colors.white,
+                                          radius: 30,
+                                          child: CircleAvatar(
+                                            backgroundColor: Colors.white,
+                                            backgroundImage: NetworkImage(
+                                                "https://avatars0.githubusercontent.com/u/41331389?s=280&v=4"),
+                                          ),
+                                        ),
+                                        title: Text(
+                                          "${list[index].getFullname()}",
+                                          style: new TextStyle(
+                                            fontFamily: 'sans-serif',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15.0,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                            '${list[index].getView()} views | 1 month ago',
+                                            style: new TextStyle(
+                                              fontSize: 12.0,
+                                              color: Color(0xFF4d6890),
+                                            )),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 }
