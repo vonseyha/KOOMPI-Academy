@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:koompi_academy_project/UI/Dashboard/maindashboardScreen/dashboardScreen.dart';
@@ -18,6 +17,8 @@ class JwtDecode{
    if (payloadMap is! Map<String, dynamic>) {
      return null;
    }
+   print("Token : $token\n\n");
+   print("After decoding a token by using JWT Decode : $payloadMap");
    if(payloadMap['role'] == "teacher"){
      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => MainDashboard(owner_id: payloadMap['id'],fullname: payloadMap['fullname'])));
    }else{

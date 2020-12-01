@@ -25,7 +25,6 @@ class _SplashState extends State<Splash> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print("Hello");
     Timer(Duration(seconds: 3), () {
       _isSeen().then((value) {
         if (value == "true") {
@@ -40,7 +39,6 @@ class _SplashState extends State<Splash> {
             }
           });
         } else {
-          print('not seen');
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => SplashScreen()),

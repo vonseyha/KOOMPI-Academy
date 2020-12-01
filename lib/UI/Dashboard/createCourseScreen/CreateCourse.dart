@@ -30,7 +30,7 @@ class CreateCourse extends StatefulWidget {
 
 class _CreateCourseState extends State<CreateCourse> {
 
-  List<Map<String, dynamic>> _myJsons = [ ];
+  List<Map<String, dynamic>> _myJsons = [];
 
   void fillList() async {
     QueryGraphQL queryGraphQL = QueryGraphQL();
@@ -46,6 +46,7 @@ class _CreateCourseState extends State<CreateCourse> {
           setState(() {
             _myJsons.add(result.data['categories'][i]);
           });
+          print("KKK ${_myJsons}");
         }
     }
   }
@@ -195,7 +196,7 @@ class _CreateCourseState extends State<CreateCourse> {
     );
     /* Make request */
      var request = new http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.1.145:6001/image-upload'));
+        'POST', Uri.parse('http://192.168.43.210:6001/image-upload'));
         request.files.add(multipartFile);
         /* Start send to server */
         http.StreamedResponse response = await request.send();
@@ -205,7 +206,7 @@ class _CreateCourseState extends State<CreateCourse> {
           Map valueMap = json.decode(data);
           var mWelcome =  CourseImage.fromJson(valueMap);
           setState(() {
-            imageUrl =  "http://192.168.1.145:6001/public/uploads/${mWelcome.fileName}";
+            imageUrl =  "http://192.168.43.210:6001/public/uploads/${mWelcome.fileName}";
           });
         });
         return imageUrl;

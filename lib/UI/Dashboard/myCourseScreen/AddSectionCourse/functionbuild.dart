@@ -7,6 +7,8 @@ import 'package:koompi_academy_project/API%20Server/grapqlMutation/mutation.dart
 //----------------------- Declare Graphql -----------------------//
 GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
 QueryMutation addMutation = QueryMutation();
+GraphQLClient _client;
+QueryResult result;
 
 //----------------------- Form Section -----------------------//
 final _sectionNoController = TextEditingController();
@@ -114,9 +116,8 @@ displayDeleteSection(BuildContext context, String section_id, Function onDeleteS
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(3)),
                       onPressed: () async {
-                        GraphQLClient _client =
-                            graphQLConfiguration.clientToQuery();
-                        QueryResult result = await _client.mutate(
+                         _client = graphQLConfiguration.clientToQuery();
+                           result = await _client.mutate(
                           MutationOptions(
                             update: (Cache cache, QueryResult result) {
                               if (!result.hasException) {
@@ -213,9 +214,8 @@ displayDeletePoint(BuildContext context, String point_id,Function onRefetch) asy
                           borderRadius: BorderRadius.circular(3)),
                       onPressed: () async {
                         Navigator.of(context).pop();
-                        GraphQLClient _client =
-                            graphQLConfiguration.clientToQuery();
-                        QueryResult result = await _client.mutate(
+                        _client = graphQLConfiguration.clientToQuery();
+                         result = await _client.mutate(
                           MutationOptions(
                             update: (Cache cache, QueryResult result) {
                               if (!result.hasException) {
@@ -229,11 +229,7 @@ displayDeletePoint(BuildContext context, String point_id,Function onRefetch) asy
                             },
                             documentNode:gql(addMutation.deletePoint(point_id)),
                           ),
-                        
                         );
-                        if(!result.hasException){
-                          print("");
-                        }
                       },
                     ),
                   ],
@@ -284,7 +280,6 @@ displayAddSection(BuildContext context, String section_id, String section_No,Str
                                 borderRadius: new BorderRadius.circular(5.0),
                                 borderSide: new BorderSide(),
                               ),
-                              //fillColor: Colors.green
                             ),
                           ),
                         ),
@@ -343,10 +338,8 @@ displayAddSection(BuildContext context, String section_id, String section_No,Str
                       onPressed: () async {
                         if (_sectionNoController.text.isNotEmpty &&
                             _sectionTitleController.text.isNotEmpty) {
-                          GraphQLClient _client =
-                              graphQLConfiguration.clientToQuery();
-                          QueryResult result =
-                              await _client.mutate(MutationOptions(
+                           _client =graphQLConfiguration.clientToQuery();
+                             result = await _client.mutate(MutationOptions(
                             update: (Cache cache, QueryResult result) {
                               if (!result.hasException) {
                                 _pointNoController.clear();
@@ -354,7 +347,6 @@ displayAddSection(BuildContext context, String section_id, String section_No,Str
                                  flutterToastT(result.data['update_section']['message']);
                                  updateListView();
                                 Navigator.pop(context);
-                                
                               } else {
                                 flutterToastT("Update Error!!!");
                               }
@@ -493,7 +485,7 @@ displayAddPoint(BuildContext context, String point_id, String point_no, String p
                           if (_pointNoController.text.isNotEmpty &&
                               _pointTitleController.text.isNotEmpty &&
                               _videoLinkController.text.isNotEmpty) {
-                            GraphQLClient _client = graphQLConfiguration.clientToQuery();
+                             _client = graphQLConfiguration.clientToQuery();
                             QueryResult result = await _client.mutate(
                               MutationOptions(
                                 update: (Cache cache, QueryResult result) {
@@ -527,5 +519,6 @@ displayAddPoint(BuildContext context, String point_id, String point_no, String p
             ),
           ),
         );
-      });
+      }
+    );
 }

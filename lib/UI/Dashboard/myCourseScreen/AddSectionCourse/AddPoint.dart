@@ -198,7 +198,7 @@ class _AddPointState extends State<AddPoint> {
                           }
                         },
                         child: new Text(
-                          "Add Pointsss",
+                          "Add Point",
                           style: TextStyle(fontSize: 15.0, color: Colors.white),
                         ),
                       ),

@@ -227,7 +227,7 @@ class _UpdateCourseState extends State<UpdateCourse> {
     );
     /* Make request */
     var request = new http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.1.145:6001/image-upload'));
+        'POST', Uri.parse('http://192.168.43.210:6001/image-upload'));
     request.files.add(multipartFile);
     /* Start send to server */
     http.StreamedResponse response = await request.send();
@@ -237,7 +237,7 @@ class _UpdateCourseState extends State<UpdateCourse> {
       var mWelcome = CourseImage.fromJson(valueMap);
       setState(() {
         imageUrl =
-            "http://192.168.1.145:6001/public/uploads/${mWelcome.fileName}";
+            "http://192.168.43.210:6001/public/uploads/${mWelcome.fileName}";
       });
     });
     return imageUrl;

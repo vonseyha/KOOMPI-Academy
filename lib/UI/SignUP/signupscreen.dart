@@ -59,7 +59,8 @@ class _addUserState extends State<addUser> {
                 ReuseToastMessage.toastMessage(
                     "Error: Email is already in use.",
                     Colors.red,
-                    Colors.white);
+                    Colors.white
+                  );
               }
               return result;
             },

@@ -74,14 +74,17 @@ class _SearchCourseState extends State<SearchCourse> {
     }
   }
 
+  List<Course> dummyListData;
   void filterSearchResults(String query) {
     List<Course> dummySearchList = List<Course>();
     dummySearchList.addAll(listPerson);
     if (query.isNotEmpty) {
-      List<Course> dummyListData = List<Course>();
+      dummyListData = List<Course>();
       dummySearchList.forEach((item) {
         if (item.getTitle().contains(query)) {
           dummyListData.add(item);
+        }else if(item.getTitle().contains(query) != item.getTitle()) {
+          print("kkkkkk");
         }
       });
       setState(() {
@@ -162,7 +165,7 @@ class _SearchCourseState extends State<SearchCourse> {
                                 course_title: listPerson[index].getTitle()),
                           ));
                         },
-                        child: listPerson.length == 0
+                        child: listPerson.length.isNaN
                             ? Center(child: Text("No Course show"))
                             : Padding(
                                 padding: const EdgeInsets.symmetric(

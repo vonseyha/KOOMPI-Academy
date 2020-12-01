@@ -34,38 +34,31 @@ class _PortfolioTutorialDetailPageState
 
   List<LinkVideo> list = List<LinkVideo>();
   GraphqlVideoConf graphqlVideoConf = GraphqlVideoConf();
+    String videoId ;
+   String videoId_link;
 
-  // void filllist() async {
-  //   QueryData queryData = QueryData();
-  //   GraphQLClient client = graphqlVideoConf.clientToQuery();
-  //   QueryResult result = await client.query(QueryOptions(
-  //       documentNode: gql(queryData.getInitVideo(widget.course_Id))));
-  //   if (!result.hasException) {
-  //     for (var i = 0; i < result.data['sections'].length; i++) {
-  //       if (result.data['sections'].containKeys('points')) {
-  //         list.add(LinkVideo(
-  //           result.data['sections'][i]['points']['video_link'],
-  //         ));
-  //         setState(() {
-  //           videoId = result.data['sections'][i]['points']['video_link'];
-  //         });
-  //         print(
-  //             '++++++++++++++++++++++++++++++++++${result.data['sections'][i]['points']['video_link']}');
-  //       }
-  //     }
-  //   }
-  // }
-
-  ///////////////
-  String videoId = "aaCx0t9hD7Q";
-  // create variable to compare with result
-
-  //use method to set its state
-  // void link(){
-  //   setState(() {
-  //     videoId = //id from result
-  //   });
-  // }
+  Future<String>filllist() async {
+    QueryData queryData = QueryData();
+    GraphQLClient client = graphqlVideoConf.clientToQuery();
+    QueryResult result = await client.query(QueryOptions(
+        documentNode: gql(queryData.getInitVideo(widget.course_Id))));
+    if (!result.hasException) {
+      for (var i = 0; i < result.data['sections'].length; i++) {
+        if (result.data['sections'][i].containsKey('points')) {
+          for(var a = 0 ; a < result.data['sections'][i]['points'].length ; a++){
+             if (result.data['sections'][i]['points'][a].containsKey('video_link')) {
+               videoId_link = result.data['sections'][0]['points'][0]['video_link'];
+               setState(() {
+                videoId = YoutubePlayer.convertUrlToId(videoId_link);
+               });
+               print(videoId);
+          }
+          }
+        }
+      }
+    }
+    return videoId;
+  }
 
   TabController _tabController;
 
@@ -89,7 +82,8 @@ class _PortfolioTutorialDetailPageState
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() => setState(() {}));
-
+    filllist();
+    print("llllll ${videoId}");
     //-------------------------------Play Video ---------------------------------------//
     //call it function
     // filllist();

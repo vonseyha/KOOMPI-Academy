@@ -42,8 +42,6 @@ class _LoginState extends State<Login> {
       'email': email,
       'password': password,
     });
-    print(response.statusCode);
-    print(email.toString() + password.toString());
     if (response.statusCode == 200) {
       SharedPreferences isToken = await SharedPreferences.getInstance();
       var responseJson = json.decode(response.body);

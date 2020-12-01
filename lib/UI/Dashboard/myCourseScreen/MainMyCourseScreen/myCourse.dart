@@ -5,7 +5,6 @@ import 'package:koompi_academy_project/API%20Server/graphqlQuery/dashboardQuery.
 import 'package:koompi_academy_project/Model/CourseModel.dart';
 import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/AddSectionCourse/addSectionPointCourse.dart';
 import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/MainMyCourseScreen/ShowPupPopMenu.dart';
-import 'package:koompi_academy_project/UI/Dashboard/myCourseScreen/MainMyCourseScreen/functionbuild.dart';
 import '../../../../constants.dart';
 
 class MyCourse extends StatefulWidget {
@@ -19,8 +18,7 @@ class _MyCourseState extends State<MyCourse> {
   List<Course> listPerson = List<Course>();
   GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
   bool _loadingCourse = true;
-  int value;
-  int value1;
+  
   void fillList() async {
     QueryGraphQL queryGraphQL = QueryGraphQL();
     GraphQLClient _client = graphQLConfiguration.clientToQuery();
@@ -32,7 +30,7 @@ class _MyCourseState extends State<MyCourse> {
     if (!result.hasException) {
       for (var i = 0; i < result.data["courses_by_owner"].length; i++) {
         setState(() {
-          value = result.data["courses_by_owner"].length;
+          // value = result.data["courses_by_owner"].length;
           listPerson.add(
             Course(
               result.data["courses_by_owner"][i]["id"],
@@ -70,7 +68,6 @@ class _MyCourseState extends State<MyCourse> {
   }
 
   //---------------------------------- Search Method --------------------------------------------//
-
   void filterSearchResults(String query) {
     List<Course> dummySearchList = List<Course>();
     dummySearchList.addAll(listPerson);
@@ -90,7 +87,6 @@ class _MyCourseState extends State<MyCourse> {
       setState(() {
         listPerson.clear();
         fillList();
-        value1 = value;
       });
     }
   }
@@ -209,13 +205,13 @@ class _MyCourseState extends State<MyCourse> {
                         width: 115,
                         padding: EdgeInsets.all(8.0),
                         child: Center(
-                          child: value == null
+                          child: listPerson.length == 0
                               ? Expanded(
                                   child:Image.asset("images/gif.gif", width: 60))
                               : Column(
                                   children: [
                                     Text(
-                                      '$value',
+                                      "${listPerson.length}",
                                       style: TextStyle(
                                           fontSize: 30.0,
                                           fontWeight: FontWeight.w600,
@@ -291,6 +287,7 @@ class _MyCourseState extends State<MyCourse> {
                     physics: BouncingScrollPhysics(),
                     itemCount: listPerson.length,
                     itemBuilder: (BuildContext context, int index) {
+                      print(listPerson.length);
                       return GestureDetector(
                         onTap: () async {
                           Navigator.of(context).push(MaterialPageRoute(
@@ -299,8 +296,8 @@ class _MyCourseState extends State<MyCourse> {
                                 course_title: listPerson[index].getTitle()),
                           ));
                         },
-                        child: listPerson.length == 0
-                            ? Center(child: Text("No Course show"))
+                        child: listPerson.length == null
+                            ? Center(child:Text("No Course show"))
                             : Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10.0, vertical: 2.0),
