@@ -175,12 +175,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 : null,
           ),
           body: Padding(
-            padding: const EdgeInsets.only(top: 8),
+            padding: const EdgeInsets.only(top: 15),
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.15,
+                    height: MediaQuery.of(context).size.height * 0.12,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: categories.length,

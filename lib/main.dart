@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:koompi_academy_project/UI/Home/homedisplay.dart';
+import 'package:koompi_academy_project/UI/SplashScreen/splashscreen.dart';
 import 'UI/Login/loginscreen.dart';
 import 'UI/Splash.dart';
 
-void main() => runApp(App());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(App());
+  });
+}
 
 class App extends StatelessWidget {
   @override
